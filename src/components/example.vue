@@ -1,7 +1,7 @@
 <template>
   <div class="main">
   In which we examine creating a component for Vue in the form of a chart.
-    <div v-chart> </div>
+    <div v-chart=chartData> </div>
   </div>
 </template>
 
@@ -10,7 +10,10 @@ export default {
   name: 'example',
   data () {
     return {
-        
+      chartData: {
+        title: "This is a test chart",
+        data: [100, 50, 75, 90]
+      }
     }
   }
 }

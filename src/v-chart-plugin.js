@@ -2,7 +2,8 @@ const Chart = {
     install(Vue, options) {
         Vue.chart = function vueChart(data, options = {}) {
             const Chart = {
-                title: "This Chart"
+                title: "",
+                data: []
             }
             return Chart;
         }
@@ -10,7 +11,19 @@ const Chart = {
         Vue.directive('chart', {
             bind(el, binding, vnode, oldVnode) {
                 const chart = Vue.chart();
-                el.innerHTML = chart.title;
+                chart.data = binding.value.data || [];
+                chart.title = binding.value.title || "";
+                
+                var node = document.createElement("div");                 
+                var titleNode = document.createTextNode(chart.title);
+                node.appendChild(titleNode);                              
+                el.appendChild(node);
+                chart.data.forEach(function(d){
+                    var node = document.createElement("div");                 
+                    var dataNode = document.createTextNode(d);
+                    node.appendChild(dataNode);                              
+                    el.appendChild(node);    
+                })
             }
         })
     }
