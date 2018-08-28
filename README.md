@@ -2,6 +2,42 @@
 
 > a plugin for adding charts to Vue
 
+## Usage
+
+First include the plugin in your main.js:
+
+```JavaScript
+import Chart from './v-chart-plugin.js'
+
+Vue.config.productionTip = false
+
+Vue.use(Chart);
+```
+
+Within your component you will need to include an object in your data for the title and datapoints to pass to the component
+
+```JavaScript
+export default {
+  name: 'example',
+  data () {
+    return {
+      chartData: {
+        title: "This is a test chart",
+        data: [100, 50, 75, 90]
+      }
+    }
+  }
+}
+```
+
+Lastly you will need to add the component and bind the data to it
+
+```
+<v-chart v-bind:chartData="chartData"></v-chart>
+```
+
+Currently only supports bar graph for a single metric
+
 ## Build Setup
 
 ``` bash

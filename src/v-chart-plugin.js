@@ -3,7 +3,7 @@ import * as d3 from "d3";
 const Chart = {
     install(Vue, options) {
         Vue.component('v-chart', {
-            props: ['chartData'],
+            props: ['chartData'], // <-- talk about props
             data: function (){
                 return {}
             },
@@ -16,10 +16,10 @@ const Chart = {
                     drawChart(this.chartData.data);
               },
             },
-            mounted: function(){
+            mounted: function(){ // <-- lifecycle events
                 this.initalizeChart();
             },
-            watch: {
+            watch: { // <-- watch functions
                 'chartData': {
                     handler: function(val) { 
                         this.refreshChart();
