@@ -36,6 +36,8 @@ Lastly you will need to add the component and bind the data to it
 <v-chart v-bind:chartData="chartData"></v-chart>
 ```
 
+![screenshot](https://res.cloudinary.com/practicaldev/image/fetch/s--nBmlCUJ2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/7bu2p3740cfn3cq3qygm.png)
+
 Currently only supports bar graph for a single metric
 
 ## Build Setup
