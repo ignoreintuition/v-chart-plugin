@@ -3,50 +3,65 @@ import * as d3 from "d3";
 const Chart = {
     install(Vue, options) {
         Vue.component('v-chart', {
-            props: ['chartData'], // <-- talk about props
-            data: function (){
-                return {}
+            props: ['chartData'], 
+            data: function () {
+                return {
+                }
             },
             methods: {
-                initalizeChart: function(){
-                    drawChart(this.chartData.data);
+                initalizeChart: function () {
+                    this.drawChart();
                 },
-                refreshChart: function(){
-                    d3.select(".chart").selectAll("*").remove();
-                    drawChart(this.chartData.data);
-              },
+                refreshChart: function () {
+                    this.clearCanvas();
+                    this.drawChart();
+                },
+                drawChart: function () {
+                    d3.select(this.chartData.selector)
+                        .append("text")
+                        .attr("x", 20)
+                        .attr("y", 20)
+                        .style("text-anchor", "left")
+                        .text(this.chartData.title)
+
+                    d3.select(this.chartData.selector)
+                        .selectAll("g")
+                        .data(this.chartData.data)
+                        .enter().append("g")
+                        .append("rect")
+                        .attr("width", function (d) {
+                            return d;
+                        }).attr("height", 20)
+                        .attr("y", function (d, i) {
+                            return (i + 1.5) * 20 + i
+                        }).attr("x", 0);
+                },
+                clearCanvas: function () {
+                    d3.select(this.chartData.selector).selectAll("*").remove();
+                },
+                getHeight: function () {
+                    return this.chartData.height || 200;
+                },
+                getWidth: function () {
+                    return this.chartData.width || 200;
+                }
             },
-            mounted: function(){ // <-- lifecycle events
+            mounted: function () { // <-- lifecycle events
                 this.initalizeChart();
             },
             watch: { // <-- watch functions
                 'chartData': {
-                    handler: function(val) { 
+                    handler: function (val) {
                         this.refreshChart();
-                     },
+                    },
                     deep: true
-                    }
+                }
             },
-            template: 
-                `<svg class="chart"> </svg>`
-          })
+            template:
+                `<svg class="chart" :height="this.getHeight()" :width="this.getWidth()"> </svg>`
+        })
     }
 }
-var drawChart = function(chartData){
-    let chart = d3.select(".chart");
-    let bar = chart.selectAll("g")
-    .data(chartData)
-    .enter().append("g");
-    console.log(d3.select(".chart"));
-    bar.append("rect")
-    .attr("width", function(d) { 
-        return d;	
-    }).attr( "height", 10 )
-    .attr("y", function(d, i){
-        return i * 10 + i
-    }).attr( "x", 0 );
-}
-
 
 export default Chart;
 

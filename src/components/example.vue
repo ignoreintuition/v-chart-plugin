@@ -1,15 +1,21 @@
 <template>
-  <div class="main">
-    <div class="description">
-      In which we examine creating a component for Vue in the form of a chart.
-    </div>
-    <div class="container">
-      <div v-for="(t, index) in chartData.data">
-        <input v-model.number="chartData.data[index]" type="number" >
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <h1> Vue.js Data Visualization</h1>
+        <p>In which we examine creating a component for Vue in the form of a chart.</p>
       </div>
     </div>
-    <div class="container">
-      <v-chart v-bind:chartData="chartData"></v-chart>
+
+    <div class="row">
+      <div class="col-sm">
+        <div v-for="(t, index) in chartData.data">
+          <input v-model.number="chartData.data[index]" type="number" >
+        </div>
+      </div>
+      <div class="col-sm">
+        <v-chart v-bind:chartData="chartData"></v-chart>
+      </div>
     </div>
   </div>
 </template>
@@ -20,8 +26,9 @@ export default {
   data () {
     return {
       chartData: {
-        title: "This is a test chart",
-        data: [100, 50, 75, 90]
+        selector: ".chart",
+        title: "Important Data",
+        data: [120, 140, 70, 90, 110, 65, 210]
       }
     }
   }
@@ -30,13 +37,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
-  float: left;
-  padding: 20px;
-}
-.main {
-  padding-left: 10%;
-  padding-right: 10%;
-}
 
 </style>
