@@ -1,5 +1,6 @@
-import * as d3 from "d3";
-
+var d3 = Object.assign({}, 
+    require("d3-selection"));
+    
 const Chart = {
     install(Vue, options) {
         Vue.component('v-chart', {
