@@ -14,7 +14,7 @@ Vue.config.productionTip = false
 Vue.use(Chart);
 ```
 
-Within your component you will need to include an object in your data for the title and datapoints to pass to the component
+Within your component you will need to include an object in your title, selector, width, height, and datapoints to pass to the component
 
 ```JavaScript
 export default {
@@ -22,9 +22,11 @@ export default {
   data () {
     return {
       chartData: {
-        title: "This is a test chart",
-        data: [100, 50, 75, 90]
-      }
+        selector: "chart",
+        title: "Important Data",
+        width: 300,
+        height: 200,
+        data: [120, 140, 70, 90, 110, 65, 210]      }
     }
   }
 }
@@ -36,6 +38,15 @@ Lastly you will need to add the component and bind the data to it
 <v-chart v-bind:chartData="chartData"></v-chart>
 ```
 
+If you wish to style the components of the chart you can via the selectors:
+
+```html
+<style>
+  .chart-bar {
+    fill:blue;
+  }
+</style>
+```
 ![screenshot](https://res.cloudinary.com/practicaldev/image/fetch/s--nBmlCUJ2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/7bu2p3740cfn3cq3qygm.png)
 
 Currently only supports bar graph for a single metric

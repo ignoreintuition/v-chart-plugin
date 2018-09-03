@@ -26,7 +26,7 @@ export default {
   data () {
     return {
       chartData: {
-        selector: ".chart",
+        selector: "chart",
         title: "Important Data",
         width: 300,
         height: 200,
@@ -38,6 +38,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style>
+  .chart-bar {
+    fill:blue;
+  }
 </style>
