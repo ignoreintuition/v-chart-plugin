@@ -26,6 +26,7 @@ export default {
   data () {
     return {
       chartData: {
+        chartType: 'vBarChart',
         selector: "chart",
         title: "Important Data",
         width: 300,
@@ -39,7 +40,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-  .chart-bar {
+  .chart-barChart {
     fill:blue;
   }
 </style>

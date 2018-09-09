@@ -22,6 +22,7 @@ export default {
   data () {
     return {
       chartData: {
+        chartType: 'barChart',
         selector: "chart",
         title: "Important Data",
         width: 300,
@@ -31,6 +32,10 @@ export default {
   }
 }
 ```
+
+Chart types currently supported:
+* barChart: horizontal bar chart 
+* vBarChart: verticle bar chart
 
 Lastly you will need to add the component and bind the data to it
 
@@ -42,7 +47,7 @@ If you wish to style the components of the chart you can via the selectors:
 
 ```html
 <style>
-  .chart-bar {
+  .chart-barChart {
     fill:blue;
   }
 </style>

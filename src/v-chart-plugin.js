@@ -3,6 +3,7 @@ var d3 = Object.assign({},
 );
 
 import barChart from './import/barChart'
+import vBarChart from './import/vBarChart'
 
 const Chart = {
     install(Vue, options) {
@@ -10,18 +11,17 @@ const Chart = {
             props: ['chartData'], 
             data: function () {
                 return {
-                    barChartSelector: this.chartData.selector + "-bar"
+                    selector: this.chartData.selector + "-" + this.chartData.chartType
                 }
             },
             methods: {
                 initalizeChart: function () {
-                    this.drawChart();
+                    this[this.chartData.chartType]();
                 },
                 refreshChart: function () {
                     this.clearCanvas();
-                    this.drawChart();
+                    this[this.chartType]();
                 },
-                drawChart: barChart,
                 clearCanvas: function () {
                     d3.select("." + this.chartData.selector).selectAll("*").remove();
                 },
@@ -40,7 +40,9 @@ const Chart = {
                 },
                 getTitleHeight: function() {
                     return this.chartData.textHeight || 25;
-                }
+                },
+                barChart: barChart,
+                vBarChart: vBarChart    
             },
             mounted: function () { // <-- lifecycle events
                 this.initalizeChart();

@@ -22,17 +22,19 @@ var drawChart = function () {
         .enter().append("g")
         .append("rect")
         .attr("class", this.selector)
-        .attr("width", d => {
-            return xScale(d) ;
+        .attr("width", (d, i) => {
+            return (this.getWidth() / this.chartData.data.length - 1)
         }).attr("height", (d, i) => {
-            return (this.getHeight() - this.getTitleHeight() - 21) / this.chartData.data.length - 1
-        }).attr("y",  (d, i) => {
-            return i * (this.getHeight() - this.getTitleHeight()- 21 ) / this.chartData.data.length + 1 + this.getTitleHeight();
-        }).attr("x", 0);
+            return d;
+        }).attr("x",  (d, i) => {
+            return (i * this.getWidth() / this.chartData.data.length - 1);
+        }).attr("y", (d, i) => {
+            return this.getHeight() - d;
+        });
 
-    let xAxis = d3.axisBottom().scale(xScale);
-    let xAxisCoord = this.getHeight() - 20;
-    svgContainer.append("g").attr("transform", "translate(0, " + xAxisCoord + ")").call(xAxis);
+    // let xAxis = d3.axisBottom().scale(xScale);
+    // let xAxisCoord = this.getHeight() - 20;
+    // svgContainer.append("g").attr("transform", "translate(0, " + xAxisCoord + ")").call(xAxis);
 };
 
 export default drawChart;
