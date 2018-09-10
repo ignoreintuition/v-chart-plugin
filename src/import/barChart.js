@@ -11,12 +11,6 @@ var drawChart = function () {
     
     let svgContainer = d3.select("." + this.chartData.selector);
 
-    svgContainer.append("text")
-        .attr("x", this.getWidth() / 2)
-        .attr("y", this.getTitleHeight() - this.getTitleHeight() * .1)
-        .style("text-anchor", "middle")
-        .text(this.chartData.title)
-
     svgContainer.selectAll("g")
         .data(this.chartData.data)
         .enter().append("g")

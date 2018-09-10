@@ -16,15 +16,26 @@ const Chart = {
             },
             methods: {
                 initalizeChart: function () {
+                    this.drawTitle();
                     this[this.chartData.chartType]();
                 },
                 refreshChart: function () {
                     this.clearCanvas();
-                    this[this.chartType]();
+                    this.drawTitle();
+                    this[this.chartData.chartType]();
                 },
                 clearCanvas: function () {
                     d3.select("." + this.chartData.selector).selectAll("*").remove();
                 },
+                drawTitle: function(){
+                    d3.select("." + this.chartData.selector)
+                    .append("text")
+                    .attr("x", this.getWidth() / 2)
+                    .attr("y", this.getTitleHeight() - this.getTitleHeight() * .1)
+                    .style("text-anchor", "middle")
+                    .text(this.chartData.title)            
+                },
+                // getters
                 getHeight: function () {
                     return this.chartData.height || 200;
                 },
@@ -41,6 +52,7 @@ const Chart = {
                 getTitleHeight: function() {
                     return this.chartData.textHeight || 25;
                 },
+                // imported chart function
                 barChart: barChart,
                 vBarChart: vBarChart    
             },
@@ -56,7 +68,7 @@ const Chart = {
                 }
             },
             template:
-                `<svg class="chart" :height="this.getHeight()" :width="this.getWidth()"> </svg>`
+                `<svg class="chart" x="5" y="5" :height="this.getHeight() + 10" :width="this.getWidth() + 10"> </svg>`
         })
     }
 }
