@@ -12,12 +12,12 @@ var drawChart = function () {
     let svgContainer = d3.select("." + this.chartData.selector);
 
     svgContainer.selectAll("g")
-        .data(this.getData())
+        .data(this.getChartData())
         .enter().append("g")
         .append("rect")
         .attr("class", this.selector)
         .attr("width", d => {
-            return xScale(d.metric) ;
+            return xScale(d) ;
         }).attr("height", (d, i) => {
             return (this.getHeight() - this.getTitleHeight() - 21) / this.chartData.data.length - 1
         }).attr("y",  (d, i) => {

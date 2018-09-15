@@ -42,10 +42,18 @@ const Chart = {
                 getWidth: function () {
                     return this.chartData.width || 200;
                 },
+                getData: function (){
+                    return this.chartData.data.map(d => {
+                        let td = {};
+                        td.metric = this.chartData.metric ? d[this.chartData.metric] : d;
+                        td.dim = this.chartData.dim ? d[this.chartData.dim] : null;
+                        return td;
+                    });
+                },
                 getMax: function () {
                     let max = 0;
-                    this.chartData.data.forEach(function(e){
-                        max = max > e ? max : e; 
+                    this.getData().forEach(function(e){
+                        max = max > e.metric ? max : e.metric; 
                     })
                     return max;
                 },

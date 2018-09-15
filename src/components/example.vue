@@ -31,7 +31,9 @@ export default {
         title: "Important Data",
         width: 400,
         height: 200,
-        data: [120, 140, 70, 90, 110, 65, 210, 25, 112, 201, 35, 250]
+        metric: 'count',
+        data: [{'count': 120}, {'count': 250}]
+        //data: [120, 140, 70, 90, 110, 65, 210, 25, 112, 201, 35, 250]
       }
     }
   }
@@ -40,7 +42,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-  .chart-vBarChart {
+  .chart-barChart {
     fill:blue;
   }
 </style>

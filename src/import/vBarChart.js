@@ -14,18 +14,18 @@ var drawChart = function () {
         yAxisWidth = 25;
 
     svgContainer.selectAll("g")
-        .data(this.chartData.data)
+        .data(this.getData())
         .enter().append("g")
         .append("rect")
         .attr("class", this.selector)
         .attr("width", (d, i) => {
             return ((this.getWidth() - xOffset) / this.chartData.data.length - 1);
         }).attr("height", (d, i) => {
-            return yScale(this.getHeight() - d);
+            return yScale(this.getHeight() - d.metric);
         }).attr("x",  (d, i) => {
             return (i * (this.getWidth() - xOffset ) / this.chartData.data.length - 1) + xOffset;
         }).attr("y", (d, i) => {
-            return yScale(d);
+            return yScale(d.metric);
         });
 
     let yAxis = d3.axisLeft().scale(yScale);
