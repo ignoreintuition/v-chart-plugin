@@ -1,6 +1,6 @@
 # v-chart-plugin
-
-> a plugin for adding charts to Vue
+![logo](https://user-images.githubusercontent.com/5210420/45592567-6dbd4980-b93f-11e8-8383-f79b730ac2af.png)
+> A plugin for adding charts to Vue
 
 ## Usage
 
