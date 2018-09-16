@@ -1,4 +1,4 @@
-var d3 = Object.assign({}, 
+var d3 = Object.assign({},
     require("d3-selection")
 );
 
@@ -9,7 +9,7 @@ import lineGraph from './import/lineGraph'
 const Chart = {
     install(Vue, options) {
         Vue.component('v-chart', {
-            props: ['chartData'], 
+            props: ['chartData'],
             data: function () {
                 return {
                     selector: this.chartData.selector + "-" + this.chartData.chartType
@@ -28,22 +28,22 @@ const Chart = {
                 clearCanvas: function () {
                     d3.select("." + this.chartData.selector).selectAll("*").remove();
                 },
-                drawTitle: function(){
+                drawTitle: function () {
                     d3.select("." + this.chartData.selector)
-                    .append("text")
-                    .attr("x", this.getWidth() / 2)
-                    .attr("y", this.getTitleHeight() - this.getTitleHeight() * .1)
-                    .style("text-anchor", "middle")
-                    .text(this.chartData.title)            
+                        .append("text")
+                        .attr("x", this.getWidth() / 2)
+                        .attr("y", this.getTitleHeight() - this.getTitleHeight() * .1)
+                        .style("text-anchor", "middle")
+                        .text(this.chartData.title)
                 },
-                // getters
+                // getter methods
                 getHeight: function () {
                     return this.chartData.height || 200;
                 },
                 getWidth: function () {
                     return this.chartData.width || 200;
                 },
-                getData: function (){
+                getData: function () {
                     return this.chartData.data.map(d => {
                         let td = {};
                         td.metric = this.chartData.metric ? d[this.chartData.metric] : d;
@@ -53,18 +53,23 @@ const Chart = {
                 },
                 getMax: function () {
                     let max = 0;
-                    this.getData().forEach(function(e){
-                        max = max > e.metric ? max : e.metric; 
+                    this.getData().forEach(function (e) {
+                        max = max > e.metric ? max : e.metric;
                     })
                     return max;
                 },
-                getTitleHeight: function() {
+                getMin: function () {
+                    return Math.min.apply(Math, this.getData().map(function(o) {
+                        return o['metric'];
+                      }));
+                },
+                getTitleHeight: function () {
                     return this.chartData.textHeight || 25;
                 },
                 // imported chart function
                 barChart: barChart,
                 vBarChart: vBarChart,
-                lineGraph: lineGraph    
+                lineGraph: lineGraph
             },
             mounted: function () { // <-- lifecycle events
                 this.initalizeChart();

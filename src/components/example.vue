@@ -10,8 +10,8 @@
     <div class="row">
       <div class="col-sm">
         <div v-for="(t, index) in chartData.data">
-          <input v-model.number="chartData.data[index].month" >
-          <input v-model.number="chartData.data[index].count" type="number" >
+          <input v-model.number="chartData.data[index].ts" >
+          <input v-model.number="chartData.data[index].v" type="number" >
         </div>
       </div>
       <div class="col-sm">
@@ -31,16 +31,27 @@ export default {
         selector: "chart",
         title: "Important Data",
         width: 400,
-        height: 200,
-        metric: "count",
-        dim: "month",
+        height: 300,
+        metric: "v",
+        dim: "ts",
         data: [
-          { month: "2018-01", count: 120 },
-          { month: "2018-02", count: 250 },
-          { month: "2018-03", count: 110 },
-          { month: "2018-04", count: 75 }
+          {
+            ts: "2018-08-16T02:00:39.000Z",
+            v: 99
+          },
+          {
+            ts: "2018-08-16T02:05:40.000Z",
+            v: 28.22
+          },
+          {
+            ts: "2018-08-16T02:15:42.000Z",
+            v: 29.2
+          },
+          {
+            ts: "2018-08-16T02:20:43.000Z",
+            v: 29.18
+          }
         ]
-        //data: [120, 140, 70, 90, 110, 65, 210, 25, 112, 201, 35, 250]
       }
     };
   }
