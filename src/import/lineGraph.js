@@ -19,11 +19,11 @@ var drawChart = function () {
     let rangeArr = [];
 
     ds.forEach((t) => {
-        domainArr.push(t[this.chartData.dim]);
+        domainArr.push(t["dim"]);
     });
 
     ds.forEach((t, i) => {
-        rangeArr.push(this.getWidth() * i / ds.length)
+        rangeArr.push(this.getWidth() * (i) / ds.length)
     });
 
     var xScale = d3.scaleOrdinal()

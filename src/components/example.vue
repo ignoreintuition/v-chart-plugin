@@ -10,7 +10,7 @@
     <div class="row">
       <div class="col-sm">
         <div v-for="(t, index) in chartData.data">
-          <input v-model.number="chartData.data[index].fruit" >
+          <input v-model.number="chartData.data[index].month" >
           <input v-model.number="chartData.data[index].count" type="number" >
         </div>
       </div>
@@ -33,12 +33,12 @@ export default {
         width: 400,
         height: 200,
         metric: "count",
-        dim: "fruit",
+        dim: "month",
         data: [
-          { fruit: "apples", count: 120 },
-          { fruit: "oranges", count: 250 },
-          { fruit: "pears", count: 110 },
-          { fruit: "bananas", count: 75 }
+          { month: "2018-01", count: 120 },
+          { month: "2018-02", count: 250 },
+          { month: "2018-03", count: 110 },
+          { month: "2018-04", count: 75 }
         ]
         //data: [120, 140, 70, 90, 110, 65, 210, 25, 112, 201, 35, 250]
       }
