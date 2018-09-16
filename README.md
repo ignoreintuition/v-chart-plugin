@@ -16,6 +16,7 @@ Vue.use(Chart);
 
 Within your component you will need to include an object in your title, selector, width, height, and datapoints to pass to the component
 
+Data can be passed as an array or as an array of objects:
 ```JavaScript
 export default {
   name: 'example',
@@ -27,12 +28,38 @@ export default {
         title: 'Important Data',
         width: 300,
         height: 200,
-        data: [120, 140, 70, 90, 110, 65, 210]      }
+        data: [120, 140, 70, 90, 110, 65, 210]      
+      }
     }
   }
 }
 ```
 
+If passed as an array of objects you will need to define which attribute to use as your metric / dimension
+
+```JavaScript
+export default {
+  name: 'example',
+  data () {
+    return {
+      chartData: {
+        chartType: "vBarChart",
+        selector: "chart",
+        title: "Important Data",
+        width: 400,
+        height: 200,
+        metric: 'count',
+        data: [
+          {'count': 120,
+           'fruit': 'apples'}, 
+          {'count': 250,
+           'fruit': 'oranges'}
+        ]
+      }
+    }
+  }
+}
+```
 Chart types currently supported:
 * barChart: horizontal bar chart 
 * vBarChart: verticle bar chart

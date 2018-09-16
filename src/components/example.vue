@@ -10,7 +10,8 @@
     <div class="row">
       <div class="col-sm">
         <div v-for="(t, index) in chartData.data">
-          <input v-model.number="chartData.data[index]" type="number" >
+          <input v-model.number="chartData.data[index].fruit" >
+          <input v-model.number="chartData.data[index].count" type="number" >
         </div>
       </div>
       <div class="col-sm">
@@ -22,27 +23,33 @@
 
 <script>
 export default {
-  name: 'example',
-  data () {
+  name: "example",
+  data() {
     return {
       chartData: {
-        chartType: "vBarChart",
+        chartType: "lineGraph",
         selector: "chart",
         title: "Important Data",
         width: 400,
         height: 200,
-        metric: 'count',
-        data: [{'count': 120}, {'count': 250}]
+        metric: "count",
+        dim: "fruit",
+        data: [
+          { fruit: "apples", count: 120 },
+          { fruit: "oranges", count: 250 },
+          { fruit: "pears", count: 110 },
+          { fruit: "bananas", count: 75 }
+        ]
         //data: [120, 140, 70, 90, 110, 65, 210, 25, 112, 201, 35, 250]
       }
-    }
+    };
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-  .chart-barChart {
-    fill:blue;
-  }
+.chart-barChart {
+  fill: blue;
+}
 </style>

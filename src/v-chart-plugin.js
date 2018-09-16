@@ -4,6 +4,7 @@ var d3 = Object.assign({},
 
 import barChart from './import/barChart'
 import vBarChart from './import/vBarChart'
+import lineGraph from './import/lineGraph'
 
 const Chart = {
     install(Vue, options) {
@@ -62,7 +63,8 @@ const Chart = {
                 },
                 // imported chart function
                 barChart: barChart,
-                vBarChart: vBarChart    
+                vBarChart: vBarChart,
+                lineGraph: lineGraph    
             },
             mounted: function () { // <-- lifecycle events
                 this.initalizeChart();
