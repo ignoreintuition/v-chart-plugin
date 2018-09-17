@@ -2,6 +2,10 @@
 
 > a plugin for adding charts to Vue
 
+## Purpose
+
+This plugin was developed to allow Vue.js developers to add in fully customizable charts to their applications.  By adding the v-chart-plugin component to your page you can easily bind a chart to the data stored in your other vue components.  This will allow the chart to be a first class citizen of your Vue application that is reactive to changes in your data.
+
 ## Usage
 
 First include the plugin in your main.js:
@@ -63,6 +67,7 @@ export default {
 Chart types currently supported:
 * barChart: horizontal bar chart 
 * vBarChart: verticle bar chart
+* lineGraph: a single variable line graph (time series)
 
 Lastly you will need to add the component and bind the data to it
 
@@ -80,8 +85,6 @@ If you wish to style the components of the chart you can via the selectors:
 </style>
 ```
 ![screenshot](https://res.cloudinary.com/practicaldev/image/fetch/s--nBmlCUJ2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/7bu2p3740cfn3cq3qygm.png)
-
-Currently only supports bar graph for a single metric
 
 ## Build Setup
 
