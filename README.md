@@ -84,7 +84,7 @@ If you wish to style the components of the chart you can via the selectors:
   }
 </style>
 ```
-![screenshot](https://res.cloudinary.com/practicaldev/image/fetch/s--nBmlCUJ2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/7bu2p3740cfn3cq3qygm.png)
+![screenshot](https://user-images.githubusercontent.com/5210420/45857900-e437be00-bd28-11e8-8f24-d73d6f36008b.png)
 
 ## Build Setup
 
