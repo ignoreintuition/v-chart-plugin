@@ -6,8 +6,8 @@ var d3 = Object.assign({},
 
 var drawChart = function () {
     let svgContainer = d3.select("." + this.chartData.selector),
-        xOffset = 30,
-        yAxisWidth = 25,
+        xOffset = 40,
+        yAxisWidth = 35,
         yOffset = this.getTitleHeight() + 5,
         yScale = d3.scaleLinear()
             .domain([0, this.getMax()])
@@ -28,7 +28,7 @@ var drawChart = function () {
             return yScale(d.metric);
         });
 
-    let yAxis = d3.axisLeft().scale(yScale);
+    let yAxis = d3.axisLeft().ticks(10, "s").scale(yScale);
     let yAxisCoord = this.getWidth() - xOffset;
     svgContainer.append("g").attr("transform", "translate(" + yAxisWidth + ",0)").call(yAxis);
 };
