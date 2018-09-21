@@ -1,9 +1,9 @@
 {
   "name": "v-chart-plugin",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "a plugin for adding charts to Vue",
   "author": "Brian Greig <brian@resurgencewebdesign.com>",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
