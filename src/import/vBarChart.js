@@ -6,12 +6,15 @@ var d3 = Object.assign({},
 
 var drawChart = function () {
     let svgContainer = d3.select("." + this.chartData.selector),
-        xOffset = 40,
-        yAxisWidth = 35,
-        yOffset = this.getTitleHeight() + 5,
-        yScale = d3.scaleLinear()
-            .domain([0, this.getMax()])
-            .range([this.getHeight(), yOffset]);
+        cs = {
+            x: {
+                axisWidth: 40
+            }, y: {}
+        };
+
+    cs.y.scale = d3.scaleLinear()
+        .domain([0, this.getMax()])
+        .range([this.getHeight(), this.getTitleHeight()]);
 
     svgContainer.selectAll("g")
         .data(this.getData())
@@ -19,18 +22,17 @@ var drawChart = function () {
         .append("rect")
         .attr("class", this.selector)
         .attr("width", (d, i) => {
-            return ((this.getWidth() - xOffset) / this.chartData.data.length - 1);
+            return ((this.getWidth() - cs.x.axisWidth) / this.chartData.data.length - 1);
         }).attr("height", (d, i) => {
-            return this.getHeight() - yScale(d.metric);
+            return this.getHeight() - cs.y.scale(d.metric);
         }).attr("x", (d, i) => {
-            return (i * (this.getWidth() - xOffset) / this.chartData.data.length - 1) + xOffset;
+            return (i * (this.getWidth() - cs.x.axisWidth) / this.chartData.data.length - 1) + cs.x.axisWidth;
         }).attr("y", (d, i) => {
-            return yScale(d.metric);
+            return cs.y.scale(d.metric);
         });
 
-    let yAxis = d3.axisLeft().ticks(10, "s").scale(yScale);
-    let yAxisCoord = this.getWidth() - xOffset;
-    svgContainer.append("g").attr("transform", "translate(" + yAxisWidth + ",0)").call(yAxis);
+    cs.y.axis = d3.axisLeft().ticks(10, "s").scale(cs.y.scale);
+    svgContainer.append("g").attr("transform", "translate(" + cs.x.axisWidth + ",0)").call(cs.y.axis);
 };
 
 export default drawChart;

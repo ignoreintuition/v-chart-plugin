@@ -1,15 +1,23 @@
-var d3 = Object.assign({}, 
+var d3 = Object.assign({},
     require("d3-selection"),
     require("d3-scale"),
     require("d3-axis")
 );
 
 var drawChart = function () {
-    let xScale = d3.scaleLinear()
+    let svgContainer = d3.select("." + this.chartData.selector),
+        cs = {
+            x: {
+                padding: 5,
+                axisHeight: 5
+            }, y: {
+                padding: 5
+            }
+        };
+
+    cs.x.scale = d3.scaleLinear()
         .domain([0, this.getMax()])
-        .range([0, this.getWidth()]);
-    
-    let svgContainer = d3.select("." + this.chartData.selector);
+        .range([cs.x.padding, this.getWidth() - cs.x.padding]);
 
     svgContainer.selectAll("g")
         .data(this.getData())
@@ -17,16 +25,16 @@ var drawChart = function () {
         .append("rect")
         .attr("class", this.selector)
         .attr("width", d => {
-            return xScale(d.metric) ;
+            return cs.x.scale(d.metric);
         }).attr("height", (d, i) => {
-            return (this.getHeight() - this.getTitleHeight() - 21) / this.chartData.data.length - 1
-        }).attr("y",  (d, i) => {
-            return i * (this.getHeight() - this.getTitleHeight()- 21 ) / this.chartData.data.length + 1 + this.getTitleHeight();
-        }).attr("x", 0);
+            return (this.getHeight() - cs.x.axisHeight - this.getTitleHeight()) / this.chartData.data.length - 1
+        }).attr("y", (d, i) => {
+            return i * (this.getHeight() - cs.x.axisHeight - this.getTitleHeight() - 21) / this.chartData.data.length + 1 + this.getTitleHeight();
+        }).attr("x", cs.x.padding);
 
-    let xAxis = d3.axisBottom().scale(xScale);
-    let xAxisCoord = this.getHeight() - 20;
-    svgContainer.append("g").attr("transform", "translate(0, " + xAxisCoord + ")").call(xAxis);
+    cs.x.axis = d3.axisBottom().ticks(10, "s").scale(cs.x.scale);
+    cs.x.offset = this.getHeight() - this.getTitleHeight();
+    svgContainer.append("g").attr("transform", "translate(0, " + cs.x.offset + ")").call(cs.x.axis);
 };
 
 export default drawChart;

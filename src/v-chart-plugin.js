@@ -36,7 +36,6 @@ const Chart = {
                         .style("text-anchor", "middle")
                         .text(this.chartData.title)
                 },
-                // getter methods
                 getHeight: function () {
                     return this.chartData.height || 200;
                 },
@@ -66,15 +65,14 @@ const Chart = {
                 getTitleHeight: function () {
                     return this.chartData.textHeight || 25;
                 },
-                // imported chart function
                 barChart: barChart,
                 vBarChart: vBarChart,
                 lineGraph: lineGraph
             },
-            mounted: function () { // <-- lifecycle events
+            mounted: function () { 
                 this.initalizeChart();
             },
-            watch: { // <-- watch functions
+            watch: {
                 'chartData': {
                     handler: function (val) {
                         this.refreshChart();

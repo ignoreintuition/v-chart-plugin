@@ -6,47 +6,38 @@ var d3 = Object.assign({},
 );
 
 var drawChart = function () {
-    let ds = this.getData(),
-        yOffset = this.getTitleHeight() + 5,
-        yScale = d3.scaleLinear()
+    let svgContainer = d3.select("." + this.chartData.selector),
+        ds = this.getData(),
+        cs = {
+            x: {
+                domain: [],
+                range: [],
+                axisWidth: 30
+            }, y: {}
+        };
+    cs.y.scale = d3.scaleLinear()
             .domain([this.getMin(), this.getMax()])
-            .range([this.getHeight(), yOffset]),
-        yAxis = d3.axisLeft()
-            .scale(yScale),
-        domainArr = [],
-        rangeArr = [];
-
-    ds.forEach((t) => {
-        domainArr.push(t["dim"]);
-    });
-    ds.forEach((t, i) => {
-        rangeArr.push(((this.getWidth() * (i)) - yOffset) / ds.length)
-    });
-
-    let xScale = d3.scaleOrdinal()
-        .domain(domainArr)
-        .range(rangeArr),
-        xAxis = d3.axisBottom()
-            .scale(xScale),
-        svgContainer = d3.select("." + this.chartData.selector);
-
-    var lineFunction = d3.line()
-        .x((d, i) => {
-            return xScale(d["dim"]) + yOffset + 10;
-        })
-        .y((d) => {
-            return yScale(d["metric"]);
-        })
+            .range([this.getHeight(), this.getTitleHeight()])
+    
+    cs.y.axis = d3.axisLeft().ticks(10, "s").scale(cs.y.scale)
+    ds.forEach(t => cs.x.domain.push(t["dim"]));
+    ds.forEach((t, i) => cs.x.range.push(((this.getWidth() * i) - this.getTitleHeight()) / ds.length));
+    cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
+    cs.x.axis = d3.axisBottom().scale(cs.x.scale);
+    
+    cs.lineFunction = d3.line()
+        .x((d, i) => cs.x.scale(d["dim"]) + cs.x.axisWidth)
+        .y(d => cs.y.scale(d["metric"]))
 
     svgContainer.append('path')
         .datum(ds)
         .attr('fill', 'none')
         .attr('stroke', '#ffab00')
         .attr('stroke-width', 3)
-        .attr('d', lineFunction)
+        .attr('d', cs.lineFunction)
         .attr('transform', 'translate(0,0)');
-    
-    svgContainer.append("g").attr("transform", "translate(" + yOffset + ",0)").call(yAxis);
+
+    svgContainer.append("g").attr("transform", "translate(" + cs.x.axisWidth+ ",0)").call(cs.y.axis);
 };
 
 export default drawChart;

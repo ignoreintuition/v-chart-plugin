@@ -29,9 +29,9 @@ export default {
   data() {
     return {
       chartData: {
-        chartType: "vBarChart",
+        chartType: "lineGraph",
         selector: "chart",
-        title: "Important Data",
+        title: "Population by Age",
         width: 400,
         height: 300,
         metric: "total",
