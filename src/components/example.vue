@@ -10,7 +10,7 @@
     <div class="row">
       <div class="col-sm">
         <div v-for="(t, index) in chartData.data">
-          <input v-model.number="chartData.data[index].age" >
+          <input v-model.number="chartData.data[index].month" >
           <input v-model.number="chartData.data[index].total" type="number" >
         </div>
       </div>
@@ -22,21 +22,21 @@
 </template>
 
 <script>
-import pop from './pop'
+import sales from '../assets/data/sales'
 
 export default {
   name: "example",
   data() {
     return {
       chartData: {
-        chartType: "lineGraph",
+        chartType: "barChart",
         selector: "chart",
-        title: "Population by Age",
+        title: "Sales by Month",
         width: 400,
         height: 300,
         metric: "total",
-        dim: "age",
-        data: pop
+        dim: "month",
+        data: sales
       }
     };
   }

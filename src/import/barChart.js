@@ -5,36 +5,52 @@ var d3 = Object.assign({},
 );
 
 var drawChart = function () {
+    let ds = this.getData()
     let svgContainer = d3.select("." + this.chartData.selector),
         cs = {
             x: {
-                padding: 5,
-                axisHeight: 5
+                axisPadding: 5,
+                axisHeight: 25
             }, y: {
-                padding: 5
+                domain: [],
+                range: [],
+                padding: 5,
+                axisWidth: 40
             }
         };
 
     cs.x.scale = d3.scaleLinear()
         .domain([0, this.getMax()])
-        .range([cs.x.padding, this.getWidth() - cs.x.padding]);
-
+        .range([0, this.getWidth() - cs.x.axisPadding - cs.y.axisWidth]);
+        
+        ds.forEach((t) => cs.y.domain.push(t['dim']));
+        ds.forEach((t, i) => cs.y.range.push(((this.chartData.height - cs.x.axisHeight - this.getTitleHeight() + cs.y.padding) * i )/ ds.length));
+        cs.y.scale = d3.scaleOrdinal().domain(cs.y.domain).range(cs.y.range);
+        
     svgContainer.selectAll("g")
-        .data(this.getData())
+        .data(ds)
         .enter().append("g")
         .append("rect")
         .attr("class", this.selector)
         .attr("width", d => {
             return cs.x.scale(d.metric);
         }).attr("height", (d, i) => {
-            return (this.getHeight() - cs.x.axisHeight - this.getTitleHeight()) / this.chartData.data.length - 1
+            return (this.getHeight() - cs.x.axisHeight - this.getTitleHeight() - cs.y.padding) / this.chartData.data.length - 1
         }).attr("y", (d, i) => {
-            return i * (this.getHeight() - cs.x.axisHeight - this.getTitleHeight() - 21) / this.chartData.data.length + 1 + this.getTitleHeight();
-        }).attr("x", cs.x.padding);
+            return i * (this.getHeight() - cs.x.axisHeight - this.getTitleHeight()) / this.chartData.data.length + 1 + this.getTitleHeight();
+        }).attr("x", cs.y.axisWidth + cs.x.axisPadding);
 
     cs.x.axis = d3.axisBottom().ticks(10, "s").scale(cs.x.scale);
-    cs.x.offset = this.getHeight() - this.getTitleHeight();
-    svgContainer.append("g").attr("transform", "translate(0, " + cs.x.offset + ")").call(cs.x.axis);
+    cs.y.axis = d3.axisLeft().scale(cs.y.scale);
+    
+    cs.x.yOffset = this.getHeight() - this.getTitleHeight();
+    cs.x.xOffset = cs.x.axisPadding + cs.y.axisWidth;
+    cs.y.yOffset = cs.y.axisWidth;
+    cs.y.xOffset = 45;
+
+    
+    svgContainer.append("g").attr("transform", "translate(" + cs.y.xOffset + ", " + cs.y.yOffset + ")").call(cs.y.axis);
+    svgContainer.append("g").attr("transform", "translate(" + cs.x.xOffset + ", " + cs.x.yOffset + ")").call(cs.x.axis);
 };
 
 export default drawChart;
