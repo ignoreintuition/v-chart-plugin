@@ -20,8 +20,10 @@ var drawChart = function () {
             .range([this.getHeight(), this.getTitleHeight()])
     
     cs.y.axis = d3.axisLeft().ticks(10, "s").scale(cs.y.scale)
+
     ds.forEach(t => cs.x.domain.push(t["dim"]));
     ds.forEach((t, i) => cs.x.range.push(((this.getWidth() * i) - this.getTitleHeight()) / ds.length));
+    
     cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     
@@ -38,6 +40,7 @@ var drawChart = function () {
         .attr('transform', 'translate(0,0)');
 
     svgContainer.append("g").attr("transform", "translate(" + cs.x.axisWidth+ ",0)").call(cs.y.axis);
+    svgContainer.append("g").attr("transform", "translate(45, 300)").call(cs.x.axis);
 };
 
 export default drawChart;

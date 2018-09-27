@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       chartData: {
-        chartType: "barChart",
+        chartType: "lineGraph",
         selector: "chart",
         title: "Sales by Month",
         width: 400,
@@ -47,5 +47,8 @@ export default {
 <style>
 .chart-barChart {
   fill: blue;
+}
+.chart-vBarChart {
+  fill: red;
 }
 </style>
