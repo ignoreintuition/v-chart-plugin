@@ -6,7 +6,7 @@ var d3 = Object.assign({},
 );
 
 var drawChart = function () {
-    let svgContainer = d3.select("." + this.chartData.selector),
+    let svgContainer = d3.select("#" + this.chartData.selector),
         ds = this.getData(),
         cs = {
             x: {
