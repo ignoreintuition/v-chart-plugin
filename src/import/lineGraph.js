@@ -12,12 +12,14 @@ var drawChart = function () {
             x: {
                 domain: [],
                 range: [],
-                axisWidth: 30
-            }, y: {}
+                axisHeight: 45
+            }, y: {
+                axisWidth: 45
+            }
         };
     cs.y.scale = d3.scaleLinear()
             .domain([this.getMin(), this.getMax()])
-            .range([this.getHeight(), this.getTitleHeight()])
+            .range([this.getHeight() - cs.x.axisHeight, this.getTitleHeight()])
     
     cs.y.axis = d3.axisLeft().ticks(10, "s").scale(cs.y.scale)
 
@@ -28,7 +30,7 @@ var drawChart = function () {
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     
     cs.lineFunction = d3.line()
-        .x((d, i) => cs.x.scale(d["dim"]) + cs.x.axisWidth)
+        .x((d, i) => cs.x.scale(d["dim"]) + cs.y.axisWidth + 5)
         .y(d => cs.y.scale(d["metric"]))
 
     svgContainer.append('path')
@@ -38,9 +40,15 @@ var drawChart = function () {
         .attr('stroke-width', 3)
         .attr('d', cs.lineFunction)
         .attr('transform', 'translate(0,0)');
+    
+    cs.x.xOffset = cs.y.axisWidth + 5;    
+    cs.x.yOffset = this.getHeight() - cs.x.axisHeight;
+    cs.y.xOffset = cs.y.axisWidth;
+    cs.y.yOffset = 0;
 
-    svgContainer.append("g").attr("transform", "translate(" + cs.x.axisWidth+ ",0)").call(cs.y.axis);
-    svgContainer.append("g").attr("transform", "translate(45, 300)").call(cs.x.axis);
+    svgContainer.append("g").attr("transform", "translate("+ cs.x.xOffset + ", " + cs.x.yOffset + ")").call(cs.x.axis);
+    svgContainer.append("g").attr("transform", "translate(" + cs.y.xOffset + "," + cs.y.yOffset + ")").call(cs.y.axis);
+
 };
 
 export default drawChart;

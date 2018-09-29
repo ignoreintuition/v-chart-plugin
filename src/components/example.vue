@@ -32,7 +32,7 @@ export default {
         chartType: "lineGraph",
         selector: "chart",
         title: "Sales by Month",
-        width: 400,
+        width: 500,
         height: 300,
         metric: "total",
         dim: "month",
