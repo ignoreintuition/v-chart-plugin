@@ -6,7 +6,7 @@ var d3 = Object.assign({},
 
 var drawChart = function () {
     let ds = this.getData()
-    let svgContainer = d3.select("." + this.chartData.selector),
+    let svgContainer = d3.select("#" + this.chartData.selector),
         cs = {
             bar: {
                 hPadding: 8,

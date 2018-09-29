@@ -26,10 +26,10 @@ const Chart = {
                     this[this.chartData.chartType]();
                 },
                 clearCanvas: function () {
-                    d3.select("." + this.chartData.selector).selectAll("*").remove();
+                    d3.select("#" + this.chartData.selector).selectAll("*").remove();
                 },
                 drawTitle: function () {
-                    d3.select("." + this.chartData.selector)
+                    d3.select("#" + this.chartData.selector)
                         .append("text")
                         .attr("x", this.getWidth() / 2)
                         .attr("y", this.getTitleHeight() - this.getTitleHeight() * .1)
@@ -81,7 +81,7 @@ const Chart = {
                 }
             },
             template:
-                `<svg class="chart" x="5" y="5" :height="this.getHeight() + 10" :width="this.getWidth() + 10"> </svg>`
+                `<svg :id="this.chartData.selector" x="5" y="5" :height="this.getHeight() + 10" :width="this.getWidth() + 10"> </svg>`
         })
     }
 }

@@ -9,13 +9,16 @@
 
     <div class="row">
       <div class="col-sm">
-        <div v-for="(t, index) in chartData.data">
-          <input v-model.number="chartData.data[index].month" >
-          <input v-model.number="chartData.data[index].total" type="number" >
+        <div v-for="(t, index) in sales">
+          <input v-model.number="sales[index].month" >
+          <input v-model.number="sales[index].total" type="number" >
         </div>
       </div>
       <div class="col-sm">
-        <v-chart v-bind:chartData="chartData"></v-chart>
+        <v-chart v-bind:chartData="lineGraphData"></v-chart>
+      </div>
+      <div class="col-sm">
+        <v-chart v-bind:chartData="barChartData"></v-chart>
       </div>
     </div>
   </div>
@@ -25,15 +28,26 @@
 import sales from '../assets/data/sales'
 
 export default {
-  name: "example",
+  name: "barChartExample",
   data() {
     return {
-      chartData: {
-        chartType: "lineGraph",
+      sales: sales,
+      barChartData: {
+        chartType: "barChart",
         selector: "chart",
         title: "Sales by Month",
-        width: 500,
-        height: 300,
+        width: 300,
+        height: 200,
+        metric: "total",
+        dim: "month",
+        data: sales
+      },
+      lineGraphData: {
+        chartType: "lineGraph",
+        selector: "graph",
+        title: "Sales by Month",
+        width: 300,
+        height: 200,
         metric: "total",
         dim: "month",
         data: sales
