@@ -4,7 +4,9 @@
 
 ## Purpose
 
-This plugin was developed to allow Vue.js developers to add in fully customizable charts to their applications.  By adding the v-chart-plugin component to your page you can easily bind a chart to the data stored in your other vue components.  This will allow the chart to be a first class citizen of your Vue application that is reactive to changes in your data.
+This plugin was developed to allow Vue.js developers to add in fully customizable charts to their applications.  By adding the v-chart-plugin component to your page you can easily bind a chart to the data stored in your other vue components.  This will allow the chart to be a first class citizen of your Vue application that is reactive to changes in your data.  Combining multiple charts allows you to create complex dashboards and enable deeper insights into your data.
+
+[Demo Page](https://resurgencewebdesign.com/v-chart-plugin-demo/)
 
 ## Usage
 
