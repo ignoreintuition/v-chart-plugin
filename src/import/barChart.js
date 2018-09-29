@@ -11,8 +11,7 @@ var drawChart = function () {
             bar: {
                 hPadding: 8,
                 vPadding: 5
-            },
-            x: {
+            }, x: {
                 axisHeight: 25
             }, y: {
                 domain: [],
