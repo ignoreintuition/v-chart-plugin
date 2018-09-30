@@ -1,28 +1,29 @@
-# v-chart-plugin
+# V CHART PLUGIN
 ![logo](https://user-images.githubusercontent.com/5210420/46261741-e5ee4800-c4c5-11e8-8a31-e6099fa79acd.jpg)
 > A plugin for adding charts to Vue
 
-## Purpose
+## PURPOSE
 
-This plugin was developed to allow Vue.js developers to add in fully customizable charts to their applications.  By adding the v-chart-plugin component to your page you can easily bind a chart to the data stored in your other vue components.  This will allow the chart to be a first class citizen of your Vue application that is reactive to changes in your data.  Combining multiple charts allows you to create complex dashboards and enable deeper insights into your data.
+This plugin is designed to allow Vue.js developers to incorporate fully reactive and customizable charts into your applications.  The plugin is built off of the D3.js JavaScript library for manipulating documents based on data.  By binding data from your components you can create complex charts and graphs that respond to changes in your application.  Vue.js lifecycle events will trigger the charts to update and maintain two-way binding between your charts and your data.  By adding in a state management (such as Vuex) you can additionally persist state across an entire application.
+
+V Chart Plugin is built using Vue.js' component architecture.  This will allow the chart to be a first class citizen of your Vue.js application.  Combining multiple charts allows you to create complex dashboards and enable deeper insights into your data.  All aspects of the charts can be configured to allow for full customization of your graphs along with the ability to style the SVG elements using the classes and IDs generated for each individual canvas element.  
+
+By adding additional charts into the import folder and importing them into the v-chart-plugin.js you can include any custom charts to use with Vue.js.  Using the JavaScript API you can hook into the specific methods in the API and create a reusable component that can persist across your application.
 
 [Demo Page](https://resurgencewebdesign.com/v-chart-plugin-demo/)
 
-## Usage
+## USAGE
 
-First include the plugin in your main.js:
+These instructions are assuming you are using Vue CLI to create your template.  Include the plugin in your main.js:
 
 ```JavaScript
 import Chart from './v-chart-plugin.js'
-
 Vue.config.productionTip = false
-
 Vue.use(Chart);
 ```
 
-Within your component you will need to include an object in your title, selector, width, height, and datapoints to pass to the component
+Within your component you will need to include an object with: title, selector, width, height, and datapoints to pass to the component.  Data can be passed as an array or as an array of objects:
 
-Data can be passed as an array or as an array of objects:
 ```JavaScript
 export default {
   name: 'example',
@@ -71,7 +72,7 @@ Chart types currently supported:
 * vBarChart: verticle bar chart
 * lineGraph: a single variable line graph (time series)
 
-Lastly you will need to add the component and bind the data to it
+Lastly you will need to add the component and bind your data
 
 ```
 <v-chart v-bind:chartData="chartData"></v-chart>
@@ -86,7 +87,7 @@ If you wish to style the components of the chart you can via the selectors:
   }
 </style>
 ```
-![screenshot](https://user-images.githubusercontent.com/5210420/45857900-e437be00-bd28-11e8-8f24-d73d6f36008b.png)
+![screenshot](https://user-images.githubusercontent.com/5210420/46261930-99f0d280-c4c8-11e8-8354-b13f2e543e91.png)
 
 ## Build Setup
 
