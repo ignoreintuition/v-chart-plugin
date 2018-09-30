@@ -39,7 +39,13 @@ var drawChart = function () {
             return (this.getHeight() - cs.x.axisHeight - this.getTitleHeight() - cs.bar.vPadding) / this.chartData.data.length - 1
         }).attr("y", (d, i) => {
             return i * (this.getHeight() - cs.x.axisHeight - this.getTitleHeight()) / this.chartData.data.length + 1 + this.getTitleHeight();
-        }).attr("x", cs.y.axisWidth + cs.bar.hPadding);
+        }).attr("x", cs.y.axisWidth + cs.bar.hPadding)
+        .on("mouseover", d => {
+            this.addTooltip(d, event);
+        })
+        .on("mouseout", d => {
+            this.removeTooltip(d);
+        });
 
     cs.x.axis = d3.axisBottom().ticks(10, "s").scale(cs.x.scale);
     cs.y.axis = d3.axisLeft().scale(cs.y.scale);
