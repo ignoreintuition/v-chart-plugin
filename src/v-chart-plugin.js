@@ -36,6 +36,18 @@ const Chart = {
                         .style("text-anchor", "middle")
                         .text(this.chartData.title)
                 },
+                addTooltip: function(d, e) {
+                    d3.select("#" + this.chartData.selector)
+                        .append("text")
+                        .attr("x", e.layerX)
+                        .attr("y", e.layerY)
+                        .attr("class", "tt")
+                        .text(d['dim'] + ':' + d['metric']);
+                },
+                removeTooltip: function(d) {
+                    d3.select("#" + this.chartData.selector)
+                    .selectAll(".tt").remove();
+                },
                 getHeight: function () {
                     return this.chartData.height || 200;
                 },

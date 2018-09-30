@@ -9,9 +9,9 @@
 
     <div class="row">
       <div class="col-sm">
-        <div v-for="(t, index) in sales">
-          <input v-model.number="sales[index].month" >
-          <input v-model.number="sales[index].total" type="number" >
+        <div class="form-group " v-for="(t, index) in sales">
+          <input class="form-control form-control-sm" v-model.number="sales[index].month" >
+          <input class="form-control form-control-sm" v-model.number="sales[index].total" type="number" >
         </div>
       </div>
       <div class="col-sm">
@@ -62,6 +62,11 @@ export default {
 .chart-barChart {
   fill: blue;
 }
+
+.chart-barChart:hover {
+	fill: #37386B;
+}
+
 .chart-vBarChart {
   fill: red;
 }
