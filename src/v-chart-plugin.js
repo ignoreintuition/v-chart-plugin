@@ -38,10 +38,20 @@ const Chart = {
                 },
                 addTooltip: function(d, e) {
                     d3.select("#" + this.chartData.selector)
-                        .append("text")
-                        .attr("x", e.layerX)
-                        .attr("y", e.layerY)
+                        .append("rect")
+                        .attr("x", e.layerX - 5 - 50)
+                        .attr("y", e.layerY - 13 - 25)
+                        .attr("height", "16px")
+                        .attr("width", "80px")
                         .attr("class", "tt")
+                        .attr("fill", "white");
+
+                    d3.select("#" + this.chartData.selector)
+                        .append("text")
+                        .attr("x", e.layerX - 50)
+                        .attr("y", e.layerY - 25)
+                        .attr("class", "tt")
+                        .attr("font-size", "10px")
                         .text(d['dim'] + ':' + d['metric']);
                 },
                 removeTooltip: function(d) {

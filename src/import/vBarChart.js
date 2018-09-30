@@ -43,6 +43,11 @@ var drawChart = function () {
             return (i * (this.getWidth() - cs.x.axisWidth) / this.chartData.data.length - 1) + cs.x.axisWidth;
         }).attr("y", (d, i) => {
             return cs.y.scale(d.metric) + this.getTitleHeight();
+        }).on("mouseover", d => {
+            this.addTooltip(d, event);
+        })
+        .on("mouseout", d => {
+            this.removeTooltip(d);
         });
 
     cs.y.axis = d3.axisLeft().ticks(10, "s").scale(cs.y.scale);
