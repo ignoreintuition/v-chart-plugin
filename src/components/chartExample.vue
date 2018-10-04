@@ -53,7 +53,7 @@ export default {
         data: sales
       },
       lineGraphData: {
-        chartType: "lineGraph",
+        chartType: "scatterPlot",
         selector: "graph",
         title: "Sales by Month",
         width: 300,
