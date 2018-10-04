@@ -68,9 +68,10 @@ export default {
 }
 ```
 Chart types currently supported:
-* barChart: horizontal bar chart 
-* vBarChart: verticle bar chart
-* lineGraph: a single variable line graph (time series)
+* barChart: a diagram in which the numerical values of variables are represented by the width of rectangles of equal height.
+* vBarChart: a diagram in which the numerical values of variables are represented by the height of rectangles of equal width.
+* lineGraph: A line chart or line graph is a type of chart which displays information as a series of data points called 'markers' connected by straight line segments. 
+* scatterPlot: a graph in which the values of two variables are plotted along two axes, the pattern of the resulting points revealing any correlation present.
 
 Lastly you will need to add the component and bind your data
 
