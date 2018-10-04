@@ -5,6 +5,7 @@ var d3 = Object.assign({},
 import barChart from './import/barChart'
 import vBarChart from './import/vBarChart'
 import lineGraph from './import/lineGraph'
+import scatterPlot from './import/scatterPlot'
 
 const Chart = {
     install(Vue, options) {
@@ -89,7 +90,8 @@ const Chart = {
                 },
                 barChart: barChart,
                 vBarChart: vBarChart,
-                lineGraph: lineGraph
+                lineGraph: lineGraph,
+                scatterPlot, scatterPlot
             },
             mounted: function () { 
                 this.initalizeChart();
