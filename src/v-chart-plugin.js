@@ -113,6 +113,6 @@ const Chart = {
 export default Chart;
 
 if (typeof window !== 'undefined' && window.Vue) {
-    window.Vue.use(MyPlugin)
+    window.Vue.use(Chart)
 }
 
