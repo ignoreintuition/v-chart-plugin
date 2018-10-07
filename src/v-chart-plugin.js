@@ -2,10 +2,11 @@ var d3 = Object.assign({},
     require("d3-selection")
 );
 
-import barChart from './import/barChart'
-import vBarChart from './import/vBarChart'
-import lineGraph from './import/lineGraph'
-import scatterPlot from './import/scatterPlot'
+import barChart     from './import/barChart'
+import vBarChart    from './import/vBarChart'
+import lineGraph    from './import/lineGraph'
+import scatterPlot  from './import/scatterPlot'
+import pieChart     from './import/pieChart'
 
 const Chart = {
     install(Vue, options) {
@@ -91,7 +92,8 @@ const Chart = {
                 barChart: barChart,
                 vBarChart: vBarChart,
                 lineGraph: lineGraph,
-                scatterPlot, scatterPlot
+                scatterPlot, scatterPlot,
+                pieChart: pieChart
             },
             mounted: function () { 
                 this.initalizeChart();

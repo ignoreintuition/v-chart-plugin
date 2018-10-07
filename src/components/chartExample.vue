@@ -43,7 +43,7 @@ export default {
     return {
       sales: sales,
       barChartData: {
-        chartType: "barChart",
+        chartType: "pieChart",
         selector: "chart",
         title: "Sales by Month",
         width: 300,
