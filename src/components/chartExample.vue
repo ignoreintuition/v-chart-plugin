@@ -28,6 +28,9 @@
           <div class="col-6">
             <v-chart v-bind:chartData="vBarChartData"></v-chart>
           </div>
+          <div class="col-6">
+            <v-chart v-bind:chartData="pieChartData"></v-chart>
+          </div>
         </div>  
       </div>
     </div>
@@ -43,9 +46,9 @@ export default {
     return {
       sales: sales,
       barChartData: {
-        chartType: "pieChart",
+        chartType: "barChart",
         selector: "chart",
-        title: "Sales by Month",
+        title: "Bar Chart",
         width: 300,
         height: 200,
         metric: "total",
@@ -54,8 +57,8 @@ export default {
       },
       lineGraphData: {
         chartType: "scatterPlot",
-        selector: "graph",
-        title: "Sales by Month",
+        selector: "lineGraph",
+        title: "Line Graph",
         width: 300,
         height: 200,
         metric: "total",
@@ -65,13 +68,23 @@ export default {
       vBarChartData: {
         chartType: "vBarChart",
         selector: "vChart",
-        title: "Sales by Month",
+        title: "Verticle Bar Chart",
         width: 300,
         height: 200,
         metric: "total",
         dim: "month",
         data: sales
-      }
+      },
+      pieChartData: {
+        chartType: "pieChart",
+        selector: "pieChart",
+        title: "Pie Chart",
+        width: 300,
+        height: 200,
+        metric: "total",
+        dim: "month",
+        data: sales
+      },
     };
   }
 };

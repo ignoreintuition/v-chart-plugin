@@ -89,7 +89,7 @@ If you wish to style the components of the chart you can via the selectors:
   }
 </style>
 ```
-![screenshot](https://user-images.githubusercontent.com/5210420/46261930-99f0d280-c4c8-11e8-8354-b13f2e543e91.png)
+![screenshot](https://user-images.githubusercontent.com/5210420/46582271-1f690b00-ca12-11e8-92ab-5277ce2d77de.png)
 
 ## Build Setup
 
