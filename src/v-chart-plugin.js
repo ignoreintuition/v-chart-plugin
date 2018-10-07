@@ -55,6 +55,7 @@ const Chart = {
                         .attr("class", "tt")
                         .attr("font-size", "10px")
                         .text(d['dim'] + ':' + d['metric']);
+                    console.log(d);
                 },
                 removeTooltip: function(d) {
                     d3.select("#" + this.chartData.selector)
