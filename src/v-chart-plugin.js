@@ -2,11 +2,11 @@ var d3 = Object.assign({},
     require("d3-selection")
 );
 
-import barChart     from './import/barChart'
-import vBarChart    from './import/vBarChart'
-import lineGraph    from './import/lineGraph'
-import scatterPlot  from './import/scatterPlot'
-import pieChart     from './import/pieChart'
+import barChart from './import/barChart'
+import vBarChart from './import/vBarChart'
+import lineGraph from './import/lineGraph'
+import scatterPlot from './import/scatterPlot'
+import pieChart from './import/pieChart'
 
 const Chart = {
     install(Vue, options) {
@@ -33,12 +33,12 @@ const Chart = {
                 drawTitle: function () {
                     d3.select("#" + this.chartData.selector)
                         .append("text")
-                        .attr("x", this.getWidth() / 2)
-                        .attr("y", this.getTitleHeight() - this.getTitleHeight() * .1)
+                        .attr("x", this.width / 2)
+                        .attr("y", this.titleHeight - this.titleHeight * .1)
                         .style("text-anchor", "middle")
                         .text(this.chartData.title)
                 },
-                addTooltip: function(d, e) {
+                addTooltip: function (d, e) {
                     d3.select("#" + this.chartData.selector)
                         .append("rect")
                         .attr("x", e.layerX - 5 - 50)
@@ -55,40 +55,10 @@ const Chart = {
                         .attr("class", "tt")
                         .attr("font-size", "10px")
                         .text(d['dim'] + ':' + d['metric']);
-                    console.log(d);
                 },
-                removeTooltip: function(d) {
+                removeTooltip: function (d) {
                     d3.select("#" + this.chartData.selector)
-                    .selectAll(".tt").remove();
-                },
-                getHeight: function () {
-                    return this.chartData.height || 200;
-                },
-                getWidth: function () {
-                    return this.chartData.width || 200;
-                },
-                getData: function () {
-                    return this.chartData.data.map(d => {
-                        let td = {};
-                        td.metric = this.chartData.metric ? d[this.chartData.metric] : d;
-                        td.dim = this.chartData.dim ? d[this.chartData.dim] : null;
-                        return td;
-                    });
-                },
-                getMax: function () {
-                    let max = 0;
-                    this.getData().forEach(function (e) {
-                        max = max > e.metric ? max : e.metric;
-                    })
-                    return max;
-                },
-                getMin: function () {
-                    return Math.min.apply(Math, this.getData().map(function(o) {
-                        return o['metric'];
-                      }));
-                },
-                getTitleHeight: function () {
-                    return this.chartData.textHeight || 25;
+                        .selectAll(".tt").remove();
                 },
                 barChart: barChart,
                 vBarChart: vBarChart,
@@ -96,7 +66,39 @@ const Chart = {
                 scatterPlot, scatterPlot,
                 pieChart: pieChart
             },
-            mounted: function () { 
+            computed: {
+                ds: function () {
+                    return this.chartData.data.map(d => {
+                        let td = {};
+                        td.metric = this.chartData.metric ? d[this.chartData.metric] : d;
+                        td.dim = this.chartData.dim ? d[this.chartData.dim] : null;
+                        return td;
+                    });
+                },
+                height: function () {
+                    return this.chartData.height || 200;
+                },
+                width: function () {
+                    return this.chartData.width || 200;
+                },
+                max: function () {
+                    let max = 0;
+                    this.ds.forEach(function (e) {
+                        max = max > e.metric ? max : e.metric;
+                    })
+                    return max;
+                },
+                min: function () {
+                    return Math.min.apply(Math, this.ds.map(function (o) {
+                        return o['metric'];
+                    }));
+                },
+                titleHeight: function () {
+                    return this.chartData.textHeight || 25;
+                },
+
+            },
+            mounted: function () {
                 this.initalizeChart();
             },
             watch: {
@@ -108,7 +110,7 @@ const Chart = {
                 }
             },
             template:
-                `<svg :id="this.chartData.selector" x="5" y="5" :height="this.getHeight() + 10" :width="this.getWidth() + 10"> </svg>`
+                `<svg :id="this.chartData.selector" x="5" y="5" :height="this.height + 10" :width="this.width + 10"> </svg>`
         })
     }
 }

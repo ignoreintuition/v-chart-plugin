@@ -56,7 +56,7 @@ export default {
         data: sales
       },
       lineGraphData: {
-        chartType: "scatterPlot",
+        chartType: "lineGraph",
         selector: "lineGraph",
         title: "Line Graph",
         width: 300,
