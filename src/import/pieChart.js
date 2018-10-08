@@ -6,7 +6,7 @@ var d3 = Object.assign({},
 );
 
 var drawChart = function () {
-  let ds = this.getData()
+  let ds = this.ds
   let svgContainer = d3.select("#" + this.chartData.selector),
     cs = {
       radius: null,
@@ -15,7 +15,7 @@ var drawChart = function () {
       ]
     };
 
-  cs.radius = this.getHeight() > this.getWidth() ? (this.getWidth() - this.getWidth() * 0.1) / 2 : (this.getHeight() - this.getHeight() * 0.1) / 2;
+  cs.radius = this.height > this.width ? (this.width - this.width * 0.1) / 2 : (this.height - this.height * 0.1) / 2;
 
   var pie = d3.pie()
     .sort(null)
@@ -35,7 +35,7 @@ var drawChart = function () {
 
   arc.enter()
     .append('g')
-    .attr('transform', 'translate(' + this.getWidth() / 2 + ',' + this.getHeight() / 2 + ')')
+    .attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')')
     .append('path')
     .merge(arc)
     .attr('class', 'arc')
@@ -49,7 +49,7 @@ var drawChart = function () {
     .on('mouseout', d => {
       this.removeTooltip(d);
     })
-    .attr('transform', 'translate(0,' + this.getTitleHeight() + ')');
+    .attr('transform', 'translate(0,' + this.titleHeight + ')');
 
 
 
