@@ -1,7 +1,9 @@
 var d3 = Object.assign({},
     require("d3-selection"),
     require("d3-scale"),
-    require("d3-axis")
+    require("d3-axis"),
+    require("d3-ease")
+    
 );
 
 var drawChart = function () {
@@ -12,12 +14,12 @@ var drawChart = function () {
                 hPadding: 8,
                 vPadding: 5
             }, x: {
-                axisHeight: 25,
+                axisHeight: 10,
                 ticks: 5
             }, y: {
                 domain: [],
                 range: [],
-                axisWidth: 40
+                axisWidth: 30
             }
         };
 
@@ -26,7 +28,7 @@ var drawChart = function () {
         .range([0, this.width - cs.bar.hPadding - cs.y.axisWidth]);
 
     ds.forEach((t) => cs.y.domain.push(t['dim']));
-    ds.forEach((t, i) => cs.y.range.push(((this.chartData.height - cs.x.axisHeight - this.titleHeight + cs.bar.vPadding) * i) / ds.length));
+    ds.forEach((t, i) => cs.y.range.push(((this.chartData.height - cs.x.axisHeight - this.header + cs.bar.vPadding) * i) / ds.length));
     cs.y.scale = d3.scaleOrdinal().domain(cs.y.domain).range(cs.y.range);
 
     svgContainer.selectAll("g")
@@ -37,9 +39,9 @@ var drawChart = function () {
         .attr("width", d => {
             return cs.x.scale(d.metric);
         }).attr("height", (d, i) => {
-            return (this.height - cs.x.axisHeight - this.titleHeight - cs.bar.vPadding) / this.chartData.data.length - 1
+            return (this.height - cs.x.axisHeight - this.header - cs.bar.vPadding) / this.chartData.data.length - 1
         }).attr("y", (d, i) => {
-            return i * (this.height - cs.x.axisHeight - this.titleHeight) / this.chartData.data.length + 1 + this.titleHeight;
+            return i * (this.height - cs.x.axisHeight - this.header) / this.chartData.data.length + 1 + this.header;
         }).attr("x", cs.y.axisWidth + cs.bar.hPadding)
         .on("mouseover", d => {
             this.addTooltip(d, event);
@@ -51,10 +53,10 @@ var drawChart = function () {
     cs.x.axis = d3.axisBottom().ticks(cs.x.ticks, "s").scale(cs.x.scale);
     cs.y.axis = d3.axisLeft().scale(cs.y.scale);
 
-    cs.x.yOffset = this.height - this.titleHeight;
+    cs.x.yOffset = this.height - cs.x.axisHeight;
     cs.x.xOffset = cs.bar.hPadding + cs.y.axisWidth;
 
-    cs.y.yOffset = cs.bar.vPadding + this.titleHeight - 1;
+    cs.y.yOffset = cs.bar.vPadding + this.header - 1;
     cs.y.xOffset = cs.y.axisWidth;
 
     svgContainer.append("g").attr("transform", "translate(" + cs.y.xOffset + ", " + cs.y.yOffset + ")").call(cs.y.axis);

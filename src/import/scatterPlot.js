@@ -11,20 +11,20 @@ var drawChart = function () {
             x: {
                 domain: [],
                 range: [],
-                axisHeight: 45
+                axisHeight: 20
             }, y: {
-                axisWidth: 45,
+                axisWidth: 30,
                 ticks: 5
             }
         };
     cs.y.scale = d3.scaleLinear()
         .domain([this.min, this.max])
-        .range([this.height - cs.x.axisHeight, this.titleHeight])
+        .range([this.height - cs.x.axisHeight, this.header])
 
     cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, "s").scale(cs.y.scale)
 
     ds.forEach(t => cs.x.domain.push(t["dim"]));
-    ds.forEach((t, i) => cs.x.range.push(((this.width * i) - this.titleHeight) / ds.length));
+    ds.forEach((t, i) => cs.x.range.push(((this.width * i) - this.header) / ds.length));
 
     cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
