@@ -37,6 +37,13 @@ const Chart = {
                         .attr("y", this.titleHeight - this.titleHeight * .1)
                         .style("text-anchor", "middle")
                         .text(this.chartData.title)
+                    
+                    d3.select("#" + this.chartData.selector)
+                        .append("text")
+                        .attr("x", this.width / 2)
+                        .attr("y", this.titleHeight - this.titleHeight * .1 + this.subtitleHeight )
+                        .style("text-anchor", "middle")
+                        .text(this.chartData.subtitle)
                 },
                 addTooltip: function (d, e) {
                     d3.select("#" + this.chartData.selector)
@@ -94,8 +101,18 @@ const Chart = {
                     }));
                 },
                 titleHeight: function () {
-                    return this.chartData.textHeight || 25;
+                    if (this.chartData.title)
+                        return this.chartData.textHeight || 25;
+                    return 0;
                 },
+                subtitleHeight: function () {
+                    if (this.chartData.subtitle)
+                        return this.chartData.textHeight * .66 || 25 * .66;
+                    return 0;
+                },
+                header: function () {
+                    return (this.titleHeight + this.subtitleHeight);
+                }
 
             },
             mounted: function () {
@@ -110,7 +127,7 @@ const Chart = {
                 }
             },
             template:
-                `<svg :id="this.chartData.selector" x="5" y="5" :height="this.height + 10" :width="this.width + 10"> </svg>`
+                `<svg :id="this.chartData.selector" x="5" y="5" :height="this.height + 20" :width="this.width + 20"> </svg>`
         })
     }
 }

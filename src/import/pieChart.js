@@ -49,7 +49,7 @@ var drawChart = function () {
     .on('mouseout', d => {
       this.removeTooltip(d);
     })
-    .attr('transform', 'translate(0,' + this.titleHeight + ')');
+    .attr('transform', 'translate(0,' + this.header + ')');
 
 
 
