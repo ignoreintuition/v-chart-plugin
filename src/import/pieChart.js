@@ -10,9 +10,7 @@ var drawChart = function () {
   let svgContainer = d3.select("#" + this.chartData.selector),
     cs = {
       radius: null,
-      ordinalColors: ['#4D4D4D', '#5DA5DA', '#FAA43A', '#60BD68', '#F17CB0',
-        '#B2912F', '#B276B2', '#DECF3F', '#F15854'
-      ]
+      ordinalColors: ['#d1f4fa', '#005792', '#ffe6eb', '#ffcdcd']
     };
 
   cs.radius = this.height > this.width ? (this.width - this.width * 0.1) / 2 : (this.height - this.height * 0.1) / 2;

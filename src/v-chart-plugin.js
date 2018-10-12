@@ -2,11 +2,12 @@ var d3 = Object.assign({},
     require("d3-selection")
 );
 
-import barChart from './import/barChart'
-import vBarChart from './import/vBarChart'
-import lineGraph from './import/lineGraph'
-import scatterPlot from './import/scatterPlot'
-import pieChart from './import/pieChart'
+import barChart     from './import/barChart'
+import vBarChart    from './import/vBarChart'
+import lineGraph    from './import/lineGraph'
+import scatterPlot  from './import/scatterPlot'
+import pieChart     from './import/pieChart'
+import areaChart    from './import/areaChart'
 
 const Chart = {
     install(Vue, options) {
@@ -67,11 +68,12 @@ const Chart = {
                     d3.select("#" + this.chartData.selector)
                         .selectAll(".tt").remove();
                 },
-                barChart: barChart,
-                vBarChart: vBarChart,
-                lineGraph: lineGraph,
-                scatterPlot, scatterPlot,
-                pieChart: pieChart
+                barChart: barChart || {},
+                vBarChart: vBarChart || {},
+                lineGraph: lineGraph || {},
+                scatterPlot: scatterPlot || {},
+                pieChart: pieChart || {},
+                areaChart: areaChart || {},
             },
             computed: {
                 ds: function () {

@@ -9,6 +9,11 @@ var drawChart = function () {
     let svgContainer = d3.select("#" + this.chartData.selector),
         ds = this.ds,
         cs = {
+            pallette: {
+                lineFill: "#ffcdcd",
+                pointFill: "#005792",
+                pointStroke: "#d1f4fa"
+            },
             x: {
                 domain: [],
                 range: [],
@@ -37,7 +42,7 @@ var drawChart = function () {
     svgContainer.append('path')
         .datum(ds)
         .attr('fill', 'none')
-        .attr('stroke', '#ffab00')
+        .attr('stroke', cs.pallette.lineFill)
         .attr('stroke-width', 3)
         .attr('d', cs.lineFunction)
         .attr('transform', 'translate(0,0)');
@@ -45,11 +50,12 @@ var drawChart = function () {
     svgContainer.selectAll("g")
         .data(ds)
         .enter().append("g")
+        .attr('fill', cs.pallette.fill)
+        .attr('stroke', cs.pallette.stroke)
         .append("circle")
-        .attr("class", this.selector)
         .attr("cx", (d, i) => cs.x.scale(d["dim"]) + cs.y.axisWidth + 5)
         .attr("cy", d => cs.y.scale(d["metric"]))
-        .attr("r", 2)
+        .attr("r", 3)
         .on("mouseover", d => {
             this.addTooltip(d, event);
         })
