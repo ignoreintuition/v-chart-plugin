@@ -7,7 +7,7 @@ var d3 = Object.assign({},
 
 var drawChart = function () {
     let svgContainer = d3.select("#" + this.chartData.selector),
-        ds = this.getData(),
+        ds = this.ds,
         cs = {
             pallette: {
                 stroke: '#d1f4fa',
@@ -23,13 +23,13 @@ var drawChart = function () {
             }
         };
     cs.y.scale = d3.scaleLinear()
-        .domain([0, this.getMax()])
-        .range([this.getHeight() - cs.x.axisHeight, this.getTitleHeight()])
+        .domain([0, this.max])
+        .range([this.height - cs.x.axisHeight, this.titleHeight])
 
     cs.y.axis = d3.axisLeft().ticks(10, "s").scale(cs.y.scale)
 
     ds.forEach(t => cs.x.domain.push(t["dim"]));
-    ds.forEach((t, i) => cs.x.range.push((((this.getWidth() - cs.x.axisWidth) * i)) / ds.length));
+    ds.forEach((t, i) => cs.x.range.push((((this.width - cs.x.axisWidth) * i)) / ds.length));
 
     cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
@@ -39,7 +39,7 @@ var drawChart = function () {
         .y(d => cs.y.scale(d["metric"]))
 
     cs.x.xOffset = cs.y.axisWidth + 5;
-    cs.x.yOffset = this.getHeight() - cs.x.axisHeight;
+    cs.x.yOffset = this.height - cs.x.axisHeight;
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
     
@@ -51,7 +51,7 @@ var drawChart = function () {
             let poly = d.map(function(d) {
                 return [cs.x.scale(d["dim"]) + cs.y.axisWidth + 5, cs.y.scale(d["metric"])].join(",");
             }).join(" ");
-            poly += (" "+ this.getWidth() +", " + cs.x.yOffset   + " ")
+            poly += (" "+ this.width +", " + cs.x.yOffset   + " ")
             poly += (" " + cs.x.axisHeight + ", " + cs.x.yOffset   + " " )
             return poly;
         })

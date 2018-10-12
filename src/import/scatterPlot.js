@@ -6,24 +6,25 @@ var d3 = Object.assign({},
 
 var drawChart = function () {
     let svgContainer = d3.select("#" + this.chartData.selector),
-        ds = this.getData(),
+        ds = this.ds,
         cs = {
             x: {
                 domain: [],
                 range: [],
-                axisHeight: 45
+                axisHeight: 20
             }, y: {
-                axisWidth: 45
+                axisWidth: 30,
+                ticks: 5
             }
         };
     cs.y.scale = d3.scaleLinear()
-        .domain([this.getMin(), this.getMax()])
-        .range([this.getHeight() - cs.x.axisHeight, this.getTitleHeight()])
+        .domain([this.min, this.max])
+        .range([this.height - cs.x.axisHeight, this.header])
 
-    cs.y.axis = d3.axisLeft().ticks(10, "s").scale(cs.y.scale)
+    cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, "s").scale(cs.y.scale)
 
     ds.forEach(t => cs.x.domain.push(t["dim"]));
-    ds.forEach((t, i) => cs.x.range.push(((this.getWidth() * i) - this.getTitleHeight()) / ds.length));
+    ds.forEach((t, i) => cs.x.range.push(((this.width * i) - this.header) / ds.length));
 
     cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
@@ -44,7 +45,7 @@ var drawChart = function () {
     });
     
     cs.x.xOffset = cs.y.axisWidth + 5;
-    cs.x.yOffset = this.getHeight() - cs.x.axisHeight;
+    cs.x.yOffset = this.height - cs.x.axisHeight;
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
 

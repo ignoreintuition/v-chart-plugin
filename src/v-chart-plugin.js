@@ -34,12 +34,19 @@ const Chart = {
                 drawTitle: function () {
                     d3.select("#" + this.chartData.selector)
                         .append("text")
-                        .attr("x", this.getWidth() / 2)
-                        .attr("y", this.getTitleHeight() - this.getTitleHeight() * .1)
+                        .attr("x", this.width / 2)
+                        .attr("y", this.titleHeight - this.titleHeight * .1)
                         .style("text-anchor", "middle")
                         .text(this.chartData.title)
+                    
+                    d3.select("#" + this.chartData.selector)
+                        .append("text")
+                        .attr("x", this.width / 2)
+                        .attr("y", this.titleHeight - this.titleHeight * .1 + this.subtitleHeight )
+                        .style("text-anchor", "middle")
+                        .text(this.chartData.subtitle)
                 },
-                addTooltip: function(d, e) {
+                addTooltip: function (d, e) {
                     d3.select("#" + this.chartData.selector)
                         .append("rect")
                         .attr("x", e.layerX - 5 - 50)
@@ -56,19 +63,20 @@ const Chart = {
                         .attr("class", "tt")
                         .attr("font-size", "10px")
                         .text(d['dim'] + ':' + d['metric']);
-                    console.log(d);
                 },
-                removeTooltip: function(d) {
+                removeTooltip: function (d) {
                     d3.select("#" + this.chartData.selector)
-                    .selectAll(".tt").remove();
+                        .selectAll(".tt").remove();
                 },
-                getHeight: function () {
-                    return this.chartData.height || 200;
-                },
-                getWidth: function () {
-                    return this.chartData.width || 200;
-                },
-                getData: function () {
+                barChart: barChart || {},
+                vBarChart: vBarChart || {},
+                lineGraph: lineGraph || {},
+                scatterPlot: scatterPlot || {},
+                pieChart: pieChart || {},
+                areaChart: areaChart || {},
+            },
+            computed: {
+                ds: function () {
                     return this.chartData.data.map(d => {
                         let td = {};
                         td.metric = this.chartData.metric ? d[this.chartData.metric] : d;
@@ -76,29 +84,40 @@ const Chart = {
                         return td;
                     });
                 },
-                getMax: function () {
+                height: function () {
+                    return this.chartData.height || 200;
+                },
+                width: function () {
+                    return this.chartData.width || 200;
+                },
+                max: function () {
                     let max = 0;
-                    this.getData().forEach(function (e) {
+                    this.ds.forEach(function (e) {
                         max = max > e.metric ? max : e.metric;
                     })
                     return max;
                 },
-                getMin: function () {
-                    return Math.min.apply(Math, this.getData().map(function(o) {
+                min: function () {
+                    return Math.min.apply(Math, this.ds.map(function (o) {
                         return o['metric'];
-                      }));
+                    }));
                 },
-                getTitleHeight: function () {
-                    return this.chartData.textHeight || 25;
+                titleHeight: function () {
+                    if (this.chartData.title)
+                        return this.chartData.textHeight || 25;
+                    return 0;
                 },
-                barChart: barChart || {},
-                vBarChart: vBarChart || {},
-                lineGraph: lineGraph || {},
-                scatterPlot: scatterPlot || {},
-                pieChart: pieChart || {},
-                areaChart: areaChart || {}
+                subtitleHeight: function () {
+                    if (this.chartData.subtitle)
+                        return this.chartData.textHeight * .66 || 25 * .66;
+                    return 0;
+                },
+                header: function () {
+                    return (this.titleHeight + this.subtitleHeight);
+                }
+
             },
-            mounted: function () { 
+            mounted: function () {
                 this.initalizeChart();
             },
             watch: {
@@ -110,7 +129,7 @@ const Chart = {
                 }
             },
             template:
-                `<svg :id="this.chartData.selector" x="5" y="5" :height="this.getHeight() + 10" :width="this.getWidth() + 10"> </svg>`
+                `<svg :id="this.chartData.selector" x="5" y="5" :height="this.height + 20" :width="this.width + 20"> </svg>`
         })
     }
 }
