@@ -8,7 +8,7 @@
     </div>
 
     <div class="row">
-      <div class="form-group col-4">
+      <div class="form-group col-12 col-md-4">
         <div v-for="(t, index) in sales">
           <label> {{sales[index].month}} 
             <input v-model.number="sales[index].total" type="number" >
@@ -20,21 +20,22 @@
           <div class="col-12">
             <v-chart v-bind:chartData="lineGraphData"></v-chart>
           </div>
-          <div class="col-6">
+          <div class="col-12 col-md-6">
             <v-chart v-bind:chartData="areaChartData"></v-chart>
           </div>
-          <div class="col-6">
+          <div class="col-12 col-md-6">
             <v-chart v-bind:chartData="barChartData"></v-chart>
           </div>
-          <div class="col-6">
+          <div class="col-12 col-md-6">
             <v-chart v-bind:chartData="vBarChartData"></v-chart>
           </div>
-          <div class="col-6">
+          <div class="col-12 col-md-6">
             <v-chart v-bind:chartData="pieChartData"></v-chart>
           </div>
         </div>  
       </div>
     </div>
+    <a href="https://github.com/ignoreintuition/v-chart-plugin"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
   </div>
 </template>
 
