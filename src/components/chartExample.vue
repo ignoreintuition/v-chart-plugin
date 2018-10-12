@@ -17,14 +17,15 @@
       </div>
       <div class="col">
         <div class="row">
-          <div class="col-6">
+          <div class="col-12">
             <v-chart v-bind:chartData="lineGraphData"></v-chart>
+          </div>
+          <div class="col-6">
+            <v-chart v-bind:chartData="areaChartData"></v-chart>
           </div>
           <div class="col-6">
             <v-chart v-bind:chartData="barChartData"></v-chart>
           </div>
-        </div>
-        <div class="row">
           <div class="col-6">
             <v-chart v-bind:chartData="vBarChartData"></v-chart>
           </div>
@@ -45,6 +46,16 @@ export default {
   data() {
     return {
       sales: sales,
+      areaChartData: {
+        chartType: "areaChart",
+        selector: "areaChart",
+        title: "Area Chart",
+        width: 300,
+        height: 200,
+        metric: "total",
+        dim: "month",
+        data: sales
+      },
       barChartData: {
         chartType: "barChart",
         selector: "chart",
@@ -56,10 +67,10 @@ export default {
         data: sales
       },
       lineGraphData: {
-        chartType: "scatterPlot",
+        chartType: "lineGraph",
         selector: "lineGraph",
         title: "Line Graph",
-        width: 300,
+        width: 600,
         height: 200,
         metric: "total",
         dim: "month",
@@ -91,16 +102,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-.chart-barChart {
-  fill: blue;
-}
-
-.chart-barChart:hover {
-  fill: #37386b;
-}
-
-.chart-vBarChart {
-  fill: red;
-}
-</style>
+<style> </style>

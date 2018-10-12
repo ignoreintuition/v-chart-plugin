@@ -7,6 +7,7 @@ import vBarChart    from './import/vBarChart'
 import lineGraph    from './import/lineGraph'
 import scatterPlot  from './import/scatterPlot'
 import pieChart     from './import/pieChart'
+import areaChart    from './import/areaChart'
 
 const Chart = {
     install(Vue, options) {
@@ -90,11 +91,12 @@ const Chart = {
                 getTitleHeight: function () {
                     return this.chartData.textHeight || 25;
                 },
-                barChart: barChart,
-                vBarChart: vBarChart,
-                lineGraph: lineGraph,
-                scatterPlot, scatterPlot,
-                pieChart: pieChart
+                barChart: barChart || {},
+                vBarChart: vBarChart || {},
+                lineGraph: lineGraph || {},
+                scatterPlot: scatterPlot || {},
+                pieChart: pieChart || {},
+                areaChart: areaChart || {}
             },
             mounted: function () { 
                 this.initalizeChart();

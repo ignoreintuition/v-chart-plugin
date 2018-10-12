@@ -73,6 +73,7 @@ Chart types currently supported:
 * lineGraph: A line chart or line graph is a type of chart which displays information as a series of data points called 'markers' connected by straight line segments. 
 * scatterPlot: a graph in which the values of two variables are plotted along two axes, the pattern of the resulting points revealing any correlation present.
 * pieChart: Circle divided into slices to illustrate proportion
+* areaChart: An area chart or area graph displays graphically quantitative data
 
 Lastly you will need to add the component and bind your data
 

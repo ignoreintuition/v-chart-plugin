@@ -8,6 +8,10 @@ var drawChart = function () {
     let ds = this.getData()
     let svgContainer = d3.select("#" + this.chartData.selector),
         cs = {
+            pallette: {
+                fill: "#005792",
+                stroke: "#d1f4fa"
+            },
             bar: {
                 hPadding: 8,
                 vPadding: 5
@@ -32,6 +36,8 @@ var drawChart = function () {
         .data(ds)
         .enter().append("g")
         .append("rect")
+        .attr("fill", cs.pallette.fill)
+        .attr("stroke", cs.pallette.stroke)
         .attr("class", this.selector)
         .attr("width", d => {
             return cs.x.scale(d.metric);

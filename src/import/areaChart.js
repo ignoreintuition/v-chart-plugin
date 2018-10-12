@@ -10,62 +10,53 @@ var drawChart = function () {
         ds = this.getData(),
         cs = {
             pallette: {
-                lineFill: "#ffcdcd",
-                pointFill: "#005792",
-                pointStroke: "#d1f4fa"
+                stroke: '#d1f4fa',
+                fill:  '#005792'
             },
             x: {
                 domain: [],
                 range: [],
-                axisHeight: 45
+                axisHeight: 45,
+                axisWidth: 45
             }, y: {
                 axisWidth: 45
             }
         };
     cs.y.scale = d3.scaleLinear()
-        .domain([this.getMin(), this.getMax()])
+        .domain([0, this.getMax()])
         .range([this.getHeight() - cs.x.axisHeight, this.getTitleHeight()])
 
     cs.y.axis = d3.axisLeft().ticks(10, "s").scale(cs.y.scale)
 
     ds.forEach(t => cs.x.domain.push(t["dim"]));
-    ds.forEach((t, i) => cs.x.range.push(((this.getWidth() * i) - this.getTitleHeight()) / ds.length));
+    ds.forEach((t, i) => cs.x.range.push((((this.getWidth() - cs.x.axisWidth) * i)) / ds.length));
 
     cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
 
-    cs.lineFunction = d3.line()
+    cs.polyFunction = d3.line()
         .x((d, i) => cs.x.scale(d["dim"]) + cs.y.axisWidth + 5)
         .y(d => cs.y.scale(d["metric"]))
 
-    svgContainer.append('path')
-        .datum(ds)
-        .attr('fill', 'none')
-        .attr('stroke', cs.pallette.lineFill)
-        .attr('stroke-width', 3)
-        .attr('d', cs.lineFunction)
-        .attr('transform', 'translate(0,0)');
-    
-    svgContainer.selectAll("g")
-        .data(ds)
-        .enter().append("g")
-        .attr('fill', cs.pallette.fill)
-        .attr('stroke', cs.pallette.stroke)
-        .append("circle")
-        .attr("cx", (d, i) => cs.x.scale(d["dim"]) + cs.y.axisWidth + 5)
-        .attr("cy", d => cs.y.scale(d["metric"]))
-        .attr("r", 3)
-        .on("mouseover", d => {
-            this.addTooltip(d, event);
-        })
-        .on("mouseout", d => {
-            this.removeTooltip(d);
-    });
-    
     cs.x.xOffset = cs.y.axisWidth + 5;
     cs.x.yOffset = this.getHeight() - cs.x.axisHeight;
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
+    
+    svgContainer.selectAll("polygon")
+        .data([ds])
+        .enter()
+        .append('polygon')
+        .attr('points', d => {            
+            let poly = d.map(function(d) {
+                return [cs.x.scale(d["dim"]) + cs.y.axisWidth + 5, cs.y.scale(d["metric"])].join(",");
+            }).join(" ");
+            poly += (" "+ this.getWidth() +", " + cs.x.yOffset   + " ")
+            poly += (" " + cs.x.axisHeight + ", " + cs.x.yOffset   + " " )
+            return poly;
+        })
+        .attr("stroke",cs.pallette.stroke)
+        .attr("fill",cs.pallette.fill)
 
     svgContainer.append("g").attr("transform", "translate(" + cs.x.xOffset + ", " + cs.x.yOffset + ")").call(cs.x.axis);
     svgContainer.append("g").attr("transform", "translate(" + cs.y.xOffset + "," + cs.y.yOffset + ")").call(cs.y.axis);

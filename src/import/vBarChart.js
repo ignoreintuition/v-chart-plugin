@@ -8,6 +8,10 @@ var drawChart = function () {
     let ds = this.getData(),
         svgContainer = d3.select("#" + this.chartData.selector),
         cs = {
+            pallette: {
+                fill: "#005792",
+                stroke: "#d1f4fa"
+            },
             bar: {
                 hPadding: 0,
                 vPadding: 0,
@@ -34,6 +38,8 @@ var drawChart = function () {
         .data(ds)
         .enter().append("g")
         .append("rect")
+        .attr("fill", cs.pallette.fill)
+        .attr("stroke", cs.pallette.stroke)
         .attr("class", this.selector)
         .attr("width", (d, i) => {
             return ((this.getWidth() - cs.x.axisWidth) / this.chartData.data.length - 1);
