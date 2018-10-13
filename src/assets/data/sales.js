@@ -31,13 +31,13 @@ export default [
         "actual": true
     },
     {
-        "month": "June",
+        "month": "Jun",
         "year": 2018,
         "total": 399,
         "actual": true
     },
     {
-        "month": "July",
+        "month": "Jul",
         "year": 2018,
         "total": 601,
         "actual": true
@@ -49,7 +49,7 @@ export default [
         "actual": true
     },
     {
-        "month": "Sept",
+        "month": "Sep",
         "year": 2018,
         "total": 379,
         "actual": true
