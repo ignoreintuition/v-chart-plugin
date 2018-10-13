@@ -2,7 +2,7 @@
 ![logo](https://user-images.githubusercontent.com/5210420/46899802-2d7db800-ce66-11e8-896c-115ce3dcfb98.png)
 > A plugin for adding charts to Vue
 
-## PURPOSE
+## Purpose
 
 This plugin is designed to allow Vue.js developers to incorporate fully reactive and customizable charts into your applications.  The plugin is built off of the D3.js JavaScript library for manipulating documents based on data.  By binding data from your components you can create complex charts and graphs that respond to changes in your application.  Vue.js lifecycle events will trigger the charts to update and maintain two-way binding between your charts and your data.  By adding in a state management (such as Vuex) you can additionally persist state across an entire application.
 
@@ -12,7 +12,7 @@ By adding additional charts into the import folder and importing them into the v
 
 [Demo Page](https://resurgencewebdesign.com/v-chart-plugin-demo/)
 
-## USAGE
+## Usage
 
 These instructions are assuming you are using Vue CLI to create your template.  Include the plugin in your main.js:
 
@@ -91,6 +91,20 @@ If you wish to style the components of the chart you can via the selectors:
 </style>
 ```
 ![screenshot](https://user-images.githubusercontent.com/5210420/46899805-366e8980-ce66-11e8-90a4-ce66ff56f35e.jpg)
+
+
+## Performance Consideration
+
+By default all charts are imported into v-chart-plugin.js.  This allows all charts to share one common interface.  If you are only using a few select charts in your implementation you can remove those unused charts from the import statements in the v-chart-plugin.js.  
+
+```
+import barChart     from './import/barChart' 
+import vBarChart    from './import/vBarChart'
+import lineGraph    from './import/lineGraph'
+import scatterPlot  from './import/scatterPlot'
+import pieChart     from './import/pieChart'
+import areaChart    from './import/areaChart'
+```
 
 ## Build Setup
 
