@@ -1,7 +1,6 @@
 var d3 = Object.assign({},
     require("d3-selection")
 );
-
 import barChart     from './import/barChart'
 import vBarChart    from './import/vBarChart'
 import lineGraph    from './import/lineGraph'
@@ -68,12 +67,12 @@ const Chart = {
                     d3.select("#" + this.chartData.selector)
                         .selectAll(".tt").remove();
                 },
-                barChart: barChart || {},
-                vBarChart: vBarChart || {},
-                lineGraph: lineGraph || {},
-                scatterPlot: scatterPlot || {},
-                pieChart: pieChart || {},
-                areaChart: areaChart || {},
+                ...((typeof barChart !== 'undefined') && {barChart: barChart}),
+                ...((typeof vBarChart !== 'undefined') && {vBarChart: vBarChart}),
+                ...((typeof scatterPlot !== 'undefined') && {scatterPlot: scatterPlot}),
+                ...((typeof pieChart !== 'undefined') && {pieChart: pieChart}),
+                ...((typeof areaChart !== 'undefined') && {areaChart: areaChart}),
+                ...((typeof lineGraph !== 'undefined') && {lineGraph: lineGraph}),
             },
             computed: {
                 ds: function () {
