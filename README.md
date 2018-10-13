@@ -1,5 +1,5 @@
 # V CHART PLUGIN
-![logo](https://user-images.githubusercontent.com/5210420/46261741-e5ee4800-c4c5-11e8-8a31-e6099fa79acd.jpg)
+![logo](https://user-images.githubusercontent.com/5210420/46899802-2d7db800-ce66-11e8-896c-115ce3dcfb98.png)
 > A plugin for adding charts to Vue
 
 ## PURPOSE
@@ -90,7 +90,7 @@ If you wish to style the components of the chart you can via the selectors:
   }
 </style>
 ```
-![screenshot](https://user-images.githubusercontent.com/5210420/46582271-1f690b00-ca12-11e8-92ab-5277ce2d77de.png)
+![screenshot](https://user-images.githubusercontent.com/5210420/46899805-366e8980-ce66-11e8-90a4-ce66ff56f35e.jpg)
 
 ## Build Setup
 
