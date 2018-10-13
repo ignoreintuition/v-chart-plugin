@@ -1,35 +1,34 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-sm">
-        <h1> Vue.js Data Visualization</h1>
-        <p>In which we examine creating a component for Vue in the form of a chart.</p>
+      <div class="col">
+        <img class = "logo" src="../assets/img/logo.png">
       </div>
     </div>
 
     <div class="row">
-      <div class="form-group col-12 col-md-4">
+      <div class="form-group col-6 col-md-4">
         <div v-for="(t, index) in sales">
           <label> {{sales[index].month}} 
             <input v-model.number="sales[index].total" type="number" >
           </label>
         </div>
       </div>
-      <div class="col">
+      <div class="col-6 col-md-8">
         <div class="row">
           <div class="col-12">
             <v-chart v-bind:chartData="lineGraphData"></v-chart>
           </div>
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-lg-6">
             <v-chart v-bind:chartData="areaChartData"></v-chart>
           </div>
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-lg-6">
             <v-chart v-bind:chartData="barChartData"></v-chart>
           </div>
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-lg-6">
             <v-chart v-bind:chartData="vBarChartData"></v-chart>
           </div>
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-lg-6">
             <v-chart v-bind:chartData="pieChartData"></v-chart>
           </div>
         </div>  
@@ -107,4 +106,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style> </style>
+<style> 
+  .logo {
+    width: 200px
+  }
+</style>
