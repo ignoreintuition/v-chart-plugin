@@ -1,10 +1,11 @@
 var d3 = Object.assign({},
     require("d3-selection"),
     require("d3-scale"),
-    require("d3-axis")
+    require("d3-axis"),
+    require('d3-transition')
 );
 
-var drawChart = function () {
+var drawChart = function (mode) {
     let ds = this.ds,
         svgContainer = d3.select("#" + this.chartData.selector),
         cs = {
@@ -34,27 +35,45 @@ var drawChart = function () {
     ds.forEach((t, i) => cs.x.range.push(((this.chartData.width - cs.y.axisWidth + cs.bar.vPadding) * i) / ds.length));
     cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
 
-    svgContainer.selectAll("g")
-        .data(ds)
-        .enter().append("g")
-        .append("rect")
-        .attr("fill", cs.pallette.fill)
-        .attr("stroke", cs.pallette.stroke)
-        .attr("class", this.selector)
-        .attr("width", (d, i) => {
-            return ((this.width - cs.y.axisWidth) / this.chartData.data.length - 1);
-        }).attr("height", (d, i) => {
-            return this.height - cs.y.scale(d.metric);
-        }).attr("x", (d, i) => {
-            return (i * (this.width - cs.y.axisWidth) / this.chartData.data.length ) + cs.y.axisWidth;
-        }).attr("y", (d, i) => {
-            return cs.y.scale(d.metric);
-        }).on("mouseover", d => {
-            this.addTooltip(d, event);
-        })
-        .on("mouseout", d => {
-            this.removeTooltip(d);
-        });
+    if (mode == "init") {
+        svgContainer
+            .selectAll("g")
+            .data(ds)
+            .enter().append("g")
+            .append("rect")
+            .attr("fill", cs.pallette.fill)
+            .attr("stroke", cs.pallette.stroke)
+            .attr("class", this.selector)
+            .attr("width", (d, i) => {
+                return ((this.width - cs.y.axisWidth) / this.chartData.data.length - 1);
+            }).attr("height", (d, i) => {
+                return this.height - cs.y.scale(d.metric);
+            }).attr("x", (d, i) => {
+                return (i * (this.width - cs.y.axisWidth) / this.chartData.data.length ) + cs.y.axisWidth;
+            }).attr("y", (d, i) => {
+                return cs.y.scale(d.metric);
+            }).on("mouseover", d => {
+                this.addTooltip(d, event);
+            }).on("mouseout", d => {
+                this.removeTooltip(d);
+            });
+    }
+
+    if (mode == "refresh"){
+        svgContainer
+            .selectAll("rect")
+            .data(ds)
+            .transition()
+            .attr("width", (d, i) => {
+                return ((this.width - cs.y.axisWidth) / this.chartData.data.length - 1);
+            }).attr("height", (d, i) => {
+                return this.height - cs.y.scale(d.metric);
+            }).attr("x", (d, i) => {
+                return (i * (this.width - cs.y.axisWidth) / this.chartData.data.length ) + cs.y.axisWidth;
+            }).attr("y", (d, i) => {
+                return cs.y.scale(d.metric);
+            });
+    }
 
     cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, "s").scale(cs.y.scale);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);

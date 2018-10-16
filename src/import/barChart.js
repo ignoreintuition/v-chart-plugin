@@ -2,13 +2,12 @@ var d3 = Object.assign({},
     require("d3-selection"),
     require("d3-scale"),
     require("d3-axis"),
-    require("d3-ease")
-    
+    require("d3-ease")  
 );
 
-var drawChart = function () {
-    let ds = this.ds
-    let svgContainer = d3.select("#" + this.chartData.selector),
+var drawChart = function (mode) {
+    let ds = this.ds,        
+        svgContainer = d3.select("#" + this.chartData.selector),
         cs = {
             pallette: {
                 fill: "#005792",

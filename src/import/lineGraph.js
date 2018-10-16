@@ -5,7 +5,7 @@ var d3 = Object.assign({},
     require("d3-shape")
 );
 
-var drawChart = function () {
+var drawChart = function (mode) {
     let svgContainer = d3.select("#" + this.chartData.selector),
         ds = this.ds,
         cs = {

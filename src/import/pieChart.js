@@ -5,7 +5,7 @@ var d3 = Object.assign({},
   require("d3-shape")
 );
 
-var drawChart = function () {
+var drawChart = function (mode) {
   let ds = this.ds
   let svgContainer = d3.select("#" + this.chartData.selector),
     cs = {
@@ -52,7 +52,8 @@ var drawChart = function () {
 
 
   arc.exit().remove();
-  svgContainer.selectAll("g")
+  svgContainer
+    .selectAll("g")
     .data(ds)
     .enter().append("g")
 };
