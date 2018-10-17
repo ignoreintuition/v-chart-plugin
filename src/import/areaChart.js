@@ -58,8 +58,8 @@ var drawChart = function (mode) {
         .attr("stroke",cs.pallette.stroke)
         .attr("fill",cs.pallette.fill)
 
-    svgContainer.append("g").attr("transform", "translate(" + cs.x.xOffset + ", " + cs.x.yOffset + ")").call(cs.x.axis);
-    svgContainer.append("g").attr("transform", "translate(" + cs.y.xOffset + "," + cs.y.yOffset + ")").call(cs.y.axis);
+    svgContainer.append("g").append("g").attr("class", "axis").attr("transform", "translate(" + cs.x.xOffset + ", " + cs.x.yOffset + ")").call(cs.x.axis);
+    svgContainer.append("g").append("g").attr("class", "axis").attr("transform", "translate(" + cs.y.xOffset + "," + cs.y.yOffset + ")").call(cs.y.axis);
 
 };
 

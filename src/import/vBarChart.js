@@ -58,7 +58,6 @@ var drawChart = function (mode) {
                 this.removeTooltip(d);
             });
     }
-
     if (mode == "refresh"){
         svgContainer
             .selectAll("rect")

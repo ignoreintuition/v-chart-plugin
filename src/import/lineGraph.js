@@ -68,8 +68,8 @@ var drawChart = function (mode) {
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
 
-    svgContainer.append("g").attr("transform", "translate(" + cs.x.xOffset + ", " + cs.x.yOffset + ")").call(cs.x.axis);
-    svgContainer.append("g").attr("transform", "translate(" + cs.y.xOffset + "," + cs.y.yOffset + ")").call(cs.y.axis);
+    svgContainer.append("g").append("g").attr("class", "axis").attr("transform", "translate(" + cs.x.xOffset + ", " + cs.x.yOffset + ")").call(cs.x.axis);
+    svgContainer.append("g").append("g").attr("class", "axis").attr("transform", "translate(" + cs.y.xOffset + "," + cs.y.yOffset + ")").call(cs.y.axis);
 
 };
 

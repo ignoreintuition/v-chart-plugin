@@ -68,9 +68,9 @@ export default {
         data: sales
       },
       lineGraphData: {
-        chartType: "lineGraph",
-        selector: "lineGraph",
-        title: "Line Graph",
+        chartType: "scatterPlot",
+        selector: "scatterPlor",
+        title: "Scatter Plot",
         width: 600,
         subtitle: "Sales by month",        
         height: 200,
