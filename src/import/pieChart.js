@@ -1,13 +1,13 @@
 var d3 = Object.assign({},
-  require("d3-selection"),
-  require("d3-scale"),
-  require("d3-axis"),
-  require("d3-shape")
+  require('d3-selection'),
+  require('d3-scale'),
+  require('d3-axis'),
+  require('d3-shape')
 );
 
 var drawChart = function (mode) {
   let ds = this.ds
-  let svgContainer = d3.select("#" + this.chartData.selector),
+  let svgContainer = d3.select('#' + this.chartData.selector),
     cs = {
       radius: null,
       ordinalColors: ['#d1f4fa', '#005792', '#ffe6eb', '#ffcdcd']
@@ -18,7 +18,7 @@ var drawChart = function (mode) {
   var pie = d3.pie()
     .sort(null)
     .value(function (ds) {
-      return ds["metric"];
+      return ds['metric'];
     });
 
   var path = d3.arc()
@@ -31,17 +31,15 @@ var drawChart = function (mode) {
   var color = d3.scaleOrdinal()
     .range(cs.ordinalColors)
 
-  if (mode == "init") {
-    arc.enter()
+  let chart = {};
+
+  if (mode == 'init') {
+    chart = arc.enter()
       .append('g')
       .attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')')
       .append('path')
       .merge(arc)
       .attr('class', 'arc')
-      .attr('d', path)
-      .attr('fill', function (d, i) {
-        return color(i);
-      })
       .on('mouseover', d => {
         this.addTooltip(d.data, event);
       })
@@ -51,13 +49,13 @@ var drawChart = function (mode) {
       .attr('transform', 'translate(0,' + this.header + ')');
   }
 
-  if (mode == "refresh") {
-    arc.transition()
-      .attr('d', path)
-      .attr('fill', function (d, i) {
-        return color(i);
-      })
-  }
+  if (mode == 'refresh')
+    chart = arc.transition()
+
+  chart.attr('d', path)
+    .attr('fill', function (d, i) {
+      return color(i);
+    })
 
   arc.exit().remove();
 

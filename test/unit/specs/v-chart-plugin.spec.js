@@ -7,21 +7,21 @@ describe('Chart', function () {
   const Constructor = Vue.extend(Chart)
   const vm = new Vue({
     template: 
-    '<div id="body">' +
-    '  <div id="formInput">' +
-    '    <div v-for="(t, index) in chartData.data">' +
-    '      <input class="elementList" v-model.number="chartData.data[index]" type="number" >' +
+    '<div id='body'>' +
+    '  <div id='formInput'>' +
+    '    <div v-for='(t, index) in chartData.data'>' +
+    '      <input class='elementList' v-model.number='chartData.data[index]' type='number' >' +
     '    </div>' + 
     '  </div>' + 
-    '  <v-chart v-bind:chartData="chartData"></v-chart>' + 
+    '  <v-chart v-bind:chartData='chartData'></v-chart>' + 
     '</div>'
     ,
     data: { 
       chartData: 
       {
-        chartType: "barChart",
-        selector: "chart",
-        title: "Sales by Month",
+        chartType: 'barChart',
+        selector: 'chart',
+        title: 'Sales by Month',
         width: 300,
         height: 200,
         data: [1,2]
@@ -34,11 +34,11 @@ describe('Chart', function () {
   })
 
   it('renders correct width', function () {
-    expect(vm.$el.getElementsByTagName('svg')[0].width.baseVal.valueAsString).to.equal('310')
+    expect(vm.$el.getElementsByTagName('svg')[0].width.baseVal.valueAsString).to.equal('320')
   })
 
   it('renders correct height', function () {
-    expect(vm.$el.getElementsByTagName('svg')[0].height.baseVal.valueAsString).to.equal('210')
+    expect(vm.$el.getElementsByTagName('svg')[0].height.baseVal.valueAsString).to.equal('220')
   })
 
 })

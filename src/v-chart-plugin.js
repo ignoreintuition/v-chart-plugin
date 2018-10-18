@@ -1,5 +1,5 @@
 var d3 = Object.assign({},
-    require("d3-selection")
+    require('d3-selection')
 );
 import barChart     from './import/barChart'
 import vBarChart    from './import/vBarChart'
@@ -14,7 +14,7 @@ const Chart = {
             props: ['chartData'],
             data: function () {
                 return {
-                    selector: this.chartData.selector + "-" + this.chartData.chartType
+                    selector: this.chartData.selector + '-' + this.chartData.chartType
                 }
             },
             methods: {
@@ -27,47 +27,47 @@ const Chart = {
                     this[this.chartData.chartType]('refresh');
                 },
                 clearAxis: function (){
-                    d3.select("#" + this.chartData.selector).selectAll(".axis").remove();
+                    d3.select('#' + this.chartData.selector).selectAll('.axis').remove();
                 },
                 clearCanvas: function () {
-                    d3.select("#" + this.chartData.selector).selectAll("*").remove();
+                    d3.select('#' + this.chartData.selector).selectAll('*').remove();
                 },
                 drawTitle: function () {
-                    d3.select("#" + this.chartData.selector)
-                        .append("text")
-                        .attr("x", this.width / 2)
-                        .attr("y", this.titleHeight - this.titleHeight * .1)
-                        .style("text-anchor", "middle")
+                    d3.select('#' + this.chartData.selector)
+                        .append('text')
+                        .attr('x', this.width / 2)
+                        .attr('y', this.titleHeight - this.titleHeight * .1)
+                        .style('text-anchor', 'middle')
                         .text(this.chartData.title)
                     
-                    d3.select("#" + this.chartData.selector)
-                        .append("text")
-                        .attr("x", this.width / 2)
-                        .attr("y", this.titleHeight - this.titleHeight * .1 + this.subtitleHeight )
-                        .style("text-anchor", "middle")
+                    d3.select('#' + this.chartData.selector)
+                        .append('text')
+                        .attr('x', this.width / 2)
+                        .attr('y', this.titleHeight - this.titleHeight * .1 + this.subtitleHeight )
+                        .style('text-anchor', 'middle')
                         .text(this.chartData.subtitle)
                 },
                 addTooltip: function (d, e) {
-                    d3.select("#" + this.chartData.selector)
-                        .append("rect")
-                        .attr("x", e.layerX - 5 - 50)
-                        .attr("y", e.layerY - 13 - 25)
-                        .attr("height", "16px")
-                        .attr("width", "80px")
-                        .attr("class", "tt")
-                        .attr("fill", "white");
+                    d3.select('#' + this.chartData.selector)
+                        .append('rect')
+                        .attr('x', e.layerX - 5 - 50)
+                        .attr('y', e.layerY - 13 - 25)
+                        .attr('height', '16px')
+                        .attr('width', '80px')
+                        .attr('class', 'tt')
+                        .attr('fill', 'white');
 
-                    d3.select("#" + this.chartData.selector)
-                        .append("text")
-                        .attr("x", e.layerX - 50)
-                        .attr("y", e.layerY - 25)
-                        .attr("class", "tt")
-                        .attr("font-size", "10px")
+                    d3.select('#' + this.chartData.selector)
+                        .append('text')
+                        .attr('x', e.layerX - 50)
+                        .attr('y', e.layerY - 25)
+                        .attr('class', 'tt')
+                        .attr('font-size', '10px')
                         .text(d['dim'] + ':' + d['metric']);
                 },
                 removeTooltip: function (d) {
-                    d3.select("#" + this.chartData.selector)
-                        .selectAll(".tt").remove();
+                    d3.select('#' + this.chartData.selector)
+                        .selectAll('.tt').remove();
                 },
                 ...((typeof barChart !== 'undefined') && {barChart: barChart}),
                 ...((typeof vBarChart !== 'undefined') && {vBarChart: vBarChart}),
@@ -130,7 +130,7 @@ const Chart = {
                 }
             },
             template:
-                `<svg :id="this.chartData.selector" x="5" y="5" :height="this.height + 20" :width="this.width + 20"> </svg>`
+                `<svg :id='this.chartData.selector' x='5' y='5' :height='this.height + 20' :width='this.width + 20'> </svg>`
         })
     }
 }
