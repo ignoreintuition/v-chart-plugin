@@ -2,20 +2,31 @@
   "name": "v-chart-plugin",
   "version": "0.2.3",
   "description": "This plugin is designed to allow Vue.js developers to incorporate fully reactive and customizable charts into your applications.  Uses D3.js for charting.",
-  "keywords": ["vue", "d3", "graphs", "charts", "data", "data visualization", "vue.js", "d3.js", "plugin"],
+  "keywords": [
+    "vue",
+    "d3",
+    "graphs",
+    "charts",
+    "data",
+    "data visualization",
+    "vue.js",
+    "d3.js",
+    "plugin"
+  ],
   "author": "Brian Greig <ignoreintuition@gmail.com>",
-  "license" : "GPL-3.0",
+  "license": "GPL-3.0",
   "homepage": "https://resurgencewebdesign.com/v-chart/",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/ignoreintuition/v-chart-plugin.git"
+    "type": "git",
+    "url": "https://github.com/ignoreintuition/v-chart-plugin.git"
   },
   "private": false,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "docs": "jsdoc src -r -d docs"
   },
   "dependencies": {
     "d3": "^5.7.0",
@@ -55,6 +66,7 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
     "inject-loader": "^3.0.0",
+    "jsdoc": "^3.5.5",
     "karma": "^1.4.1",
     "karma-coverage": "^1.1.1",
     "karma-mocha": "^1.3.0",
