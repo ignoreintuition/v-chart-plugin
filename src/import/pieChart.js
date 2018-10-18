@@ -30,7 +30,7 @@ var drawChart = function (mode) {
 
   var color = d3.scaleOrdinal()
     .range(cs.ordinalColors)
-  
+
   if (mode == "init") {
     arc.enter()
       .append('g')
@@ -41,7 +41,7 @@ var drawChart = function (mode) {
       .attr('d', path)
       .attr('fill', function (d, i) {
         return color(i);
-      })            
+      })
       .on('mouseover', d => {
         this.addTooltip(d.data, event);
       })
@@ -53,11 +53,11 @@ var drawChart = function (mode) {
 
   if (mode == "refresh") {
     arc.transition()
-    .attr('d', path)
-    .attr('fill', function (d, i) {
-      return color(i);
-    })            
-}
+      .attr('d', path)
+      .attr('fill', function (d, i) {
+        return color(i);
+      })
+  }
 
   arc.exit().remove();
 

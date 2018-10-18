@@ -29,7 +29,7 @@ var drawChart = function (mode) {
 
     cs.y.scale = d3.scaleLinear()
         .domain([0, this.max])
-        .range([this.height,this.header]);
+        .range([this.height, this.header]);
 
     ds.forEach((t) => cs.x.domain.push(t['dim']));
     ds.forEach((t, i) => cs.x.range.push(((this.chartData.width - cs.y.axisWidth + cs.bar.vPadding) * i) / ds.length));
@@ -49,7 +49,7 @@ var drawChart = function (mode) {
             }).attr("height", (d, i) => {
                 return this.height - cs.y.scale(d.metric);
             }).attr("x", (d, i) => {
-                return (i * (this.width - cs.y.axisWidth) / this.chartData.data.length ) + cs.y.axisWidth;
+                return (i * (this.width - cs.y.axisWidth) / this.chartData.data.length) + cs.y.axisWidth;
             }).attr("y", (d, i) => {
                 return cs.y.scale(d.metric);
             }).on("mouseover", d => {
@@ -58,7 +58,7 @@ var drawChart = function (mode) {
                 this.removeTooltip(d);
             });
     }
-    if (mode == "refresh"){
+    if (mode == "refresh") {
         svgContainer
             .selectAll("rect")
             .data(ds)
@@ -68,7 +68,7 @@ var drawChart = function (mode) {
             }).attr("height", (d, i) => {
                 return this.height - cs.y.scale(d.metric);
             }).attr("x", (d, i) => {
-                return (i * (this.width - cs.y.axisWidth) / this.chartData.data.length ) + cs.y.axisWidth;
+                return (i * (this.width - cs.y.axisWidth) / this.chartData.data.length) + cs.y.axisWidth;
             }).attr("y", (d, i) => {
                 return cs.y.scale(d.metric);
             });

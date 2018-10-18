@@ -43,7 +43,7 @@ var drawChart = function (mode) {
             })
             .on("mouseout", d => {
                 this.removeTooltip(d);
-        });
+            });
     }
 
     if (mode == "refresh") {

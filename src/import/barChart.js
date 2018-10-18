@@ -2,11 +2,11 @@ var d3 = Object.assign({},
     require("d3-selection"),
     require("d3-scale"),
     require("d3-axis"),
-    require("d3-ease")  
+    require("d3-ease")
 );
 
 var drawChart = function (mode) {
-    let ds = this.ds,        
+    let ds = this.ds,
         svgContainer = d3.select("#" + this.chartData.selector),
         cs = {
             pallette: {
@@ -56,18 +56,18 @@ var drawChart = function (mode) {
                 this.removeTooltip(d);
             });
     }
-    if (mode == "refresh"){
+    if (mode == "refresh") {
         svgContainer
-        .selectAll("rect")
-        .data(ds)
-        .transition()
-        .attr("width", d => {
-            return cs.x.scale(d.metric);
-        }).attr("height", (d, i) => {
-            return (this.height - cs.x.axisHeight - this.header - cs.bar.vPadding) / this.chartData.data.length - 1
-        }).attr("y", (d, i) => {
-            return i * (this.height - cs.x.axisHeight - this.header) / this.chartData.data.length + 1 + this.header;
-        }).attr("x", cs.y.axisWidth + cs.bar.hPadding)
+            .selectAll("rect")
+            .data(ds)
+            .transition()
+            .attr("width", d => {
+                return cs.x.scale(d.metric);
+            }).attr("height", (d, i) => {
+                return (this.height - cs.x.axisHeight - this.header - cs.bar.vPadding) / this.chartData.data.length - 1
+            }).attr("y", (d, i) => {
+                return i * (this.height - cs.x.axisHeight - this.header) / this.chartData.data.length + 1 + this.header;
+            }).attr("x", cs.y.axisWidth + cs.bar.hPadding)
     }
     cs.x.axis = d3.axisBottom().ticks(cs.x.ticks, "s").scale(cs.x.scale);
     cs.y.axis = d3.axisLeft().scale(cs.y.scale);
