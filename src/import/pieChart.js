@@ -5,7 +5,7 @@ var d3 = Object.assign({},
   require("d3-shape")
 );
 
-var drawChart = function () {
+var drawChart = function (mode) {
   let ds = this.ds
   let svgContainer = d3.select("#" + this.chartData.selector),
     cs = {
@@ -31,30 +31,36 @@ var drawChart = function () {
   var color = d3.scaleOrdinal()
     .range(cs.ordinalColors)
 
-  arc.enter()
-    .append('g')
-    .attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')')
-    .append('path')
-    .merge(arc)
-    .attr('class', 'arc')
-    .attr('d', path)
-    .attr('fill', function (d, i) {
-      return color(i);
-    })            
-    .on('mouseover', d => {
-      this.addTooltip(d.data, event);
-    })
-    .on('mouseout', d => {
-      this.removeTooltip(d);
-    })
-    .attr('transform', 'translate(0,' + this.header + ')');
+  if (mode == "init") {
+    arc.enter()
+      .append('g')
+      .attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')')
+      .append('path')
+      .merge(arc)
+      .attr('class', 'arc')
+      .attr('d', path)
+      .attr('fill', function (d, i) {
+        return color(i);
+      })
+      .on('mouseover', d => {
+        this.addTooltip(d.data, event);
+      })
+      .on('mouseout', d => {
+        this.removeTooltip(d);
+      })
+      .attr('transform', 'translate(0,' + this.header + ')');
+  }
 
-
+  if (mode == "refresh") {
+    arc.transition()
+      .attr('d', path)
+      .attr('fill', function (d, i) {
+        return color(i);
+      })
+  }
 
   arc.exit().remove();
-  svgContainer.selectAll("g")
-    .data(ds)
-    .enter().append("g")
+
 };
 
 export default drawChart;

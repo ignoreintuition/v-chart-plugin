@@ -5,7 +5,7 @@ var d3 = Object.assign({},
     require("d3-shape")
 );
 
-var drawChart = function () {
+var drawChart = function (mode) {
     let svgContainer = d3.select("#" + this.chartData.selector),
         ds = this.ds,
         cs = {
@@ -39,37 +39,55 @@ var drawChart = function () {
         .x((d, i) => cs.x.scale(d["dim"]) + cs.y.axisWidth + 5)
         .y(d => cs.y.scale(d["metric"]))
 
-    svgContainer.append('path')
-        .datum(ds)
-        .attr('fill', 'none')
-        .attr('stroke', cs.pallette.lineFill)
-        .attr('stroke-width', 3)
-        .attr('d', cs.lineFunction)
-        .attr('transform', 'translate(0,0)');
-    
-    svgContainer.selectAll("g")
-        .data(ds)
-        .enter().append("g")
-        .attr('fill', cs.pallette.fill)
-        .attr('stroke', cs.pallette.stroke)
-        .append("circle")
-        .attr("cx", (d, i) => cs.x.scale(d["dim"]) + cs.y.axisWidth + 5)
-        .attr("cy", d => cs.y.scale(d["metric"]))
-        .attr("r", 3)
-        .on("mouseover", d => {
-            this.addTooltip(d, event);
-        })
-        .on("mouseout", d => {
-            this.removeTooltip(d);
-    });
-    
+    if (mode == "init") {
+        svgContainer.append('path')
+            .datum(ds)
+            .attr('fill', 'none')
+            .attr('stroke', cs.pallette.lineFill)
+            .attr('stroke-width', 3)
+            .attr('d', cs.lineFunction)
+            .attr('transform', 'translate(0,0)');
+
+        svgContainer.selectAll("g")
+            .data(ds)
+            .enter().append("g")
+            .attr('fill', cs.pallette.fill)
+            .attr('stroke', cs.pallette.stroke)
+            .append("circle")
+            .attr("cx", (d, i) => cs.x.scale(d["dim"]) + cs.y.axisWidth + 5)
+            .attr("cy", d => cs.y.scale(d["metric"]))
+            .attr("r", 3)
+            .on("mouseover", d => {
+                this.addTooltip(d, event);
+            })
+            .on("mouseout", d => {
+                this.removeTooltip(d);
+            });
+    }
+
+    if (mode == "refresh") {
+        svgContainer
+            .selectAll('path')
+            .datum(ds)
+            .transition()
+            .attr('d', cs.lineFunction)
+            .attr('transform', 'translate(0,0)');
+
+        svgContainer
+            .selectAll('circle')
+            .data(ds)
+            .transition()
+            .attr("cx", (d, i) => cs.x.scale(d["dim"]) + cs.y.axisWidth + 5)
+            .attr("cy", d => cs.y.scale(d["metric"]));
+    }
+
     cs.x.xOffset = cs.y.axisWidth + 5;
     cs.x.yOffset = this.height - cs.x.axisHeight;
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
 
-    svgContainer.append("g").attr("transform", "translate(" + cs.x.xOffset + ", " + cs.x.yOffset + ")").call(cs.x.axis);
-    svgContainer.append("g").attr("transform", "translate(" + cs.y.xOffset + "," + cs.y.yOffset + ")").call(cs.y.axis);
+    svgContainer.append("g").append("g").attr("class", "axis").attr("transform", "translate(" + cs.x.xOffset + ", " + cs.x.yOffset + ")").call(cs.x.axis);
+    svgContainer.append("g").append("g").attr("class", "axis").attr("transform", "translate(" + cs.y.xOffset + "," + cs.y.yOffset + ")").call(cs.y.axis);
 
 };
 

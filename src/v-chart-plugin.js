@@ -20,12 +20,14 @@ const Chart = {
             methods: {
                 initalizeChart: function () {
                     this.drawTitle();
-                    this[this.chartData.chartType]();
+                    this[this.chartData.chartType]('init');
                 },
                 refreshChart: function () {
-                    this.clearCanvas();
-                    this.drawTitle();
-                    this[this.chartData.chartType]();
+                    this.clearAxis();
+                    this[this.chartData.chartType]('refresh');
+                },
+                clearAxis: function (){
+                    d3.select("#" + this.chartData.selector).selectAll(".axis").remove();
                 },
                 clearCanvas: function () {
                     d3.select("#" + this.chartData.selector).selectAll("*").remove();
