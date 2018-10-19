@@ -4,8 +4,14 @@ var d3 = Object.assign({},
   require('d3-axis'),
   require('d3-shape')
 );
+/**
+ * Builds an Pie Chart.
+ * @constructor
+ * @param {String} mode (init / refresh)
+ * @exports pieChart
+ */
 
-var drawChart = function (mode) {
+var pieChart = function (mode) {
   let ds = this.ds
   let svgContainer = d3.select('#' + this.chartData.selector),
     cs = {
@@ -61,4 +67,4 @@ var drawChart = function (mode) {
 
 };
 
-export default drawChart;
+export default pieChart;

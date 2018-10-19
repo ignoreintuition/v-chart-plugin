@@ -26,7 +26,7 @@
     "start": "npm run dev",
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "build": "node build/build.js",
-    "docs": "jsdoc src -r -d docs"
+    "docs": "jsdoc src -r -d docs README.md"
   },
   "dependencies": {
     "d3": "^5.7.0",
