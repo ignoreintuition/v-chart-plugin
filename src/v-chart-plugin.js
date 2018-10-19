@@ -8,7 +8,10 @@ import scatterPlot  from './import/scatterPlot'
 import pieChart     from './import/pieChart'
 import areaChart    from './import/areaChart'
 
-/** This is the chart plugin */
+/** @name v-chart-plugin-module 
+ * @description This plugin is designed to allow Vue.js developers to incorporate fully reactive and customizable charts into your applications. The plugin is built off of the D3.js JavaScript library for manipulating documents based on data. By binding data from your components you can create complex charts and graphs that respond to changes in your application. Vue.js lifecycle events will trigger the charts to update and maintain two-way binding between your charts and your data. By adding in a state management (such as Vuex) you can additionally persist state across an entire application.
+ * @exports Chart
+*/
 const Chart = {
     install(Vue, options) {
         Vue.component('v-chart', {
@@ -19,20 +22,40 @@ const Chart = {
                 }
             },
             methods: {
+                /**
+                 * @method initalizeChart
+                 * @description Generate a new Chart of type chartType
+                 */
                 initalizeChart: function () {
                     this.drawTitle();
                     this[this.chartData.chartType]('init');
                 },
+                /**
+                 * @method refreshChart
+                 * @description Redraw the Chart when the data is recycled
+                 */
                 refreshChart: function () {
                     this.clearAxis();
                     this[this.chartData.chartType]('refresh');
                 },
+                /**
+                 * @method clearAxis
+                 * @description Remove x and y axis
+                 */
                 clearAxis: function (){
                     d3.select('#' + this.chartData.selector).selectAll('.axis').remove();
                 },
+                /**
+                 * @method clearCanvas
+                 * @description Remove all content from the SVG
+                 */
                 clearCanvas: function () {
                     d3.select('#' + this.chartData.selector).selectAll('*').remove();
                 },
+                /**
+                 * @method drawTitle
+                 * @description Appends the title and subtitle to the chart
+                 */
                 drawTitle: function () {
                     d3.select('#' + this.chartData.selector)
                         .append('text')
@@ -48,6 +71,12 @@ const Chart = {
                         .style('text-anchor', 'middle')
                         .text(this.chartData.subtitle)
                 },
+                /**
+                 * @method addTooltip
+                 * @param {Object} d dataset  
+                 * @param {Object} e event x and y coordinates
+                 * @description Adds a tooltip to the SVG
+                 */
                 addTooltip: function (d, e) {
                     d3.select('#' + this.chartData.selector)
                         .append('rect')
@@ -66,18 +95,52 @@ const Chart = {
                         .attr('font-size', '10px')
                         .text(d['dim'] + ':' + d['metric']);
                 },
+                /**
+                 * @method removeTooltip
+                 * @param {Object} d dataset  
+                 * @description Removes all tooltips from the SVG
+                 */
                 removeTooltip: function (d) {
                     d3.select('#' + this.chartData.selector)
                         .selectAll('.tt').remove();
                 },
+                /**
+                 * @method barChart
+                 * @description Bar chart directive
+                 */
                 ...((typeof barChart !== 'undefined') && {barChart: barChart}),
+                /**
+                 * @method vBarChard
+                 * @description Verticle Bar chart directive
+                 */
                 ...((typeof vBarChart !== 'undefined') && {vBarChart: vBarChart}),
+                /**
+                 * @method scatterPlot
+                 * @description Scatter Plot directive
+                 */
                 ...((typeof scatterPlot !== 'undefined') && {scatterPlot: scatterPlot}),
+                /**
+                 * @method pieChart
+                 * @description Pie chart directive
+                 */
                 ...((typeof pieChart !== 'undefined') && {pieChart: pieChart}),
+                /**
+                 * @method areaChart
+                 * @description Area chart directive
+                 */
                 ...((typeof areaChart !== 'undefined') && {areaChart: areaChart}),
+                /**
+                 * @method lineGraph
+                 * @description Line Graph directive
+                 */
                 ...((typeof lineGraph !== 'undefined') && {lineGraph: lineGraph}),
             },
             computed: {
+                /**
+                 * @method ds
+                 * @description Computed.  
+                 * @returns {Object} normalized dataset
+                 */                
                 ds: function () {
                     return this.chartData.data.map(d => {
                         let td = {};
@@ -86,12 +149,27 @@ const Chart = {
                         return td;
                     });
                 },
+                /**
+                 * @method height
+                 * @description Computed.  
+                 * @returns {number} Chart Height
+                 */
                 height: function () {
                     return this.chartData.height || 200;
                 },
+                /**
+                 * @method width
+                 * @description Computed.  
+                 * @returns {number} Chart width
+                 */
                 width: function () {
                     return this.chartData.width || 200;
                 },
+                /**
+                 * @method max
+                 * @description Computed.  
+                 * @returns {number} Max value for metric
+                 */
                 max: function () {
                     let max = 0;
                     this.ds.forEach(function (e) {
@@ -99,21 +177,41 @@ const Chart = {
                     })
                     return max;
                 },
+                /**
+                 * @method min
+                 * @description Computed.  
+                 * @returns {number} Min value for metric
+                 */
                 min: function () {
                     return Math.min.apply(Math, this.ds.map(function (o) {
                         return o['metric'];
                     }));
                 },
+                /**
+                 * @method titleHeight
+                 * @description Computed.  
+                 * @returns {number} Height of the chart title
+                 */
                 titleHeight: function () {
                     if (this.chartData.title)
                         return this.chartData.textHeight || 25;
                     return 0;
                 },
+                /**
+                 * @method subtitleHeight
+                 * @description Computed.  
+                 * @returns {number} Height of chart subtitle
+                 */
                 subtitleHeight: function () {
                     if (this.chartData.subtitle)
                         return this.chartData.textHeight * .66 || 25 * .66;
                     return 0;
                 },
+                /**
+                 * @method header
+                 * @description Computed.  
+                 * @returns {number} Total header height
+                 */
                 header: function () {
                     return (this.titleHeight + this.subtitleHeight);
                 }
