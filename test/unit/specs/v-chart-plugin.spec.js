@@ -7,14 +7,14 @@ describe('Chart', function () {
   const Constructor = Vue.extend(Chart)
   const vm = new Vue({
     template: 
-    '<div id='body'>' +
-    '  <div id='formInput'>' +
-    '    <div v-for='(t, index) in chartData.data'>' +
-    '      <input class='elementList' v-model.number='chartData.data[index]' type='number' >' +
-    '    </div>' + 
-    '  </div>' + 
-    '  <v-chart v-bind:chartData='chartData'></v-chart>' + 
-    '</div>'
+    "<div id='body'>" +
+    "  <div id='formInput'>" +
+    "    <div v-for='(t, index) in chartData.data'>" +
+    "      <input class='elementList' v-model.number='chartData.data[index]' type='number' >" +
+    "    </div>" + 
+    "  </div>" + 
+    "  <v-chart v-bind:chartData='chartData'></v-chart>" + 
+    "</div>"
     ,
     data: { 
       chartData: 
@@ -39,6 +39,11 @@ describe('Chart', function () {
 
   it('renders correct height', function () {
     expect(vm.$el.getElementsByTagName('svg')[0].height.baseVal.valueAsString).to.equal('220')
+  })
+
+  it('Handles non-numeric values', function () {
+    vm.data.chartData.data.push('non-numeric-data')
+    expect(vm.$el.getElementsByTagName('svg')[0].id).to.equal('chart')
   })
 
 })
