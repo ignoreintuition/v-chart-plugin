@@ -45,15 +45,13 @@ var lineGraph = function (mode) {
         .x((d, i) => cs.x.scale(d['dim']) + cs.y.axisWidth + 5)
         .y(d => cs.y.scale(d['metric']))
 
-
         svgContainer.append('path')
             .datum(ds)
             .attr('fill', 'none')
             .attr('stroke', cs.pallette.lineFill)
             .attr('stroke-width', 3)
             .attr('d', cs.lineFunction)
-        .attr('transform', 'translate(0,0)');
-
+            .attr('transform', 'translate(0,0)');
 
         svgContainer.selectAll('g')
             .data(ds)
@@ -71,7 +69,6 @@ var lineGraph = function (mode) {
             .attr('cx', (d, i) => cs.x.scale(d['dim']) + cs.y.axisWidth + 5)
             .attr('cy', d => cs.y.scale(d['metric']))
     
-
         svgContainer
             .selectAll('path')
             .datum(ds)
@@ -79,16 +76,12 @@ var lineGraph = function (mode) {
             .attr('d', cs.lineFunction)
         .attr('transform', 'translate(0,0)');
 
-
         svgContainer
             .selectAll('circle')
             .data(ds)
             .transition()
             .attr('cx', (d, i) => cs.x.scale(d['dim']) + cs.y.axisWidth + 5)
         .attr('cy', d => cs.y.scale(d['metric']))
-
-
-    
 
     cs.x.xOffset = cs.y.axisWidth + 5;
     cs.x.yOffset = this.height - cs.x.axisHeight;
