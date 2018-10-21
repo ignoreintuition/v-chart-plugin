@@ -31,15 +31,16 @@ var drawChart = function (mode) {
   var color = d3.scaleOrdinal()
     .range(cs.ordinalColors)
 
-  let chart = {};
-
-  if (mode == 'init') {
-    chart = arc.enter()
+  arc.enter()
       .append('g')
       .attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')')
       .append('path')
       .merge(arc)
       .attr('class', 'arc')
+      .attr('d', path)
+      .attr('fill', function (d, i) {
+        return color(i);
+      })
       .on('mouseover', d => {
         this.addTooltip(d.data, event);
       })
@@ -47,18 +48,14 @@ var drawChart = function (mode) {
         this.removeTooltip(d);
       })
       .attr('transform', 'translate(0,' + this.header + ')');
-  }
 
-  if (mode == 'refresh')
-    chart = arc.transition()
-
-  chart.attr('d', path)
+  arc.transition()
+    .attr('d', path)
     .attr('fill', function (d, i) {
       return color(i);
     })
-
+    
   arc.exit().remove();
-
 };
 
 export default drawChart;

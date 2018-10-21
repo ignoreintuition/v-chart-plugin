@@ -34,37 +34,38 @@ var drawChart = function (mode) {
     ds.forEach((t, i) => cs.y.range.push(((this.chartData.height - cs.x.axisHeight - this.header + cs.bar.vPadding) * i) / ds.length));
     cs.y.scale = d3.scaleOrdinal().domain(cs.y.domain).range(cs.y.range);
 
-    let chart = {};
-    if (mode == 'init') {
-        chart = svgContainer.selectAll('g')
-            .data(ds)
-            .enter().append('g')
-            .append('rect')
-            .attr('fill', cs.pallette.fill)
-            .attr('stroke', cs.pallette.stroke)
-            .attr('class', this.selector)
-            .on('mouseover', d => {
-                this.addTooltip(d, event);
-            })
-            .on('mouseout', d => {
-                this.removeTooltip(d);
-            });
-    };
+    let rects = svgContainer.selectAll('rect').data(ds);
+    
+    rects.enter()
+        .append('rect')
+        .attr('fill', cs.pallette.fill)
+        .attr('stroke', cs.pallette.stroke)
+        .attr('class', this.selector)
+        .attr('width', d => {
+            return cs.x.scale(d.metric);
+        }).attr('height', (d, i) => {
+            return (this.height - cs.x.axisHeight - this.header - cs.bar.vPadding) / ds.length - 1
+        }).attr('y', (d, i) => {
+            return i * (this.height - cs.x.axisHeight - this.header) / ds.length + 1 + this.header;
+        }).attr('x', cs.y.axisWidth + cs.bar.hPadding)
+        .on('mouseover', d => {
+            this.addTooltip(d, event);
+        })
+        .on('mouseout', d => {
+            this.removeTooltip(d);
+        });            
 
-    if (mode == 'refresh') {
-        chart = svgContainer
-            .selectAll('rect')
-            .data(ds)
-            .transition()
-    };
-
-    chart.attr('width', d => {
-        return cs.x.scale(d.metric);
-    }).attr('height', (d, i) => {
-        return (this.height - cs.x.axisHeight - this.header - cs.bar.vPadding) / this.chartData.data.length - 1
-    }).attr('y', (d, i) => {
-        return i * (this.height - cs.x.axisHeight - this.header) / this.chartData.data.length + 1 + this.header;
-    }).attr('x', cs.y.axisWidth + cs.bar.hPadding)
+    rects.transition()
+        .attr('width', d => {
+            return cs.x.scale(d.metric);
+        }).attr('height', (d, i) => {
+            return (this.height - cs.x.axisHeight - this.header - cs.bar.vPadding) / ds.length - 1
+        }).attr('y', (d, i) => {
+            return i * (this.height - cs.x.axisHeight - this.header) / ds.length + 1 + this.header;
+        }).attr('x', cs.y.axisWidth + cs.bar.hPadding)
+    
+    
+    rects.exit().remove();
 
     cs.x.axis = d3.axisBottom().ticks(cs.x.ticks, 's').scale(cs.x.scale);
     cs.y.axis = d3.axisLeft().scale(cs.y.scale);

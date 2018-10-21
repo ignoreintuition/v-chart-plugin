@@ -43,23 +43,24 @@ var drawChart = function (mode) {
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
 
-    let chart = {};
-    if (mode == 'init') {
-        chart = svgContainer.selectAll('polygon')
+    let poly = svgContainer.selectAll('polygon')
             .data([ds])
-            .enter()
+    
+    poly.enter()
             .append('polygon')
             .attr('stroke', cs.pallette.stroke)
             .attr('fill', cs.pallette.fill)
-    };
+            .attr('points', d => {
+                let poly = d.map(function (d) {
+                    return [cs.x.scale(d['dim']) + cs.y.axisWidth + 5, cs.y.scale(d['metric'])].join(',');
+                }).join(' ');
+                poly += (' ' + this.width + ', ' + cs.x.yOffset + ' ')
+                poly += (' ' + cs.x.axisHeight + ', ' + cs.x.yOffset + ' ')
+                return poly;
+            });
 
-    if (mode == 'refresh') {
-        chart = svgContainer.selectAll('polygon')
-            .data([ds])
-            .transition()
-    };
-
-    chart.attr('points', d => {
+    poly.transition()
+        .attr('points', d => {
         let poly = d.map(function (d) {
             return [cs.x.scale(d['dim']) + cs.y.axisWidth + 5, cs.y.scale(d['metric'])].join(',');
         }).join(' ');
@@ -67,6 +68,8 @@ var drawChart = function (mode) {
         poly += (' ' + cs.x.axisHeight + ', ' + cs.x.yOffset + ' ')
         return poly;
     });
+
+    poly.exit().remove();
 
     svgContainer.append('g').append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.x.xOffset + ', ' + cs.x.yOffset + ')').call(cs.x.axis);
     svgContainer.append('g').append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.y.xOffset + ',' + cs.y.yOffset + ')').call(cs.y.axis);

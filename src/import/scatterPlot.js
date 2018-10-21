@@ -29,32 +29,26 @@ var drawChart = function (mode) {
     cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
 
-    let chart = {};
-    if (mode == 'init') {
-        chart = svgContainer.selectAll('g')
-            .data(ds)
-            .enter().append('g')
-            .append('circle')
-            .attr('class', this.selector)
-            .attr('r', 2)
-            .on('mouseover', d => {
-                this.addTooltip(d, event);
-            })
-            .on('mouseout', d => {
-                this.removeTooltip(d);
-            });
-    };
+    svgContainer.selectAll('g')
+        .data(ds)
+        .enter()
+        .append('circle')
+        .attr('class', this.selector)
+        .attr('r', 2)
+        .on('mouseover', d => {
+            this.addTooltip(d, event);
+        })
+        .on('mouseout', d => {
+            this.removeTooltip(d);
+        }).attr('cx', (d, i) => cs.x.scale(d['dim']) + cs.y.axisWidth + 5)
+        .attr('cy', d => cs.y.scale(d['metric']));
 
-    if (mode == 'refresh') {
-        chart = svgContainer.selectAll('circle')
-            .data(ds)
-            .transition()
-            .attr('cx', (d, i) => cs.x.scale(d['dim']) + cs.y.axisWidth + 5)
-            .attr('cy', d => cs.y.scale(d['metric']));
-
-    };
-
-    chart.attr('cx', (d, i) => cs.x.scale(d['dim']) + cs.y.axisWidth + 5)
+    svgContainer.selectAll('circle')
+        .data(ds)
+        .transition()
+        .attr('cx', (d, i) => cs.x.scale(d['dim']) + cs.y.axisWidth + 5)
+        .attr('cy', d => cs.y.scale(d['metric']))
+        .attr('cx', (d, i) => cs.x.scale(d['dim']) + cs.y.axisWidth + 5)
         .attr('cy', d => cs.y.scale(d['metric']))
 
     cs.x.xOffset = cs.y.axisWidth + 5;

@@ -35,38 +35,40 @@ var drawChart = function (mode) {
     ds.forEach((t, i) => cs.x.range.push(((this.chartData.width - cs.y.axisWidth + cs.bar.vPadding) * i) / ds.length));
     cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
 
-    let chart = {}
-    if (mode == 'init') {
-        chart = svgContainer
-            .selectAll('g')
-            .data(ds)
-            .enter().append('g')
-            .append('rect')
-            .attr('fill', cs.pallette.fill)
-            .attr('stroke', cs.pallette.stroke)
-            .attr('class', this.selector)
-            .on('mouseover', d => {
-                this.addTooltip(d, event);
-            }).on('mouseout', d => {
-                this.removeTooltip(d);
-            });
-    };
-    if (mode == 'refresh') {
-        chart = svgContainer
-            .selectAll('rect')
-            .data(ds)
-            .transition();
-    };
+    let rects = svgContainer.selectAll('rect').data(ds)
+    
+    rects.enter()
+        .append('rect')
+        .attr('fill', cs.pallette.fill)
+        .attr('stroke', cs.pallette.stroke)
+        .attr('class', this.selector)
+        .attr('width', (d, i) => {
+            return ((this.width - cs.y.axisWidth) / this.chartData.data.length - 1);
+        }).attr('height', (d, i) => {
+            return this.height - cs.y.scale(d.metric);
+        }).attr('x', (d, i) => {
+            return (i * (this.width - cs.y.axisWidth) / this.chartData.data.length) + cs.y.axisWidth;
+        }).attr('y', (d, i) => {
+            return cs.y.scale(d.metric);
+        }).on('mouseover', d => {
+            this.addTooltip(d, event);
+        }).on('mouseout', d => {
+            this.removeTooltip(d);
+        });
+    
+    rects.transition()
+        .attr('width', (d, i) => {
+            return ((this.width - cs.y.axisWidth) / this.chartData.data.length - 1);
+        }).attr('height', (d, i) => {
+            return this.height - cs.y.scale(d.metric);
+        }).attr('x', (d, i) => {
+            return (i * (this.width - cs.y.axisWidth) / this.chartData.data.length) + cs.y.axisWidth;
+        }).attr('y', (d, i) => {
+            return cs.y.scale(d.metric);
+        });
 
-    chart.attr('width', (d, i) => {
-        return ((this.width - cs.y.axisWidth) / this.chartData.data.length - 1);
-    }).attr('height', (d, i) => {
-        return this.height - cs.y.scale(d.metric);
-    }).attr('x', (d, i) => {
-        return (i * (this.width - cs.y.axisWidth) / this.chartData.data.length) + cs.y.axisWidth;
-    }).attr('y', (d, i) => {
-        return cs.y.scale(d.metric);
-    })
+    rects.exit().remove();
+            
 
     cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
