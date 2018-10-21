@@ -9,10 +9,10 @@
     <div class='row'>
       <div class='form-group col-6 col-md-4'>
         <div v-for='(t, index) in sales'>
-          <label> {{sales[index].month}} 
+            <input v-model.number='sales[index].month' > 
             <input v-model.number='sales[index].total' type='number' >
-          </label>
         </div>
+        <button v-on:click="newItem">add record</button>
       </div>
       <div class='col-6 col-md-8'>
         <div class='row'>
@@ -43,6 +43,16 @@ import sales from '../assets/data/sales';
 
 export default {
   name: 'barChartExample',
+  methods: {
+    newItem: function(){
+      this.sales.push({
+        "month": null,
+        "year": null,
+        "total": null,
+        "actual": false
+    });
+    }
+  },
   data() {
     return {
       sales: sales,
