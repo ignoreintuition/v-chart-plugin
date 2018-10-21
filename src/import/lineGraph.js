@@ -45,17 +45,17 @@ var lineGraph = function (mode) {
         .x((d, i) => cs.x.scale(d['dim']) + cs.y.axisWidth + 5)
         .y(d => cs.y.scale(d['metric']))
 
-    let chart = {},
-        points = {};
 
-    if (mode == 'init') {
-        chart = svgContainer.append('path')
+        svgContainer.append('path')
             .datum(ds)
             .attr('fill', 'none')
             .attr('stroke', cs.pallette.lineFill)
             .attr('stroke-width', 3)
+            .attr('d', cs.lineFunction)
+        .attr('transform', 'translate(0,0)');
 
-        points = svgContainer.selectAll('g')
+
+        svgContainer.selectAll('g')
             .data(ds)
             .enter().append('g')
             .attr('fill', cs.pallette.fill)
@@ -67,26 +67,28 @@ var lineGraph = function (mode) {
             })
             .on('mouseout', d => {
                 this.removeTooltip(d);
-            });
-    };
+            })
+            .attr('cx', (d, i) => cs.x.scale(d['dim']) + cs.y.axisWidth + 5)
+            .attr('cy', d => cs.y.scale(d['metric']))
+    
 
-    if (mode == 'refresh') {
-        chart = svgContainer
+        svgContainer
             .selectAll('path')
             .datum(ds)
             .transition()
+            .attr('d', cs.lineFunction)
+        .attr('transform', 'translate(0,0)');
 
-        points = svgContainer
+
+        svgContainer
             .selectAll('circle')
             .data(ds)
             .transition()
-    };
-
-    chart.attr('d', cs.lineFunction)
-        .attr('transform', 'translate(0,0)');
-
-    points.attr('cx', (d, i) => cs.x.scale(d['dim']) + cs.y.axisWidth + 5)
+            .attr('cx', (d, i) => cs.x.scale(d['dim']) + cs.y.axisWidth + 5)
         .attr('cy', d => cs.y.scale(d['metric']))
+
+
+    
 
     cs.x.xOffset = cs.y.axisWidth + 5;
     cs.x.yOffset = this.height - cs.x.axisHeight;
