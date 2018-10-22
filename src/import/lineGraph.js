@@ -5,7 +5,7 @@ var d3 = Object.assign({},
     require('d3-shape')
 );
 /**
- * Builds an Line Graph.
+ * Builds a Line Graph.
  * @constructor
  * @param {String} mode (init / refresh)
  * @exports lineGraph
@@ -60,8 +60,7 @@ var lineGraph = function (mode) {
      * @description Runs when a value of an element in dataset is changed
      */
     var _transition = points => {
-        svgContainer
-            .selectAll('path')
+        svgContainer.selectAll('path')
             .datum(ds)
             .transition()
             .attr('d', cs.lineFunction);
@@ -83,6 +82,7 @@ var lineGraph = function (mode) {
         points.exit().remove();
         return points;
     };
+
     /**
      * @method _buildScales
      * @param {Object} cs coordinate system configuraton
