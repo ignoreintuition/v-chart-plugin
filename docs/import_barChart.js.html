@@ -60,109 +60,57 @@ var barChart = function (mode) {
             }
         };
 
-    /**
-     * @method _enter
-     * @param {Object} rect (svg element)
-     * @description Runs when a new element is added to the dataset
-     */
-    var _enter = rects => {
-        rects.enter()
+    cs.x.scale = d3.scaleLinear()
+        .domain([0, this.max])
+        .range([0, this.width - cs.bar.hPadding - cs.y.axisWidth]);
+
+    ds.forEach((t) => cs.y.domain.push(t['dim']));
+    ds.forEach((t, i) => cs.y.range.push(((this.chartData.height - cs.x.axisHeight - this.header + cs.bar.vPadding) * i) / ds.length));
+    cs.y.scale = d3.scaleOrdinal().domain(cs.y.domain).range(cs.y.range);
+
+    let chart = {};
+    if (mode == 'init') {
+        chart = svgContainer.selectAll('g')
+            .data(ds)
+            .enter().append('g')
             .append('rect')
             .attr('fill', cs.pallette.fill)
             .attr('stroke', cs.pallette.stroke)
             .attr('class', this.selector)
-            .attr('width', getWidth)
-            .attr('height', getHeight)
-            .attr('y', getYCoord)
-            .attr('x', cs.y.axisWidth + cs.bar.hPadding)
-            .on('mouseover', mouseOver)
-            .on('mouseout', mouseOut);
-        return rects;
+            .on('mouseover', d => {
+                this.addTooltip(d, event);
+            })
+            .on('mouseout', d => {
+                this.removeTooltip(d);
+            });
     };
-    /**
-     * @method _transition
-     * @param {Object} rect (svg element)
-     * @description Runs when a value of an element in dataset is changed
-     */
-    var _transition = rects => {
-        rects.transition()
-            .attr('width', getWidth)
-            .attr('height', getHeight)
-            .attr('y', getYCoord)
-            .attr('x', cs.y.axisWidth + cs.bar.hPadding)
-        return rects;
+
+    if (mode == 'refresh') {
+        chart = svgContainer
+            .selectAll('rect')
+            .data(ds)
+            .transition()
     };
-    /**
-     * @method _exit
-     * @param {Object} rect (svg element)
-     * @description Runs when an element is removed from the dataset
-     */
-    var _exit = rects => {
-        rects.exit().remove();
-        return rects;
-    };
-    /**
-     * @method _buildScales
-     * @param {Object} cs coordinate system configuraton
-     * @description builds the scales for the x and y axis
-     */
-    var _buildScales = cs => {
-        cs.x.scale = d3.scaleLinear()
-            .domain([0, this.max])
-            .range([0, this.width - cs.bar.hPadding - cs.y.axisWidth]);
-        ds.forEach((t) => cs.y.domain.push(t['dim']));
-        ds.forEach((t, i) => cs.y.range.push(((this.chartData.height - cs.x.axisHeight - this.header + cs.bar.vPadding) * i) / ds.length));
-        cs.y.scale = d3.scaleOrdinal().domain(cs.y.domain).range(cs.y.range);
-        return cs;
-    };
-    /**
-     * @method _drawAxis
-     * @param {Object} cs coordinate system configuraton
-     * @description draws the x and y axis on the svg
-     */
-    var _drawAxis = cs => {
-        cs.x.axis = d3.axisBottom().ticks(cs.x.ticks, 's').scale(cs.x.scale);
-        cs.y.axis = d3.axisLeft().scale(cs.y.scale);
-        cs.x.yOffset = this.height - cs.x.axisHeight;
-        cs.x.xOffset = cs.bar.hPadding + cs.y.axisWidth;
-        cs.y.yOffset = cs.bar.vPadding + this.header - 1;
-        cs.y.xOffset = cs.y.axisWidth;
-        svgContainer.append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.y.xOffset + ', ' + cs.y.yOffset + ')').call(cs.y.axis);
-        svgContainer.append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.x.xOffset + ', ' + cs.x.yOffset + ')').call(cs.x.axis);
-        return cs;
-    };
-    /**
-     * 
-     * Helper Functions 
-     */
-    var getWidth = d => {
+
+    chart.attr('width', d => {
         return cs.x.scale(d.metric);
-    };
+    }).attr('height', (d, i) => {
+        return (this.height - cs.x.axisHeight - this.header - cs.bar.vPadding) / this.chartData.data.length - 1
+    }).attr('y', (d, i) => {
+        return i * (this.height - cs.x.axisHeight - this.header) / this.chartData.data.length + 1 + this.header;
+    }).attr('x', cs.y.axisWidth + cs.bar.hPadding)
 
-    var getHeight = (d, i) => {
-        return (this.height - cs.x.axisHeight - this.header - cs.bar.vPadding) / ds.length - 1
-    };
+    cs.x.axis = d3.axisBottom().ticks(cs.x.ticks, 's').scale(cs.x.scale);
+    cs.y.axis = d3.axisLeft().scale(cs.y.scale);
 
-    var getYCoord = (d, i) => {
-        return i * (this.height - cs.x.axisHeight - this.header) / ds.length + 1 + this.header;
-    };
+    cs.x.yOffset = this.height - cs.x.axisHeight;
+    cs.x.xOffset = cs.bar.hPadding + cs.y.axisWidth;
 
-    var mouseOver = d => {
-        this.addTooltip(d, event);
-    };
+    cs.y.yOffset = cs.bar.vPadding + this.header - 1;
+    cs.y.xOffset = cs.y.axisWidth;
 
-    var mouseOut = d => {
-        this.removeTooltip(d);
-    };
-
-    let rects = svgContainer.selectAll('rect').data(ds);
-
-    _buildScales(cs);
-    _drawAxis(cs);
-    _enter(rects);
-    _transition(rects);
-    _exit(rects);
-
+    svgContainer.append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.y.xOffset + ', ' + cs.y.yOffset + ')').call(cs.y.axis);
+    svgContainer.append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.x.xOffset + ', ' + cs.x.yOffset + ')').call(cs.x.axis);
 };
 
 export default barChart;</code></pre>
@@ -181,7 +129,7 @@ export default barChart;</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Oct 21 2018 23:05:38 GMT-0400 (EDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Oct 18 2018 23:17:13 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>
