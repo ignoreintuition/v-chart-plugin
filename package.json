@@ -26,7 +26,8 @@
     "start": "npm run dev",
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "build": "node build/build.js",
-    "docs": "jsdoc src -r -d docs README.md"
+    "docs": "jsdoc src -r -d docs README.md",
+    "lint": "eslint ."
   },
   "dependencies": {
     "d3": "^5.7.0",
@@ -53,10 +54,12 @@
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.28.0",
     "eslint": "^4.15.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-airbnb-standard": "^2.1.6",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",
-    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^5.2.0",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^3.0.1",
