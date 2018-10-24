@@ -1,0 +1,2 @@
+test/unit/coverage/lcov-report/*.js
+docs/**/*.js

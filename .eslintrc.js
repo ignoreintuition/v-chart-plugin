@@ -42,7 +42,6 @@ module.exports = {
     "no-multiple-empty-lines": 0,
     "no-nested-ternary": 0,
     "no-param-reassign": 0,
-    "no-plusplus": 0,
     "no-prototype-builtins": 0,
     "no-redeclare": 0,
     "no-restricted-globals": 0,
