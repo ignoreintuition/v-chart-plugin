@@ -32,6 +32,7 @@ const lineGraph = function chart() {
 
     /**
      * @method enter
+     * @param {Object} points (svg element) 
      * @description Runs when a new element is added to the dataset
      */
   const enter = (points) => {
@@ -58,6 +59,7 @@ const lineGraph = function chart() {
   };
     /**
      * @method transition
+     * @param {Object} points (svg element) 
      * @description Runs when a value of an element in dataset is changed
      */
   const transition = (points) => {
@@ -76,7 +78,7 @@ const lineGraph = function chart() {
 
     /**
      * @method exit
-     * @param {Object} rect (svg element)
+     * @param {Object} points (svg element)
      * @description Runs when an element is removed from the dataset
      */
   const exit = (points) => {
@@ -86,7 +88,7 @@ const lineGraph = function chart() {
 
     /**
      * @method buildScales
-     * @description builds the scales for the x and y axis
+     * @description builds the scales for the x and y axes
      */
   const buildScales = () => {
     cs.y.scale = d3.scaleLinear()
@@ -99,7 +101,7 @@ const lineGraph = function chart() {
   };
     /**
      * @method drawAxis
-     * @description draws the x and y axis on the svg
+     * @description draws the x and y axes on the svg
      */
   const drawAxis = () => {
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);

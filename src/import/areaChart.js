@@ -28,8 +28,9 @@ const areaChart = function chart() {
     },
   };
   /**
-   *
-   * Helper Functions
+   * @method getPoints
+   * @param {Object} p
+   * @description Returns plot points  
    */
   const getPoints = (p) => {
     let poly = p.map(d => [cs.x.scale(d.dim) + cs.y.axisWidth + 5, cs.y.scale(d.metric)].join(',')).join(' ');
@@ -72,7 +73,7 @@ const areaChart = function chart() {
   };
   /**
    * @method buildScales
-   * @description builds the scales for the x and y axis
+   * @description builds the scales for the x and y axes
    */
   const buildScales = () => {
     cs.y.scale = d3.scaleLinear()
@@ -87,7 +88,7 @@ const areaChart = function chart() {
   };
   /**
    * @method drawAxis
-   * @description draws the x and y axis on the svg
+   * @description draws the x and y axes on the svg
    */
   const drawAxis = () => {
     cs.polyFunction = d3.line()

@@ -20,19 +20,29 @@ const pieChart = function chart() {
   cs.radius = this.height > this.width ? (
     this.width - this.width * 0.1) / 2 : (this.height - this.height * 0.1) / 2;
 
-  /**
-   *
-   * Helper Functions
-   */
   const color = d3.scaleOrdinal()
     .range(cs.ordinalColors);
 
+  /**
+   * @method getColor
+   * @description Returns colors for pie chart
+   */
   const getColor = (d, i) => color(i);
 
+  /**
+     * @method mouseOver
+     * @param {Object} d (svg element)
+     * @description Adds a tooltip on mouse over
+     */
   const mouseOver = (d) => {
     this.addTooltip(d.data, window.event);
   };
 
+  /**
+     * @method mouseOut
+     * @param {Object} d (svg element)
+     * @description Removes tooltip on mouse out
+     */
   const mouseOut = (d) => {
     this.removeTooltip(d);
   };
