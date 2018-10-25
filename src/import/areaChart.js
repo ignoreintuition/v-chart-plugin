@@ -32,9 +32,9 @@ const areaChart = function chart() {
    * Helper Functions
    */
   const getPoints = (p) => {
-    let poly = p.map(d => [cs.x.scale(d.dim) + cs.y.axisWidth + 5, cs.y.scale(d.metric)].join(',')).join(' ');
-    poly += (` ${this.width}, ${cs.x.yOffset} `);
+    let poly = (` ${this.width}, ${cs.x.yOffset} `);
     poly += (` ${cs.x.axisHeight}, ${cs.x.yOffset} `);
+    poly += p.map(d => [cs.x.scale(d.dim) + cs.y.axisWidth + 5, cs.y.scale(d.metric)].join(',')).join(' ');
     return poly;
   };
 
