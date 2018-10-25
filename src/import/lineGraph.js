@@ -11,7 +11,7 @@ const d3 = Object.assign({},
  * @exports lineGraph
  */
 
-const lineGraph = function chart() {
+const lineGraph = function chart(mode) {
   const svgContainer = d3.select(`#${this.chartData.selector}`);
   const cs = {
     pallette: {
@@ -34,13 +34,14 @@ const lineGraph = function chart() {
      * @method enter
      * @description Runs when a new element is added to the dataset
      */
-  const enter = (points) => {
-    svgContainer.append('path')
-      .datum(this.ds)
+  const enter = (points, path) => {
+    if (mode === 'init')
+    path.enter()
+      .append('path')
+      .attr('d', cs.lineFunction(this.ds))
       .attr('fill', 'none')
       .attr('stroke', cs.pallette.lineFill)
-      .attr('stroke-width', 3)
-      .attr('d', cs.lineFunction);
+      .attr('stroke-width', 3);
 
     points.enter()
       .append('circle')
@@ -60,11 +61,9 @@ const lineGraph = function chart() {
      * @method transition
      * @description Runs when a value of an element in dataset is changed
      */
-  const transition = (points) => {
-    svgContainer.selectAll('path')
-      .datum(this.ds)
-      .transition()
-      .attr('d', cs.lineFunction);
+  const transition = (points, path) => {
+    path.transition()
+      .attr('d', cs.lineFunction(this.ds));
 
     points.transition()
       .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
@@ -79,8 +78,9 @@ const lineGraph = function chart() {
      * @param {Object} rect (svg element)
      * @description Runs when an element is removed from the dataset
      */
-  const exit = (points) => {
+  const exit = (points, path) => {
     points.exit().remove();
+    path.exit().remove();
     return points;
   };
 
@@ -117,12 +117,13 @@ const lineGraph = function chart() {
     .y(d => cs.y.scale(d.metric));
 
   const points = svgContainer.selectAll('circle').data(this.ds);
+  const path = svgContainer.selectAll('path').data(this.ds);
 
   buildScales(cs);
   drawAxis(cs);
-  enter(points);
-  transition(points);
-  exit(points);
+  enter(points, path);
+  transition(points,path);
+  exit(points, path);
 
   svgContainer.append('g').append('g').attr('class', 'axis').attr('transform', `translate(${cs.x.xOffset}, ${cs.x.yOffset})`)
     .call(cs.x.axis);
