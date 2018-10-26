@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This plugin is designed to allow Vue.js developers to incorporate fully reactive and customizable charts into your applications.  The plugin is built off of the D3.js JavaScript library for manipulating documents based on data.  By binding data from your components you can create complex charts and graphs that respond to changes in your application.  Vue.js lifecycle events will trigger the charts to update and maintain two-way binding between your charts and your data.  By adding in a state management (such as Vuex) you can additionally persist state across an entire application.
+This plugin is designed to allow Vue.js developers to incorporate fully reactive and customizable charts into their applications.  The plugin is built off of the D3.js JavaScript library for manipulating documents based on data.  By binding data from your components, you can create complex charts and graphs that respond to changes in your application.  Vue.js lifecycle events will trigger the charts to update and maintain two-way binding between your charts and your data.  By adding in a state management (such as Vuex) you can additionally persist state across an entire application.
 
 V Chart Plugin is built using Vue.js' component architecture.  This will allow the chart to be a first class citizen of your Vue.js application.  Combining multiple charts allows you to create complex dashboards and enable deeper insights into your data.  All aspects of the charts can be configured to allow for full customization of your graphs along with the ability to style the SVG elements using the classes and IDs generated for each individual canvas element.  
 
@@ -68,12 +68,12 @@ export default {
 }
 ```
 Chart types currently supported:
-* barChart: a diagram in which the numerical values of variables are represented by the width of rectangles of equal height.
-* vBarChart: a diagram in which the numerical values of variables are represented by the height of rectangles of equal width.
-* lineGraph: A line chart or line graph is a type of chart which displays information as a series of data points called 'markers' connected by straight line segments. 
+* barChart: a chart in which the numerical values of variables are represented by the width of rectangles of equal height.
+* vBarChart: a chart in which the numerical values of variables are represented by the height of rectangles of equal width.
+* lineGraph: a graph which displays information as a series of data points called 'markers' connected by straight line segments. 
 * scatterPlot: a graph in which the values of two variables are plotted along two axes, the pattern of the resulting points revealing any correlation present.
-* pieChart: Circle divided into slices to illustrate proportion
-* areaChart: An area chart or area graph displays graphically quantitative data
+* pieChart: a chart in which a circle is divided into slices to illustrate proportion
+* areaChart: a chart which displays graphically quantitative data
 
 Lastly you will need to add the component and bind your data
 
@@ -90,7 +90,7 @@ If you wish to style the components of the chart you can via the selectors:
   }
 </style>
 ```
-![screenshot](https://user-images.githubusercontent.com/5210420/46899805-366e8980-ce66-11e8-90a4-ce66ff56f35e.jpg)
+![screenshot](dist/static/img/v-chart-plugin.gif)
 
 
 ## Performance Consideration

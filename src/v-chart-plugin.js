@@ -11,10 +11,10 @@ const d3 = Object.assign({},
 
 /** @name v-chart-plugin-module
  * @description This plugin is designed to allow Vue.js developers
- *  to incorporate fully reactive and customizable charts into your
+ *  to incorporate fully reactive and customizable charts into their
  *  applications. The plugin is built off of the D3.js JavaScript
  *  library for manipulating documents based on data. By binding data
- *  from your components you can create complex charts and graphs that
+ *  from your components, you can create complex charts and graphs that
  *  respond to changes in your application. Vue.js lifecycle events
  *  will trigger the charts to update and maintain two-way binding
  *  between your charts and your data. By adding in a state management
@@ -49,7 +49,7 @@ const Chart = {
         },
         /**
                  * @method clearAxis
-                 * @description Remove x and y axis
+                 * @description Remove x and y axes
                  */
         clearAxis() {
           d3.select(`#${this.chartData.selector}`).selectAll('.axis').remove();
@@ -63,7 +63,7 @@ const Chart = {
         },
         /**
                  * @method drawTitle
-                 * @description Appends the title and subtitle to the chart
+                 * @description Appends title and subtitle to the chart
                  */
         drawTitle() {
           d3.select(`#${this.chartData.selector}`)
