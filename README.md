@@ -90,7 +90,7 @@ If you wish to style the components of the chart you can via the selectors:
   }
 </style>
 ```
-![screenshot](dist/static/img/v-chart-plugin.gif)
+![screenshot](https://resurgencewebdesign.com/assets/img/v-chart-plugin.gif)
 
 
 ## Performance Consideration
