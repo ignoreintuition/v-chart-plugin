@@ -4,7 +4,7 @@ const d3 = Object.assign({},
   require('d3-scale'),
   require('d3-axis'));
 /**
- * Builds an Scatter Plot.
+ * Builds a Scatter Plot.
  * @constructor
  * @param {String} mode (init / refresh)
  * @exports scatterPlot
@@ -68,7 +68,7 @@ const scatterPlot = function chart() {
   };
   /**
    * @method buildScales
-   * @description builds the scales for the x and y axis
+   * @description builds the scales for the x and y axes
    */
   const buildScales = () => {
     cs.y.scale = d3.scaleLinear()
@@ -81,7 +81,7 @@ const scatterPlot = function chart() {
   };
   /**
    * @method drawAxis
-   * @description draws the x and y axis on the svg
+   * @description draws the x and y axes on the svg
    */
   const drawAxis = () => {
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
