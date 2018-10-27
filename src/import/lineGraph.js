@@ -13,7 +13,7 @@ const d3 = Object.assign({},
 
 const lineGraph = function chart(mode) {
   const svgContainer = d3.select(`#${this.chartData.selector}`);
-  let cs = {
+  const cs = {
     pallette: {
       lineFill: '#ffcdcd',
       pointFill: '#005792',
@@ -121,7 +121,6 @@ const lineGraph = function chart(mode) {
   const points = svgContainer.selectAll('circle').data(this.ds);
   const path = svgContainer.selectAll('path').data(this.ds);
 
-  cs = this.setOverrides(cs, this.chartData.overrides); 
   buildScales(cs);
   drawAxis(cs);
   enter(points, path);

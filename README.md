@@ -67,26 +67,7 @@ export default {
   }
 }
 ```
-
-### Overrides
-If you need to override any of the default values of the charts (pallette colors, ticks, margins, etc) you can pass an overrides object to you chartData.
-
-```
-      vBarChartData: {
-        chartType: "vBarChart",
-        ...   
-        overrides: {
-           pallette: {
-            fill: 'red',
-          },
-          y: {
-            ticks: 20,
-          },
-        }
-      },
-```
-
-### Chart types currently supported:
+Chart types currently supported:
 * barChart: a chart in which the numerical values of variables are represented by the width of rectangles of equal height.
 * vBarChart: a chart in which the numerical values of variables are represented by the height of rectangles of equal width.
 * lineGraph: a graph which displays information as a series of data points called 'markers' connected by straight line segments. 

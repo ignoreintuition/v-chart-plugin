@@ -114,18 +114,6 @@ const Chart = {
             .selectAll('.tt').remove();
         },
         /**
-             * @method setOverrides
-             * @description override default values 
-             */
-        setOverrides(cs, overrides) {
-          overrides = overrides || {};
-          const keys = Object.keys(cs);
-          for (const key of keys)
-            Object.assign(cs[key], overrides[key]);
-          return cs;
-        },
-
-        /**
                  * @method barChart
                  * @description Bar chart directive
                  */
@@ -246,7 +234,7 @@ const Chart = {
         },
       },
       template:
-        '<svg :id=\'this.chartData.selector\' x=\'5\' y=\'5\' :height=\'this.height + 20\' :width=\'this.width + 20\'> </svg>',
+                '<svg :id=\'this.chartData.selector\' x=\'5\' y=\'5\' :height=\'this.height + 20\' :width=\'this.width + 20\'> </svg>',
     });
   },
 };

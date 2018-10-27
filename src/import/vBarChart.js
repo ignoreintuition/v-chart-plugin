@@ -13,7 +13,7 @@ const d3 = Object.assign({},
 
 const vBarChart = function chart() {
   const svgContainer = d3.select(`#${this.chartData.selector}`);
-  let cs = {
+  const cs = {
     pallette: {
       fill: '#005792',
       stroke: '#d1f4fa',
@@ -151,7 +151,6 @@ const vBarChart = function chart() {
 
   const rects = svgContainer.selectAll('rect').data(this.ds);
 
-  cs = this.setOverrides(cs, this.chartData.overrides); 
   buildScales(cs);
   drawAxis(cs);
   enter(rects);
