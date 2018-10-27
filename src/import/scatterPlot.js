@@ -12,7 +12,7 @@ const d3 = Object.assign({},
 
 const scatterPlot = function chart() {
   const svgContainer = d3.select(`#${this.chartData.selector}`);
-  let cs = {
+  const cs = {
     x: {
       domain: [],
       range: [],
@@ -93,7 +93,6 @@ const scatterPlot = function chart() {
     svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.y.xOffset},${cs.y.yOffset})`).call(cs.y.axis);
   };
 
-  cs = this.setOverrides(cs, this.chartData.overrides); 
   buildScales(cs);
   drawAxis(cs);
   enter(points);

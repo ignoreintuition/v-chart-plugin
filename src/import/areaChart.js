@@ -12,7 +12,7 @@ const d3 = Object.assign({},
  */
 const areaChart = function chart() {
   const svgContainer = d3.select(`#${this.chartData.selector}`);
-  let cs = {
+  const cs = {
     pallette: {
       stroke: '#d1f4fa',
       fill: '#005792',
@@ -27,7 +27,6 @@ const areaChart = function chart() {
       axisWidth: 45,
     },
   };
-
   /**
    * @method getPoints
    * @param {Object} p
@@ -106,8 +105,7 @@ const areaChart = function chart() {
       .attr('transform', `translate(${cs.y.xOffset},${cs.y.yOffset})`)
       .call(cs.y.axis);
   };
-  
-  cs = this.setOverrides(cs, this.chartData.overrides); 
+
   buildScales(cs);
   drawAxis(cs);
   enter(poly);
