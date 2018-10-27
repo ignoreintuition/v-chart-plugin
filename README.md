@@ -76,7 +76,7 @@ If you need to override any of the default values of the charts (pallette colors
         chartType: "vBarChart",
         ...   
         overrides: {
-           pallette: {
+           palette: {
             fill: 'red',
           },
           y: {

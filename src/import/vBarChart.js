@@ -14,7 +14,7 @@ const d3 = Object.assign({},
 const vBarChart = function chart() {
   const svgContainer = d3.select(`#${this.chartData.selector}`);
   let cs = {
-    pallette: {
+    palette: {
       fill: '#005792',
       stroke: '#d1f4fa',
     },
@@ -87,8 +87,8 @@ const vBarChart = function chart() {
   const enter = (rects) => {
     rects.enter()
       .append('rect')
-      .attr('fill', cs.pallette.fill)
-      .attr('stroke', cs.pallette.stroke)
+      .attr('fill', cs.palette.fill)
+      .attr('stroke', cs.palette.stroke)
       .attr('class', this.selector)
       .attr('width', getWidth)
       .attr('height', getHeight)
