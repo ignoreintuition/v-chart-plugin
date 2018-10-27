@@ -296,7 +296,7 @@ const d3 = Object.assign({},
 const areaChart = function chart() <span class="fstat-no" title="function not covered" >{</span>
   const svgContainer = <span class="cstat-no" title="statement not covered" >d3.select(`#${this.chartData.selector}`);</span>
   let cs = <span class="cstat-no" title="statement not covered" >{</span>
-    pallette: {
+    palette: {
       stroke: '#d1f4fa',
       fill: '#005792',
     },
@@ -333,8 +333,8 @@ const areaChart = function chart() <span class="fstat-no" title="function not co
   const enter = <span class="cstat-no" title="statement not covered" >(s) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    s.enter()</span>
       .append('polygon')
-      .attr('stroke', cs.pallette.stroke)
-      .attr('fill', cs.pallette.fill)
+      .attr('stroke', cs.palette.stroke)
+      .attr('fill', cs.palette.fill)
       .attr('points', getPoints);
   };
   /**

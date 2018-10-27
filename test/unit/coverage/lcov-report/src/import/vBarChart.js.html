@@ -385,7 +385,7 @@ const d3 = Object.assign({},
 const vBarChart = function chart() <span class="fstat-no" title="function not covered" >{</span>
   const svgContainer = <span class="cstat-no" title="statement not covered" >d3.select(`#${this.chartData.selector}`);</span>
   let cs = <span class="cstat-no" title="statement not covered" >{</span>
-    pallette: {
+    palette: {
       fill: '#005792',
       stroke: '#d1f4fa',
     },
@@ -458,8 +458,8 @@ const vBarChart = function chart() <span class="fstat-no" title="function not co
   const enter = <span class="cstat-no" title="statement not covered" >(rects) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    rects.enter()</span>
       .append('rect')
-      .attr('fill', cs.pallette.fill)
-      .attr('stroke', cs.pallette.stroke)
+      .attr('fill', cs.palette.fill)
+      .attr('stroke', cs.palette.stroke)
       .attr('class', this.selector)
       .attr('width', getWidth)
       .attr('height', getHeight)

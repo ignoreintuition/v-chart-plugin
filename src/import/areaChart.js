@@ -12,8 +12,8 @@ const d3 = Object.assign({},
  */
 const areaChart = function chart() {
   const svgContainer = d3.select(`#${this.chartData.selector}`);
-  const cs = {
-    pallette: {
+  let cs = {
+    palette: {
       stroke: '#d1f4fa',
       fill: '#005792',
     },
@@ -49,8 +49,8 @@ const areaChart = function chart() {
   const enter = (s) => {
     s.enter()
       .append('polygon')
-      .attr('stroke', cs.pallette.stroke)
-      .attr('fill', cs.pallette.fill)
+      .attr('stroke', cs.palette.stroke)
+      .attr('fill', cs.palette.fill)
       .attr('points', getPoints);
   };
   /**

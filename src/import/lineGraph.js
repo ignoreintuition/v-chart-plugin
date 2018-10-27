@@ -13,8 +13,8 @@ const d3 = Object.assign({},
 
 const lineGraph = function chart(mode) {
   const svgContainer = d3.select(`#${this.chartData.selector}`);
-  const cs = {
-    pallette: {
+  let cs = {
+    palette: {
       lineFill: '#ffcdcd',
       pointFill: '#005792',
       pointStroke: '#d1f4fa',
@@ -41,7 +41,7 @@ const lineGraph = function chart(mode) {
       .append('path')
       .attr('d', cs.lineFunction(this.ds))
       .attr('fill', 'none')
-      .attr('stroke', cs.pallette.lineFill)
+      .attr('stroke', cs.palette.lineFill)
       .attr('stroke-width', 3);
 
     points.enter()
