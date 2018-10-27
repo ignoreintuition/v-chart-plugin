@@ -144,7 +144,8 @@ const vBarChart = function chart() {
     svgContainer.append('g').attr('class', 'axis')
       .attr('transform', `translate(${cs.y.xOffset}, ${cs.y.yOffset})`)
       .call(cs.y.axis);
-    svgContainer.append('g').attr('class', 'axis')
+    if (this.ds[0].dim)
+      svgContainer.append('g').attr('class', 'axis')
       .attr('transform', `translate(${cs.x.xOffset}, ${cs.x.yOffset})`)
       .call(cs.x.axis);
   };

@@ -17,7 +17,7 @@ By adding additional charts into the import folder and importing them into the v
 These instructions are assuming you are using Vue CLI to create your template.  Include the plugin in your main.js:
 
 ```JavaScript
-import Chart from './v-chart-plugin.js'
+import Chart from 'v-chart-plugin'
 Vue.config.productionTip = false
 Vue.use(Chart);
 ```

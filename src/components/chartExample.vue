@@ -75,7 +75,6 @@ export default {
         selector: "chart",
         title: "Bar Chart",
         subtitle: "Sales by month",
-        width: 300,
         height: 200,
         metric: "total",
         dim: "month",
