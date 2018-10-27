@@ -1,7 +1,7 @@
 {
   "name": "v-chart-plugin",
-  "main": "./src/main.js",
-  "version": "0.2.5",
+  "main": "./dist/module/v-chart-plugin.js",
+  "version": "0.2.8",
   "description": "This plugin is designed to allow Vue.js developers to incorporate fully reactive and customizable charts into your applications.  Uses D3.js for charting.",
   "keywords": [
     "vue",
@@ -36,7 +36,8 @@
     "build": "node build/build.js",
     "docs": "jsdoc src -r -d docs README.md",
     "lint": "eslint .",
-    "lint-fix": "eslint . --fix"
+    "lint-fix": "eslint . --fix",
+    "compile": "npx babel src --out-dir dist/module"
   },
   "dependencies": {
     "d3": "^5.7.0",
@@ -50,6 +51,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.2.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
