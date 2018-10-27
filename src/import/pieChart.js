@@ -13,7 +13,7 @@ const d3 = Object.assign({},
 
 const pieChart = function chart() {
   const svgContainer = d3.select(`#${this.chartData.selector}`);
-  const cs = {
+  let cs = {
     radius: null,
     ordinalColors: ['#d1f4fa', '#005792', '#ffe6eb', '#ffcdcd'],
   };
@@ -91,6 +91,7 @@ const pieChart = function chart() {
     return arc;
   };
 
+  cs = this.setOverrides(cs, this.chartData.overrides); 
   const pie = d3.pie()
     .sort(null)
     .value(d => d.metric);
