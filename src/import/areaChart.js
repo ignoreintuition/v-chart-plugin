@@ -102,9 +102,10 @@ const areaChart = function chart() {
     svgContainer.append('g').append('g')
       .attr('class', 'axis').attr('transform', `translate(${cs.x.xOffset}, ${cs.x.yOffset})`)
       .call(cs.x.axis);
-    svgContainer.append('g').append('g').attr('class', 'axis')
-      .attr('transform', `translate(${cs.y.xOffset},${cs.y.yOffset})`)
-      .call(cs.y.axis);
+    if (this.ds[0].dim)
+      svgContainer.append('g').append('g').attr('class', 'axis')
+        .attr('transform', `translate(${cs.y.xOffset},${cs.y.yOffset})`)
+        .call(cs.y.axis);
   };
   
   cs = this.setOverrides(cs, this.chartData.overrides); 

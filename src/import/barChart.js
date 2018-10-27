@@ -142,7 +142,8 @@ const barChart = function chart() {
     cs.x.xOffset = cs.bar.hPadding + cs.y.axisWidth;
     cs.y.yOffset = cs.bar.vPadding + this.header - 1;
     cs.y.xOffset = cs.y.axisWidth;
-    svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.y.xOffset}, ${cs.y.yOffset})`).call(cs.y.axis);
+    if (this.ds[0].dim)
+      svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.y.xOffset}, ${cs.y.yOffset})`).call(cs.y.axis);
     svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.x.xOffset}, ${cs.x.yOffset})`).call(cs.x.axis);
   };
 
