@@ -100,7 +100,7 @@ export default {
         height: 200,
         metric: "total",
         dim: "month",
-        data: sales,
+        data: sales
       },
       pieChartData: {
         chartType: "pieChart",

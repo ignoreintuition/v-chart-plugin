@@ -31,12 +31,8 @@ const barChart = function chart() {
       range: [],
       axisWidth: 30,
     },
-  }
-  /**
-     * @method setOverrides
-     * @description override default values 
-     */  
-
+  };
+  
   /**
      * @method getWidth
      * @param {Object} d (svg element)
@@ -148,7 +144,7 @@ const barChart = function chart() {
   };
 
   const rects = svgContainer.selectAll('rect').data(this.ds);
-  cs = this.setOverrides(cs, this.chartData.overrides); 
+
   buildScales(cs);
   drawAxis(cs);
   enter(rects);

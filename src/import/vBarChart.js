@@ -152,7 +152,6 @@ const vBarChart = function chart() {
 
   const rects = svgContainer.selectAll('rect').data(this.ds);
 
-  cs = this.setOverrides(cs, this.chartData.overrides); 
   buildScales(cs);
   drawAxis(cs);
   enter(rects);

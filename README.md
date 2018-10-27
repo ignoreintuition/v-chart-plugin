@@ -67,7 +67,6 @@ export default {
   }
 }
 ```
-
 ### Overrides
 If you need to override any of the default values of the charts (pallette colors, ticks, margins, etc) you can pass an overrides object to you chartData.
 
