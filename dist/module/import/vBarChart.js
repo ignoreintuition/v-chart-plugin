@@ -13,7 +13,7 @@ var vBarChart = function chart() {
 
   var svgContainer = d3.select('#' + this.chartData.selector);
   var cs = {
-    pallette: {
+    palette: {
       fill: '#005792',
       stroke: '#d1f4fa'
     },
@@ -91,7 +91,7 @@ var vBarChart = function chart() {
    * @description Runs when a new element is added to the dataset
    */
   var enter = function enter(rects) {
-    rects.enter().append('rect').attr('fill', cs.pallette.fill).attr('stroke', cs.pallette.stroke).attr('class', _this.selector).attr('width', getWidth).attr('height', getHeight).attr('x', getXCoord).attr('y', getYCoord).on('mouseover', mouseOver).on('mouseout', mouseOut);
+    rects.enter().append('rect').attr('fill', cs.palette.fill).attr('stroke', cs.palette.stroke).attr('class', _this.selector).attr('width', getWidth).attr('height', getHeight).attr('x', getXCoord).attr('y', getYCoord).on('mouseover', mouseOver).on('mouseout', mouseOut);
   };
   /**
    * @method transition

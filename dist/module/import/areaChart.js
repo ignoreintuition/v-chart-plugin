@@ -12,7 +12,7 @@ var areaChart = function chart() {
 
   var svgContainer = d3.select('#' + this.chartData.selector);
   var cs = {
-    pallette: {
+    palette: {
       stroke: '#d1f4fa',
       fill: '#005792'
     },
@@ -26,7 +26,6 @@ var areaChart = function chart() {
       axisWidth: 45
     }
   };
-
   /**
    * @method getPoints
    * @param {Object} p
@@ -49,7 +48,7 @@ var areaChart = function chart() {
    * @description Runs when a new element is added to the dataset
    */
   var enter = function enter(s) {
-    s.enter().append('polygon').attr('stroke', cs.pallette.stroke).attr('fill', cs.pallette.fill).attr('points', getPoints);
+    s.enter().append('polygon').attr('stroke', cs.palette.stroke).attr('fill', cs.palette.fill).attr('points', getPoints);
   };
   /**
    * @method transition
@@ -101,7 +100,6 @@ var areaChart = function chart() {
     svgContainer.append('g').append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.x.xOffset + ', ' + cs.x.yOffset + ')').call(cs.x.axis);
     if (_this.ds[0].dim) svgContainer.append('g').append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.y.xOffset + ',' + cs.y.yOffset + ')').call(cs.y.axis);
   };
-
   cs = this.setOverrides(cs, this.chartData.overrides);
   buildScales(cs);
   drawAxis(cs);

@@ -76,13 +76,13 @@ var pieChart = function chart() {
     return arc;
   };
 
-  cs = this.setOverrides(cs, this.chartData.overrides);
   var pie = d3.pie().sort(null).value(function (d) {
     return d.metric;
   });
 
   var arc = svgContainer.selectAll('.arc').data(pie(this.ds));
 
+  cs = this.setOverrides(cs, this.chartData.overrides);
   enter(arc);
   transition(arc);
   exit(arc);

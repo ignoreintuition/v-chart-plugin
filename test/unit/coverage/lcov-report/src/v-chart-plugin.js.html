@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">70.45% </span>
+        <span class="strong">59.09% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>31/44</span>
+        <span class='fraction'>26/44</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">72.22% </span>
+        <span class="strong">69.44% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>26/36</span>
+        <span class='fraction'>25/36</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">33.33% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/3</span>
+        <span class='fraction'>1/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">73.17% </span>
+        <span class="strong">60.98% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>30/41</span>
+        <span class='fraction'>25/41</span>
       </div>
     </div>
   </div>
@@ -299,9 +299,7 @@
 254
 255
 256
-257
-258
-259</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+257</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -495,11 +493,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -533,8 +531,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -558,7 +555,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint-env browser */
 import barChart from './import/barChart';
 import vBarChart from './import/vBarChart';
@@ -753,11 +749,11 @@ const Chart = {
                  * @returns {number} Max value for metric
                  */
         max() {
-          let max = 0;
-          this.ds.forEach((e) =&gt; {
-            max = max &gt; e.metric ? <span class="branch-0 cbranch-no" title="branch not covered" >max </span>: e.metric;
+          let max = <span class="cstat-no" title="statement not covered" >0;</span>
+<span class="cstat-no" title="statement not covered" >          this.ds.forEach((e) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >            max = max &gt; e.metric ? max : e.metric;</span>
           });
-          return max;
+<span class="cstat-no" title="statement not covered" >          return max;</span>
         },
         /**
                  * @method min
@@ -791,9 +787,8 @@ const Chart = {
                  * @returns {number} Total header height
                  */
         header() {
-          return (this.titleHeight + this.subtitleHeight);
+<span class="cstat-no" title="statement not covered" >          return (this.titleHeight + this.subtitleHeight);</span>
         },
-&nbsp;
       },
       mounted() {
         this.initalizeChart();
@@ -816,14 +811,13 @@ export default Chart;
 &nbsp;
 <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof window !== 'undefined' &amp;&amp; window.Vue) {
 <span class="cstat-no" title="statement not covered" >  window.Vue.use(Chart);</span>
-}
-&nbsp;</pre></td></tr>
+}</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Oct 26 2018 22:27:13 GMT-0400 (EDT)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 27 2018 23:15:52 GMT-0400 (EDT)
 </div>
 </div>
 <script src="../prettify.js"></script>
