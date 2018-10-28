@@ -68,7 +68,9 @@ export default {
         height: 200,
         metric: "total",
         dim: "month",
-        data: sales
+        data: sales,
+        legends: true,
+        legendsKey: 'area',
       },
       barChartData: {
         chartType: "barChart",
@@ -89,7 +91,7 @@ export default {
         height: 200,
         metric: "total",
         dim: "month",
-        data: sales
+        data: sales,
       },
       vBarChartData: {
         chartType: "vBarChart",
@@ -100,7 +102,7 @@ export default {
         height: 200,
         metric: "total",
         dim: "month",
-        data: sales
+        data: sales,
       },
       pieChartData: {
         chartType: "pieChart",
@@ -111,7 +113,7 @@ export default {
         height: 200,
         metric: "total",
         dim: "month",
-        data: sales
+        data: sales,
       },
     };
   }
