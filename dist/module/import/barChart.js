@@ -139,7 +139,7 @@ var barChart = function chart() {
   var rects = svgContainer.selectAll('rect').data(this.ds);
 
   cs = this.setOverrides(cs, this.chartData.overrides);
-  cs.y.axisWidth = cs.y.axisWidth || this.ds.reduce(getMaxDimLength, 0) * 10;
+  if (this.ds[0].dim) cs.y.axisWidth = cs.y.axisWidth || this.ds.reduce(getMaxDimLength, 0) * 10;
 
   buildScales(cs);
   drawAxis(cs);
