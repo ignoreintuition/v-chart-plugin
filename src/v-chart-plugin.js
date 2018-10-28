@@ -130,13 +130,13 @@ const Chart = {
              * @description generate legend if option -legends- defined as true
              */
         generateLegend () {
-          if (this.chartData.legends == true) {
+          if (this.chartData.legends &&  this.chartData.legends.enabled === true) {
             d3.select(`#${this.chartData.selector}`)
             .append('text')
             .attr('x', this.width - 60)
             .attr('y', this.titleHeight - this.titleHeight * 0.1 - 10)
             .style('text-anchor', 'middle')
-            .text(this.chartData.legendsKey);
+            .text(this.chartData.metric);
 
             d3.select(`#${this.chartData.selector}`)
             .append("g")
