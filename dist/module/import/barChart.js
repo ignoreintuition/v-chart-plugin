@@ -13,7 +13,7 @@ var barChart = function chart() {
 
   var svgContainer = d3.select('#' + this.chartData.selector);
   var cs = {
-    pallette: {
+    palette: {
       fill: '#005792',
       stroke: '#d1f4fa'
     },
@@ -28,19 +28,16 @@ var barChart = function chart() {
     y: {
       domain: [],
       range: [],
-      axisWidth: 30
+      axisWidth: null
     }
-    /**
-       * @method setOverrides
-       * @description override default values 
-       */
+  };
 
-    /**
-       * @method getWidth
-       * @param {Object} d (svg element)
-       * @description Returns width of the bar
-       */
-  };var getWidth = function getWidth(d) {
+  /**
+     * @method getWidth
+     * @param {Object} d (svg element)
+     * @description Returns width of the bar
+     */
+  var getWidth = function getWidth(d) {
     return cs.x.scale(d.metric);
   };
 
@@ -85,7 +82,7 @@ var barChart = function chart() {
    * @description Runs when a new element is added to the dataset
    */
   var enter = function enter(rects) {
-    rects.enter().append('rect').attr('fill', cs.pallette.fill).attr('stroke', cs.pallette.stroke).attr('class', _this.selector).attr('width', getWidth).attr('height', getHeight).attr('y', getYCoord).attr('x', cs.y.axisWidth + cs.bar.hPadding).on('mouseover', mouseOver).on('mouseout', mouseOut);
+    rects.enter().append('rect').attr('fill', cs.palette.fill).attr('stroke', cs.palette.stroke).attr('class', _this.selector).attr('width', getWidth).attr('height', getHeight).attr('y', getYCoord).attr('x', cs.y.axisWidth + cs.bar.hPadding).on('mouseover', mouseOver).on('mouseout', mouseOut);
     return rects;
   };
   /**
@@ -135,8 +132,15 @@ var barChart = function chart() {
     svgContainer.append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.x.xOffset + ', ' + cs.x.yOffset + ')').call(cs.x.axis);
   };
 
+  var getMaxDimLength = function getMaxDimLength(accumulator, currentValue) {
+    return currentValue.dim.length > accumulator ? currentValue.dim.length : accumulator;
+  };
+
   var rects = svgContainer.selectAll('rect').data(this.ds);
+
   cs = this.setOverrides(cs, this.chartData.overrides);
+  cs.y.axisWidth = cs.y.axisWidth || this.ds.reduce(getMaxDimLength, 0) * 10;
+
   buildScales(cs);
   drawAxis(cs);
   enter(rects);

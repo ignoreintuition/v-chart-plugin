@@ -18,7 +18,7 @@ These instructions are assuming you are using Vue CLI to create your template.  
 
 ```JavaScript
 import Chart from 'v-chart-plugin'
-Vue.config.productionTip = false
+
 Vue.use(Chart);
 ```
 

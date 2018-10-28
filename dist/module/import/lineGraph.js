@@ -13,7 +13,7 @@ var lineGraph = function chart(mode) {
 
   var svgContainer = d3.select('#' + this.chartData.selector);
   var cs = {
-    pallette: {
+    palette: {
       lineFill: '#ffcdcd',
       pointFill: '#005792',
       pointStroke: '#d1f4fa'
@@ -35,7 +35,7 @@ var lineGraph = function chart(mode) {
    * @description Runs when a new element is added to the dataset
    */
   var enter = function enter(points, path) {
-    if (mode === 'init') path.enter().append('path').attr('d', cs.lineFunction(_this.ds)).attr('fill', 'none').attr('stroke', cs.pallette.lineFill).attr('stroke-width', 3);
+    if (mode === 'init') path.enter().append('path').attr('d', cs.lineFunction(_this.ds)).attr('fill', 'none').attr('stroke', cs.palette.lineFill).attr('stroke-width', 3);
 
     points.enter().append('circle').attr('class', _this.selector).attr('r', 2).on('mouseover', function (d) {
       _this.addTooltip(d, window.event);
@@ -119,6 +119,7 @@ var lineGraph = function chart(mode) {
   var path = svgContainer.selectAll('path').data(this.ds);
 
   cs = this.setOverrides(cs, this.chartData.overrides);
+
   buildScales(cs);
   drawAxis(cs);
   enter(points, path);

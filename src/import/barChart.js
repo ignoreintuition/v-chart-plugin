@@ -29,9 +29,10 @@ const barChart = function chart() {
     y: {
       domain: [],
       range: [],
-      axisWidth: 30,
+      axisWidth: null,
     },
   };
+
   
   /**
      * @method getWidth
@@ -143,8 +144,15 @@ const barChart = function chart() {
     svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.x.xOffset}, ${cs.x.yOffset})`).call(cs.x.axis);
   };
 
+  const getMaxDimLength = (accumulator, currentValue) => {
+    return (currentValue.dim.length > accumulator) ? currentValue.dim.length : accumulator;
+  }
+
   const rects = svgContainer.selectAll('rect').data(this.ds);
 
+  cs = this.setOverrides(cs, this.chartData.overrides); 
+  cs.y.axisWidth = cs.y.axisWidth || (this.ds.reduce(getMaxDimLength, 0)) * 10;
+  
   buildScales(cs);
   drawAxis(cs);
   enter(rects);
