@@ -121,6 +121,8 @@ const lineGraph = function chart(mode) {
   const points = svgContainer.selectAll('circle').data(this.ds);
   const path = svgContainer.selectAll('path').data(this.ds);
 
+  cs = this.setOverrides(cs, this.chartData.overrides); 
+  
   buildScales(cs);
   drawAxis(cs);
   enter(points, path);
