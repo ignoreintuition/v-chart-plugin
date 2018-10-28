@@ -69,8 +69,11 @@ export default {
         metric: "total",
         dim: "month",
         data: sales,
-        legends: true,
-         legendsKey: 'area',
+        legends: {
+          enabled: true,
+          height: 25,
+          width: 50
+        },      
       },
       barChartData: {
         chartType: "barChart",
@@ -81,6 +84,7 @@ export default {
         metric: "total",
         dim: "month",
         data: sales,
+        
       },
       lineGraphData: {
         chartType: "lineGraph",
