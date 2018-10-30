@@ -33,11 +33,10 @@
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-    "build": "node build/build.js",
+    "build": "node build/build.js && npx babel src --out-dir dist/module",
     "docs": "jsdoc src -r -d docs README.md",
     "lint": "eslint .",
-    "lint-fix": "eslint . --fix",
-    "compile": "npx babel src --out-dir dist/module"
+    "lint-fix": "eslint . --fix"
   },
   "dependencies": {
     "d3": "^5.7.0",

@@ -42,6 +42,7 @@ var Chart = {
                  */
         initalizeChart: function initalizeChart() {
           this.drawTitle();
+          this.generateLegend();
           this[this.chartData.chartType]('init');
         },
 
@@ -134,6 +135,20 @@ var Chart = {
           }
 
           return cs;
+        },
+
+        /**
+             * @method generateLegend
+             * @description generate legend if option -legends- defined as true
+             */
+        generateLegend: function generateLegend() {
+          if (this.chartData.legends && this.chartData.legends.enabled === true) {
+            d3.select('#' + this.chartData.selector).append('text').attr('x', this.width - 60).attr('y', this.titleHeight - this.titleHeight * 0.1 - 10).style('text-anchor', 'middle').text(this.chartData.metric);
+
+            d3.select('#' + this.chartData.selector).append("g").attr("class", "legends").append("rect").attr('x', this.width - 30).attr('y', this.titleHeight - this.titleHeight * 0.1 - 20).attr("width", 30).attr("height", 10).style("fill", function () {
+              return '#005792';
+            });
+          }
         }
       }, typeof barChart !== 'undefined' && { barChart: barChart }, typeof vBarChart !== 'undefined' && { vBarChart: vBarChart }, typeof scatterPlot !== 'undefined' && { scatterPlot: scatterPlot }, typeof pieChart !== 'undefined' && { pieChart: pieChart }, typeof areaChart !== 'undefined' && { areaChart: areaChart }, typeof lineGraph !== 'undefined' && { lineGraph: lineGraph }),
       computed: {
