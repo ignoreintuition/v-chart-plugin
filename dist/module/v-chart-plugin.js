@@ -41,9 +41,9 @@ var Chart = {
                  * @description Generate a new Chart of type chartType
                  */
         initalizeChart: function initalizeChart() {
+          var cs = this[this.chartData.chartType]('init');
           this.drawTitle();
-          this.generateLegend();
-          this[this.chartData.chartType]('init');
+          this.generateLegend(cs);
         },
 
         /**
@@ -141,12 +141,13 @@ var Chart = {
              * @method generateLegend
              * @description generate legend if option -legends- defined as true
              */
-        generateLegend: function generateLegend() {
+        generateLegend: function generateLegend(cs) {
           if (this.chartData.legends && this.chartData.legends.enabled === true) {
-            d3.select('#' + this.chartData.selector).append('text').attr('x', this.width - 60).attr('y', this.titleHeight - this.titleHeight * 0.1 - 10).style('text-anchor', 'middle').text(this.chartData.metric);
+            d3.select('#' + this.chartData.selector).append('text').attr('x', this.width - 60).attr('y', this.height * 0.95).style('text-anchor', 'middle').text(this.chartData.metric);
 
-            d3.select('#' + this.chartData.selector).append("g").attr("class", "legends").append("rect").attr('x', this.width - 30).attr('y', this.titleHeight - this.titleHeight * 0.1 - 20).attr("width", 30).attr("height", 10).style("fill", function () {
-              return '#005792';
+            d3.select('#' + this.chartData.selector).append("g").attr("class", "legends").append("rect").attr('x', this.width - 30).attr('y', this.height * 0.95 - 10).attr("width", 30).attr("height", 10).style("fill", function () {
+              var fill = cs.palette.lineFill || cs.palette.fill;
+              return fill;
             });
           }
         }
@@ -218,6 +219,19 @@ var Chart = {
         titleHeight: function titleHeight() {
           if (this.chartData.title) return this.chartData.textHeight || 25;
           return 0;
+        },
+
+        /**
+                 * @method displayHeight
+                 * @description Computed.
+                 * @returns {number} Height of the chart display
+                 */
+        displayHeight: function displayHeight() {
+          if (this.chartData.legends && this.chartData.legends.enabled === true) {
+            return this.height * .80;
+          } else {
+            return this.height;
+          }
         },
 
         /**

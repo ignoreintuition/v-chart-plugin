@@ -46,7 +46,7 @@ const barChart = function chart() {
      * @description Returns height of the bar
      */
   const getHeight = () => (
-    this.height - cs.x.axisHeight - this.header - cs.bar.vPadding) / this.ds.length - 1;
+    this.displayHeight - cs.x.axisHeight - this.header - cs.bar.vPadding) / this.ds.length - 1;
 
   /**
      * @method getYCoord
@@ -55,7 +55,7 @@ const barChart = function chart() {
      * @description Returns y axis co-ordinate of the bar
      */
   const getYCoord = (d, i) => i * (
-    this.height - cs.x.axisHeight - this.header) / this.ds.length + 1 + this.header;
+    this.displayHeight - cs.x.axisHeight - this.header) / this.ds.length + 1 + this.header;
 
   /**
      * @method mouseOver
@@ -125,7 +125,7 @@ const barChart = function chart() {
       .range([0, this.width - cs.bar.hPadding - cs.y.axisWidth]);
     this.ds.forEach(t => cs.y.domain.push(t.dim));
     this.ds.forEach((t, i) => cs.y.range.push(((
-      this.chartData.height - cs.x.axisHeight - this.header + cs.bar.vPadding) * i) / this.ds.length));
+      this.displayHeight - cs.x.axisHeight - this.header + cs.bar.vPadding) * i) / this.ds.length));
     cs.y.scale = d3.scaleOrdinal().domain(cs.y.domain).range(cs.y.range);
   };
     /**
@@ -135,7 +135,7 @@ const barChart = function chart() {
   const drawAxis = () => {
     cs.x.axis = d3.axisBottom().ticks(cs.x.ticks, 's').scale(cs.x.scale);
     cs.y.axis = d3.axisLeft().scale(cs.y.scale);
-    cs.x.yOffset = this.height - cs.x.axisHeight;
+    cs.x.yOffset = this.displayHeight - cs.x.axisHeight;
     cs.x.xOffset = cs.bar.hPadding + cs.y.axisWidth;
     cs.y.yOffset = cs.bar.vPadding + this.header - 1;
     cs.y.xOffset = cs.y.axisWidth;
@@ -159,6 +159,8 @@ const barChart = function chart() {
   enter(rects);
   transition(rects);
   exit(rects);
+
+  return cs;
 };
 
 export default barChart;

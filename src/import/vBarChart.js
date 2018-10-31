@@ -44,7 +44,7 @@ const vBarChart = function chart() {
      * @param {Object} d (svg element)
      * @description Returns height of the bar
      */
-  const getHeight = d => this.height - cs.y.scale(d.metric);
+  const getHeight = d => this.displayHeight - cs.y.scale(d.metric);
 
   /**
      * @method getXCoord
@@ -124,7 +124,7 @@ const vBarChart = function chart() {
   const buildScales = () => {
     cs.y.scale = d3.scaleLinear()
       .domain([0, this.max])
-      .range([this.height, this.header]);
+      .range([this.displayHeight, this.header]);
     this.ds.forEach(t => cs.x.domain.push(t.dim));
     this.ds.forEach((t, i) => cs.x.range.push(((
       this.chartData.width - cs.y.axisWidth + cs.bar.vPadding) * i) / this.ds.length));
@@ -137,7 +137,7 @@ const vBarChart = function chart() {
   const drawAxis = () => {
     cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
-    cs.x.yOffset = this.height;
+    cs.x.yOffset = this.displayHeight;
     cs.x.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
     cs.y.xOffset = cs.y.axisWidth;
@@ -158,6 +158,8 @@ const vBarChart = function chart() {
   enter(rects);
   transition(rects);
   exit(rects);
+
+  return cs;
 };
 
 export default vBarChart;

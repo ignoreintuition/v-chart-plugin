@@ -46,7 +46,7 @@ var vBarChart = function chart() {
      * @description Returns height of the bar
      */
   var getHeight = function getHeight(d) {
-    return _this.height - cs.y.scale(d.metric);
+    return _this.displayHeight - cs.y.scale(d.metric);
   };
 
   /**
@@ -114,7 +114,7 @@ var vBarChart = function chart() {
    * @description builds the scales for the x and y axes
    */
   var buildScales = function buildScales() {
-    cs.y.scale = d3.scaleLinear().domain([0, _this.max]).range([_this.height, _this.header]);
+    cs.y.scale = d3.scaleLinear().domain([0, _this.max]).range([_this.displayHeight, _this.header]);
     _this.ds.forEach(function (t) {
       return cs.x.domain.push(t.dim);
     });
@@ -130,7 +130,7 @@ var vBarChart = function chart() {
   var drawAxis = function drawAxis() {
     cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
-    cs.x.yOffset = _this.height;
+    cs.x.yOffset = _this.displayHeight;
     cs.x.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
     cs.y.xOffset = cs.y.axisWidth;
@@ -146,6 +146,8 @@ var vBarChart = function chart() {
   enter(rects);
   transition(rects);
   exit(rects);
+
+  return cs;
 };
 
 export default vBarChart;
