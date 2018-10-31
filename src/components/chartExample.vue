@@ -73,7 +73,7 @@ export default {
           enabled: true,
           height: 25,
           width: 50
-        },      
+        },                      
       },
       barChartData: {
         chartType: "barChart",
@@ -84,7 +84,11 @@ export default {
         metric: "total",
         dim: "month",
         data: sales,
-        
+        legends: {
+          enabled: true,
+          height: 25,
+          width: 50
+        },                      
       },
       lineGraphData: {
         chartType: "lineGraph",
@@ -96,6 +100,11 @@ export default {
         metric: "total",
         dim: "month",
         data: sales,
+        legends: {
+          enabled: true,
+          height: 25,
+          width: 50
+        },              
       },
       vBarChartData: {
         chartType: "vBarChart",
@@ -107,6 +116,11 @@ export default {
         metric: "total",
         dim: "month",
         data: sales,
+        legends: {
+          enabled: true,
+          height: 25,
+          width: 50
+        },              
       },
       pieChartData: {
         chartType: "pieChart",
@@ -129,6 +143,11 @@ export default {
         metric: "total",
         dim: "month",
         data: sales,
+        legends: {
+          enabled: true,
+          height: 25,
+          width: 50
+        },              
       }
       
     };

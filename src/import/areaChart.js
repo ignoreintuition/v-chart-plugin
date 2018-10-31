@@ -78,7 +78,7 @@ const areaChart = function chart() {
   const buildScales = () => {
     cs.y.scale = d3.scaleLinear()
       .domain([0, this.max])
-      .range([this.height - cs.x.axisHeight, this.titleHeight]);
+      .range([this.displayHeight - cs.x.axisHeight, this.titleHeight]);
     cs.y.axis = d3.axisLeft().ticks(10, 's').scale(cs.y.scale);
     this.ds.forEach(t => cs.x.domain.push(t.dim));
     this.ds.forEach((t, i) => cs.x.range.push((((
@@ -95,7 +95,7 @@ const areaChart = function chart() {
       .x(d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
       .y(d => cs.y.scale(d.metric));
     cs.x.xOffset = cs.y.axisWidth + 5;
-    cs.x.yOffset = this.height - cs.x.axisHeight;
+    cs.x.yOffset = this.displayHeight - cs.x.axisHeight;
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
     svgContainer.append('g').append('g')
@@ -112,6 +112,8 @@ const areaChart = function chart() {
   enter(poly);
   transition(poly);
   exit(poly);
+
+  return cs;
 };
 
 export default areaChart;

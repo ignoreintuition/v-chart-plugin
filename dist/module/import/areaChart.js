@@ -72,7 +72,7 @@ var areaChart = function chart() {
    * @description builds the scales for the x and y axes
    */
   var buildScales = function buildScales() {
-    cs.y.scale = d3.scaleLinear().domain([0, _this.max]).range([_this.height - cs.x.axisHeight, _this.titleHeight]);
+    cs.y.scale = d3.scaleLinear().domain([0, _this.max]).range([_this.displayHeight - cs.x.axisHeight, _this.titleHeight]);
     cs.y.axis = d3.axisLeft().ticks(10, 's').scale(cs.y.scale);
     _this.ds.forEach(function (t) {
       return cs.x.domain.push(t.dim);
@@ -94,7 +94,7 @@ var areaChart = function chart() {
       return cs.y.scale(d.metric);
     });
     cs.x.xOffset = cs.y.axisWidth + 5;
-    cs.x.yOffset = _this.height - cs.x.axisHeight;
+    cs.x.yOffset = _this.displayHeight - cs.x.axisHeight;
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
     svgContainer.append('g').append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.x.xOffset + ', ' + cs.x.yOffset + ')').call(cs.x.axis);
@@ -106,6 +106,8 @@ var areaChart = function chart() {
   enter(poly);
   transition(poly);
   exit(poly);
+
+  return cs;
 };
 
 export default areaChart;

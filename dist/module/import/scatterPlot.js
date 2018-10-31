@@ -72,7 +72,7 @@ var scatterPlot = function chart() {
    * @description builds the scales for the x and y axes
    */
   var buildScales = function buildScales() {
-    cs.y.scale = d3.scaleLinear().domain([_this.min, _this.max]).range([_this.height - cs.x.axisHeight, _this.header]);
+    cs.y.scale = d3.scaleLinear().domain([_this.min, _this.max]).range([_this.displayHeight - cs.x.axisHeight, _this.header]);
     cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     _this.ds.forEach(function (t) {
       return cs.x.domain.push(t.dim);
@@ -102,6 +102,8 @@ var scatterPlot = function chart() {
   enter(points);
   transition(points);
   exit(points);
+
+  return cs;
 };
 
 export default scatterPlot;

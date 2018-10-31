@@ -93,7 +93,7 @@ const lineGraph = function chart(mode) {
   const buildScales = () => {
     cs.y.scale = d3.scaleLinear()
       .domain([this.min, this.max])
-      .range([this.height - cs.x.axisHeight, this.header]);
+      .range([this.displayHeight - cs.x.axisHeight, this.header]);
     cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     this.ds.forEach(t => cs.x.domain.push(t.dim));
     this.ds.forEach((t, i) => cs.x.range.push(((this.width * i) - this.header) / this.ds.length));
@@ -106,7 +106,7 @@ const lineGraph = function chart(mode) {
   const drawAxis = () => {
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     cs.x.xOffset = cs.y.axisWidth + 5;
-    cs.x.yOffset = this.height - cs.x.axisHeight;
+    cs.x.yOffset = this.displayHeight - cs.x.axisHeight;
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
   };
@@ -116,7 +116,7 @@ const lineGraph = function chart(mode) {
      */
   cs.lineFunction = d3.line()
     .x(d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-    .y(d => cs.y.scale(d.metric));
+    .y(d => cs.y.scale(d.metric)); 
 
   const points = svgContainer.selectAll('circle').data(this.ds);
   const path = svgContainer.selectAll('path').data(this.ds);
@@ -133,6 +133,8 @@ const lineGraph = function chart(mode) {
     .call(cs.x.axis);
   svgContainer.append('g').append('g').attr('class', 'axis').attr('transform', `translate(${cs.y.xOffset},${cs.y.yOffset})`)
     .call(cs.y.axis);
+  
+  return cs;
 };
 
 export default lineGraph;
