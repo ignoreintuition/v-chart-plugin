@@ -102,6 +102,8 @@ const pieChart = function chart() {
   enter(arc);
   transition(arc);
   exit(arc);
+
+  return cs;
 };
 
 export default pieChart;

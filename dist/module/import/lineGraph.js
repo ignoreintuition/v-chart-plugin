@@ -84,7 +84,7 @@ var lineGraph = function chart(mode) {
    * @description builds the scales for the x and y axes
    */
   var buildScales = function buildScales() {
-    cs.y.scale = d3.scaleLinear().domain([_this.min, _this.max]).range([_this.height - cs.x.axisHeight, _this.header]);
+    cs.y.scale = d3.scaleLinear().domain([_this.min, _this.max]).range([_this.displayHeight - cs.x.axisHeight, _this.header]);
     cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     _this.ds.forEach(function (t) {
       return cs.x.domain.push(t.dim);
@@ -101,7 +101,7 @@ var lineGraph = function chart(mode) {
   var drawAxis = function drawAxis() {
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     cs.x.xOffset = cs.y.axisWidth + 5;
-    cs.x.yOffset = _this.height - cs.x.axisHeight;
+    cs.x.yOffset = _this.displayHeight - cs.x.axisHeight;
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
   };
@@ -128,6 +128,8 @@ var lineGraph = function chart(mode) {
 
   svgContainer.append('g').append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.x.xOffset + ', ' + cs.x.yOffset + ')').call(cs.x.axis);
   svgContainer.append('g').append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.y.xOffset + ',' + cs.y.yOffset + ')').call(cs.y.axis);
+
+  return cs;
 };
 
 export default lineGraph;

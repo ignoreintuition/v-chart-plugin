@@ -46,7 +46,7 @@ var barChart = function chart() {
       * @description Returns height of the bar
       */
   var getHeight = function getHeight() {
-    return (_this.height - cs.x.axisHeight - _this.header - cs.bar.vPadding) / _this.ds.length - 1;
+    return (_this.displayHeight - cs.x.axisHeight - _this.header - cs.bar.vPadding) / _this.ds.length - 1;
   };
 
   /**
@@ -56,7 +56,7 @@ var barChart = function chart() {
      * @description Returns y axis co-ordinate of the bar
      */
   var getYCoord = function getYCoord(d, i) {
-    return i * (_this.height - cs.x.axisHeight - _this.header) / _this.ds.length + 1 + _this.header;
+    return i * (_this.displayHeight - cs.x.axisHeight - _this.header) / _this.ds.length + 1 + _this.header;
   };
 
   /**
@@ -113,7 +113,7 @@ var barChart = function chart() {
       return cs.y.domain.push(t.dim);
     });
     _this.ds.forEach(function (t, i) {
-      return cs.y.range.push((_this.chartData.height - cs.x.axisHeight - _this.header + cs.bar.vPadding) * i / _this.ds.length);
+      return cs.y.range.push((_this.displayHeight - cs.x.axisHeight - _this.header + cs.bar.vPadding) * i / _this.ds.length);
     });
     cs.y.scale = d3.scaleOrdinal().domain(cs.y.domain).range(cs.y.range);
   };
@@ -124,7 +124,7 @@ var barChart = function chart() {
   var drawAxis = function drawAxis() {
     cs.x.axis = d3.axisBottom().ticks(cs.x.ticks, 's').scale(cs.x.scale);
     cs.y.axis = d3.axisLeft().scale(cs.y.scale);
-    cs.x.yOffset = _this.height - cs.x.axisHeight;
+    cs.x.yOffset = _this.displayHeight - cs.x.axisHeight;
     cs.x.xOffset = cs.bar.hPadding + cs.y.axisWidth;
     cs.y.yOffset = cs.bar.vPadding + _this.header - 1;
     cs.y.xOffset = cs.y.axisWidth;
@@ -146,6 +146,8 @@ var barChart = function chart() {
   enter(rects);
   transition(rects);
   exit(rects);
+
+  return cs;
 };
 
 export default barChart;
