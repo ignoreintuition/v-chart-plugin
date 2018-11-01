@@ -1,4 +1,13 @@
-/* eslint-env browser */
+/** 
+ *  @fileOverview Area chart component definition
+ *
+ *  @author       Brian Greig
+ *
+ *  @requires     NPM:d3:Vue
+ *  @requires     src/v-chart-plugin.js
+ */
+
+ /* eslint-env browser */
 const d3 = Object.assign({},
   require('d3-selection'),
   require('d3-scale'),
@@ -6,12 +15,18 @@ const d3 = Object.assign({},
   require('d3-shape'));
 /**
  * Builds an Area Chart.
- * @constructor
- * @param {String} mode (init / refresh)
- * @exports areaChart
+ * @module areaChart
  */
 const areaChart = function chart() {
+  /**
+   * The SVG that stores the chart
+   * @member svgContainer
+   */
   const svgContainer = d3.select(`#${this.chartData.selector}`);
+  /**
+   * The configuration of the coordinate system
+   * @member cs
+   */
   let cs = {
     palette: {
       stroke: '#d1f4fa',
@@ -28,9 +43,10 @@ const areaChart = function chart() {
     },
   };
   /**
-   * @method getPoints
+   * Returns plot points  
+   * @member getPoints
+   * @function
    * @param {Object} p
-   * @description Returns plot points  
    */
   const getPoints = (p) => {
     let poly = (` ${this.width}, ${cs.x.yOffset} `);
@@ -42,9 +58,10 @@ const areaChart = function chart() {
   const poly = svgContainer.selectAll('polygon').data([this.ds]);
 
   /**
-   * @method enter
+   * Runs when a new element is added to the dataset
+   * @member enter
+   * @function
    * @param {Object} s (svg element)
-   * @description Runs when a new element is added to the dataset
    */
   const enter = (s) => {
     s.enter()
@@ -54,26 +71,29 @@ const areaChart = function chart() {
       .attr('points', getPoints);
   };
   /**
-   * @method transition
+   * Runs when a value of an element in dataset is changed
+   * @member transition
+   * @function
    * @param {Object} s (svg element)
-   * @description Runs when a value of an element in dataset is changed
    */
   const transition = (s) => {
     s.transition()
       .attr('points', getPoints);
   };
   /**
-   * @method exit
+   * Runs when an element is removed from the dataset
+   * @member exit
+   * @function
    * @param {Object} s (svg element)
-   * @description Runs when an element is removed from the dataset
    */
   const exit = (s) => {
     s.exit().remove();
     return s;
   };
   /**
-   * @method buildScales
-   * @description builds the scales for the x and y axes
+   * Builds the scales for the x and y axes
+   * @member buildScales
+   * @function
    */
   const buildScales = () => {
     cs.y.scale = d3.scaleLinear()
@@ -87,8 +107,9 @@ const areaChart = function chart() {
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
   };
   /**
-   * @method drawAxis
-   * @description draws the x and y axes on the svg
+   * Draws the x and y axes on the svg
+   * @member drawAxis
+   * @function
    */
   const drawAxis = () => {
     cs.polyFunction = d3.line()
@@ -106,6 +127,7 @@ const areaChart = function chart() {
         .attr('transform', `translate(${cs.y.xOffset},${cs.y.yOffset})`)
         .call(cs.y.axis);
   };
+  
   cs = this.setOverrides(cs, this.chartData.overrides);
   buildScales(cs);
   drawAxis(cs);
