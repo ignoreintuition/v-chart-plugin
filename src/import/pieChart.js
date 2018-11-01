@@ -30,19 +30,19 @@ const pieChart = function chart() {
   const getColor = (d, i) => color(i);
 
   /**
-     * @method mouseOver
-     * @param {Object} d (svg element)
-     * @description Adds a tooltip on mouse over
-     */
+   * @method mouseOver
+   * @param {Object} d (svg element)
+   * @description Adds a tooltip on mouse over
+   */
   const mouseOver = (d) => {
     this.addTooltip(d.data, window.event);
   };
 
   /**
-     * @method mouseOut
-     * @param {Object} d (svg element)
-     * @description Removes tooltip on mouse out
-     */
+   * @method mouseOut
+   * @param {Object} d (svg element)
+   * @description Removes tooltip on mouse out
+   */
   const mouseOut = (d) => {
     this.removeTooltip(d);
   };
@@ -71,10 +71,10 @@ const pieChart = function chart() {
     return arc;
   };
   /**
-    * @method transition
-    * @param {Object} arc (svg element)
-    * @description Runs when a value of an element in dataset is changed
-    */
+  * @method transition
+  * @param {Object} arc (svg element)
+  * @description Runs when a value of an element in dataset is changed
+  */
   const transition = (arc) => {
     arc.transition()
       .attr('d', path)
@@ -98,7 +98,7 @@ const pieChart = function chart() {
   const arc = svgContainer.selectAll('.arc')
     .data(pie(this.ds));
 
-  cs = this.setOverrides(cs, this.chartData.overrides); 
+  cs = this.setOverrides(cs, this.chartData.overrides);
   enter(arc);
   transition(arc);
   exit(arc);
