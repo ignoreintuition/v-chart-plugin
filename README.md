@@ -12,7 +12,7 @@ By adding additional charts into the import folder and importing them into the v
 
 [Demo Page](https://resurgencewebdesign.com/v-chart-plugin-demo/)
 
-![https://img.shields.io/cran/l/devtools.svg](gpl)
+![gpl](https://img.shields.io/cran/l/devtools.svg)
 ## Usage
 
 These instructions are assuming you are using Vue CLI to create your template.  Include the plugin in your main.js:
