@@ -93,7 +93,7 @@ const scatterPlot = function chart() {
     svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.y.xOffset},${cs.y.yOffset})`).call(cs.y.axis);
   };
 
-  cs = this.setOverrides(cs, this.chartData.overrides); 
+  cs = this.setOverrides(cs, this.chartData.overrides);
   buildScales(cs);
   drawAxis(cs);
   enter(points);
