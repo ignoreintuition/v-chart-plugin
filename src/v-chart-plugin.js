@@ -34,6 +34,7 @@ const Chart = {
       methods: {
         /**
          * Generate a new Chart of type chartType
+         * @memberOf Chart
          */
         initalizeChart() {
           const cs = this[this.chartData.chartType]('init');
@@ -42,6 +43,7 @@ const Chart = {
         },
         /**
          * Redraw the Chart when the data is recycled
+         * @memberOf Chart
          */
         refreshChart() {
           this.clearAxis();
@@ -49,18 +51,21 @@ const Chart = {
         },
         /**
          * Remove x and y axes
+         * @memberOf Chart
          */
         clearAxis() {
           d3.select(`#${this.chartData.selector}`).selectAll('.axis').remove();
         },
         /**
          * Remove all content from the SVG
+         * @memberOf Chart
          */
         clearCanvas() {
           d3.select(`#${this.chartData.selector}`).selectAll('*').remove();
         },
         /**
          * Appends title and subtitle to the chart
+         * @memberOf Chart
          */
         drawTitle() {
           d3.select(`#${this.chartData.selector}`)
@@ -79,6 +84,7 @@ const Chart = {
         },
         /**
          * Adds a tooltip to the SVG
+         * @memberOf Chart
          * @param {Object} d dataset
          * @param {Object} e event x and y coordinates
          */
@@ -102,6 +108,7 @@ const Chart = {
         },
         /**
          * Removes all tooltips from the SVG
+         * @memberOf Chart
          * @param {Object} d dataset
          */
         removeTooltip() {
@@ -123,6 +130,7 @@ const Chart = {
         },
         /**
          * Generate legend if option -legends- defined as true
+         * @memberOf Chart
          * @param {Object} cs configuration of the coordinate system
          */
         generateLegend(cs) {
@@ -159,6 +167,7 @@ const Chart = {
       computed: {
         /**
          * Dataset getter function
+         * @memberOf Chart
          * @returns {Object} normalized dataset
          */
         ds() {
@@ -171,6 +180,7 @@ const Chart = {
         },
         /**
          * Height getter function
+         * @memberOf Chart
          * @returns {number} Chart Height
          */
         height() {
@@ -178,6 +188,7 @@ const Chart = {
         },
         /**
          * Width getter function
+         * @memberOf Chart
          * @returns {number} Chart width
          */
         width() {
@@ -185,6 +196,7 @@ const Chart = {
         },
         /**
          * Get the maxium value for metric
+         * @memberOf Chart
          * @returns {number} Max value for metric
          */
         max() {
@@ -196,6 +208,7 @@ const Chart = {
         },
         /**
          * Get the minimum value for dataset
+         * @memberOf Chart
          * @returns {number} Min value for metric
          */
         min() {
@@ -203,6 +216,7 @@ const Chart = {
         },
         /**
          * Gets the height of the title 
+         * @memberOf Chart
          * @returns {number} Height of the chart title
          */
         titleHeight() {
@@ -211,6 +225,7 @@ const Chart = {
         },
         /**
          * Gets the height of the dispaly area
+         * @memberOf Chart
          * @returns {number} Height of the chart display
          */
         displayHeight() {
@@ -222,6 +237,7 @@ const Chart = {
         },
         /**
          * Gets the subtitle height
+         * @memberOf Chart
          * @returns {number} Height of chart subtitle
          */
         subtitleHeight() {
@@ -230,6 +246,7 @@ const Chart = {
         },
         /**
          * Gets the combined height of the title and subtitle
+         * @memberOf Chart
          * @returns {number} Total header height
          */
         header() {

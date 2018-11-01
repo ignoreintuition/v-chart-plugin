@@ -1,4 +1,13 @@
-/* eslint-env browser */
+/** 
+ *  @fileOverview Pie Chart component definition
+ *
+ *  @author       Brian Greig
+ *
+ *  @requires     NPM:d3:Vue
+ *  @requires     src/v-chart-plugin.js
+ */
+
+ /* eslint-env browser */
 const d3 = Object.assign({},
   require('d3-selection'),
   require('d3-scale'),
@@ -6,13 +15,19 @@ const d3 = Object.assign({},
   require('d3-shape'));
 /**
  * Builds an Pie Chart.
- * @constructor
- * @param {String} mode (init / refresh)
- * @exports pieChart
+ * @module pieChart
  */
 
 const pieChart = function chart() {
+  /**
+   * The SVG that stores the chart
+   * @member svgContainer
+   */
   const svgContainer = d3.select(`#${this.chartData.selector}`);
+  /**
+   * The configuration of the coordinate system
+   * @member cs
+   */
   let cs = {
     radius: null,
     ordinalColors: ['#d1f4fa', '#005792', '#ffe6eb', '#ffcdcd'],
@@ -24,24 +39,27 @@ const pieChart = function chart() {
     .range(cs.ordinalColors);
 
   /**
-   * @method getColor
-   * @description Returns colors for pie chart
+   * Returns colors for pie chart
+   * @member getColor
+   * @function
    */
   const getColor = (d, i) => color(i);
 
   /**
-   * @method mouseOver
+   * Adds a tooltip on mouse over
+   * @member mouseOver
+   * @function
    * @param {Object} d (svg element)
-   * @description Adds a tooltip on mouse over
    */
   const mouseOver = (d) => {
     this.addTooltip(d.data, window.event);
   };
 
   /**
-   * @method mouseOut
+   * Removes tooltip on mouse out
+   * @member mouseOut
+   * @function
    * @param {Object} d (svg element)
-   * @description Removes tooltip on mouse out
    */
   const mouseOut = (d) => {
     this.removeTooltip(d);
@@ -52,9 +70,10 @@ const pieChart = function chart() {
     .innerRadius(25);
 
   /**
-   * @method enter
+   * Runs when a new element is added to the dataset
+   * @member enter
+   * @function
    * @param {Object} arc (svg element)
-   * @description Runs when a new element is added to the dataset
    */
   const enter = (arc) => {
     arc.enter()
@@ -71,10 +90,11 @@ const pieChart = function chart() {
     return arc;
   };
   /**
-  * @method transition
-  * @param {Object} arc (svg element)
-  * @description Runs when a value of an element in dataset is changed
-  */
+   * Runs when a value of an element in dataset is changed
+   * @member transition
+   * @function
+   * @param {Object} arc (svg element)
+   */
   const transition = (arc) => {
     arc.transition()
       .attr('d', path)
@@ -82,9 +102,10 @@ const pieChart = function chart() {
     return arc;
   };
   /**
-   * @method exit
+   * Runs when an element is removed from the dataset
+   * @member exit
+   * @function
    * @param {Object} arc (svg element)
-   * @description Runs when an element is removed from the dataset
    */
   const exit = (arc) => {
     arc.exit().remove();

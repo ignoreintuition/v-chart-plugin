@@ -1,4 +1,11 @@
-/* eslint-env browser */
+/** 
+ *  @fileOverview Line Graph component definition
+ *
+ *  @author       Brian Greig
+ *
+ *  @requires     NPM:d3:Vue
+ *  @requires     src/v-chart-plugin.js
+ */
 const d3 = Object.assign({},
   require('d3-selection'),
   require('d3-scale'),
@@ -6,13 +13,19 @@ const d3 = Object.assign({},
   require('d3-shape'));
 /**
  * Builds a Line Graph.
- * @constructor
- * @param {String} mode (init / refresh)
- * @exports lineGraph
+ * @module lineGraph
  */
 
 const lineGraph = function chart(mode) {
+  /**
+   * The SVG that stores the chart
+   * @member svgContainer
+   */
   const svgContainer = d3.select(`#${this.chartData.selector}`);
+  /**
+   * The configuration of the coordinate system
+   * @member cs
+   */
   let cs = {
     palette: {
       lineFill: '#ffcdcd',
@@ -31,9 +44,10 @@ const lineGraph = function chart(mode) {
   };
 
   /**
-   * @method enter
+   * Runs when a new element is added to the dataset
+   * @member enter
+   * @function
    * @param {Object} points (svg element) 
-   * @description Runs when a new element is added to the dataset
    */
   const enter = (points, path) => {
     if (mode === 'init')
@@ -59,9 +73,10 @@ const lineGraph = function chart(mode) {
     return points;
   };
   /**
-   * @method transition
+   * Runs when a value of an element in dataset is changed
+   * @member transition
+   * @function
    * @param {Object} points (svg element) 
-   * @description Runs when a value of an element in dataset is changed
    */
   const transition = (points, path) => {
     path.transition()
@@ -76,9 +91,10 @@ const lineGraph = function chart(mode) {
   };
 
   /**
-   * @method exit
+   * Runs when an element is removed from the dataset
+   * @member exit
+   * @function
    * @param {Object} points (svg element)
-   * @description Runs when an element is removed from the dataset
    */
   const exit = (points, path) => {
     points.exit().remove();
@@ -87,8 +103,9 @@ const lineGraph = function chart(mode) {
   };
 
   /**
-   * @method buildScales
-   * @description builds the scales for the x and y axes
+   * Builds the scales for the x and y axes
+   * @member buildScales
+   * @function
    */
   const buildScales = () => {
     cs.y.scale = d3.scaleLinear()
@@ -100,8 +117,9 @@ const lineGraph = function chart(mode) {
     cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
   };
   /**
-   * @method drawAxis
-   * @description draws the x and y axes on the svg
+   * Draws the x and y axes on the svg
+   * @member drawAxis
+   * @function
    */
   const drawAxis = () => {
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
@@ -110,10 +128,7 @@ const lineGraph = function chart(mode) {
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
   };
-  /**
-   *
-   * Helper Functions
-   */
+
   cs.lineFunction = d3.line()
     .x(d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
     .y(d => cs.y.scale(d.metric));
