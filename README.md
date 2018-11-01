@@ -1,6 +1,29 @@
-# V CHART PLUGIN
-![logo](https://user-images.githubusercontent.com/5210420/46899802-2d7db800-ce66-11e8-896c-115ce3dcfb98.png)
-> A plugin for adding charts to Vue
+<h1 align="center">
+  <br>
+  <a href="https://resurgencewebdesign.com/v-chart-plugin-demo/"><img src="https://user-images.githubusercontent.com/5210420/46899802-2d7db800-ce66-11e8-896c-115ce3dcfb98.png" width="200"></a>
+  <br>
+  A plugin for adding charts to Vue
+  <br>
+</h1>
+
+<p align="center">
+  <a href="#">
+    <img src="https://img.shields.io/github/release-pre/ignoreintuition/v-chart-plugin.svg"
+         alt="version">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/github/license/ignoreintuition/v-chart-plugin.svg"
+         alt="version">
+  </a>
+
+</p>
+<h2 align="left"> Table of Contents </h2>
+<ul align="left">
+  <li><a href="#purpose">Purpose</a> </li>
+  <li><a href="#usage">Usage</a> </li>
+  <li><a href="#performance-consideration">Performance Consideration</a> </li>
+  <li><a href="#build-setup">Build Setup</a> </li>
+</ul>
 
 ## Purpose
 
