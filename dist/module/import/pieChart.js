@@ -1,17 +1,32 @@
 import _Object$assign from 'babel-runtime/core-js/object/assign';
+/** 
+ *  @fileOverview Pie Chart component definition
+ *
+ *  @author       Brian Greig
+ *
+ *  @requires     NPM:d3:Vue
+ *  @requires     src/v-chart-plugin.js
+ */
+
 /* eslint-env browser */
 var d3 = _Object$assign({}, require('d3-selection'), require('d3-scale'), require('d3-axis'), require('d3-shape'));
 /**
  * Builds an Pie Chart.
- * @constructor
- * @param {String} mode (init / refresh)
- * @exports pieChart
+ * @module pieChart
  */
 
 var pieChart = function chart() {
   var _this = this;
 
+  /**
+   * The SVG that stores the chart
+   * @member svgContainer
+   */
   var svgContainer = d3.select('#' + this.chartData.selector);
+  /**
+   * The configuration of the coordinate system
+   * @member cs
+   */
   var cs = {
     radius: null,
     ordinalColors: ['#d1f4fa', '#005792', '#ffe6eb', '#ffcdcd']
@@ -21,27 +36,30 @@ var pieChart = function chart() {
   var color = d3.scaleOrdinal().range(cs.ordinalColors);
 
   /**
-   * @method getColor
-   * @description Returns colors for pie chart
+   * Returns colors for pie chart
+   * @member getColor
+   * @function
    */
   var getColor = function getColor(d, i) {
     return color(i);
   };
 
   /**
-     * @method mouseOver
-     * @param {Object} d (svg element)
-     * @description Adds a tooltip on mouse over
-     */
+   * Adds a tooltip on mouse over
+   * @member mouseOver
+   * @function
+   * @param {Object} d (svg element)
+   */
   var mouseOver = function mouseOver(d) {
     _this.addTooltip(d.data, window.event);
   };
 
   /**
-     * @method mouseOut
-     * @param {Object} d (svg element)
-     * @description Removes tooltip on mouse out
-     */
+   * Removes tooltip on mouse out
+   * @member mouseOut
+   * @function
+   * @param {Object} d (svg element)
+   */
   var mouseOut = function mouseOut(d) {
     _this.removeTooltip(d);
   };
@@ -49,27 +67,30 @@ var pieChart = function chart() {
   var path = d3.arc().outerRadius(cs.radius - 10).innerRadius(25);
 
   /**
-   * @method enter
+   * Runs when a new element is added to the dataset
+   * @member enter
+   * @function
    * @param {Object} arc (svg element)
-   * @description Runs when a new element is added to the dataset
    */
   var enter = function enter(arc) {
     arc.enter().append('g').attr('transform', 'translate(' + _this.width / 2 + ',' + _this.height / 2 + ')').append('path').merge(arc).attr('class', 'arc').attr('d', path).attr('fill', getColor).on('mouseover', mouseOver).on('mouseout', mouseOut).attr('transform', 'translate(0,' + _this.header + ')');
     return arc;
   };
   /**
-    * @method transition
-    * @param {Object} arc (svg element)
-    * @description Runs when a value of an element in dataset is changed
-    */
+   * Runs when a value of an element in dataset is changed
+   * @member transition
+   * @function
+   * @param {Object} arc (svg element)
+   */
   var transition = function transition(arc) {
     arc.transition().attr('d', path).attr('fill', getColor);
     return arc;
   };
   /**
-   * @method exit
+   * Runs when an element is removed from the dataset
+   * @member exit
+   * @function
    * @param {Object} arc (svg element)
-   * @description Runs when an element is removed from the dataset
    */
   var exit = function exit(arc) {
     arc.exit().remove();

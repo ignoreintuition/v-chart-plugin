@@ -3,6 +3,14 @@ import _getIterator from 'babel-runtime/core-js/get-iterator';
 import _Object$keys from 'babel-runtime/core-js/object/keys';
 import _extends from 'babel-runtime/helpers/extends';
 import _Object$assign from 'babel-runtime/core-js/object/assign';
+/** 
+ *  @fileOverview Chart component containing all of the generic components required for charts
+ *
+ *  @author       Brian Greig
+ *
+ *  @requires     NPM:d3:Vue
+ */
+
 /* eslint-env browser */
 import barChart from './import/barChart';
 import vBarChart from './import/vBarChart';
@@ -13,18 +21,11 @@ import areaChart from './import/areaChart';
 
 var d3 = _Object$assign({}, require('d3-selection'));
 
-/** @name v-chart-plugin-module
- * @description This plugin is designed to allow Vue.js developers
- *  to incorporate fully reactive and customizable charts into their
- *  applications. The plugin is built off of the D3.js JavaScript
- *  library for manipulating documents based on data. By binding data
- *  from your components, you can create complex charts and graphs that
- *  respond to changes in your application. Vue.js lifecycle events
- *  will trigger the charts to update and maintain two-way binding
- *  between your charts and your data. By adding in a state management
- *  (such as Vuex) you can additionally persist state across an entire application.
- * @exports Chart
-*/
+/**
+ *  Chart is the generic component used for any chart type
+ *  @namespace
+ */
+
 var Chart = {
   install: function install(Vue) {
     Vue.component('v-chart', {
@@ -37,9 +38,9 @@ var Chart = {
 
       methods: _extends({
         /**
-                 * @method initalizeChart
-                 * @description Generate a new Chart of type chartType
-                 */
+         * Generate a new Chart of type chartType
+         * @memberOf Chart
+         */
         initalizeChart: function initalizeChart() {
           var cs = this[this.chartData.chartType]('init');
           this.drawTitle();
@@ -47,34 +48,34 @@ var Chart = {
         },
 
         /**
-                 * @method refreshChart
-                 * @description Redraw the Chart when the data is recycled
-                 */
+         * Redraw the Chart when the data is recycled
+         * @memberOf Chart
+         */
         refreshChart: function refreshChart() {
           this.clearAxis();
           this[this.chartData.chartType]('refresh');
         },
 
         /**
-                 * @method clearAxis
-                 * @description Remove x and y axes
-                 */
+         * Remove x and y axes
+         * @memberOf Chart
+         */
         clearAxis: function clearAxis() {
           d3.select('#' + this.chartData.selector).selectAll('.axis').remove();
         },
 
         /**
-                 * @method clearCanvas
-                 * @description Remove all content from the SVG
-                 */
+         * Remove all content from the SVG
+         * @memberOf Chart
+         */
         clearCanvas: function clearCanvas() {
           d3.select('#' + this.chartData.selector).selectAll('*').remove();
         },
 
         /**
-                 * @method drawTitle
-                 * @description Appends title and subtitle to the chart
-                 */
+         * Appends title and subtitle to the chart
+         * @memberOf Chart
+         */
         drawTitle: function drawTitle() {
           d3.select('#' + this.chartData.selector).append('text').attr('x', this.width / 2).attr('y', this.titleHeight - this.titleHeight * 0.1).style('text-anchor', 'middle').text(this.chartData.title);
 
@@ -82,11 +83,11 @@ var Chart = {
         },
 
         /**
-                 * @method addTooltip
-                 * @param {Object} d dataset
-                 * @param {Object} e event x and y coordinates
-                 * @description Adds a tooltip to the SVG
-                 */
+         * Adds a tooltip to the SVG
+         * @memberOf Chart
+         * @param {Object} d dataset
+         * @param {Object} e event x and y coordinates
+         */
         addTooltip: function addTooltip(d, e) {
           d3.select('#' + this.chartData.selector).append('rect').attr('x', e.layerX - 5 - 50).attr('y', e.layerY - 13 - 25).attr('height', '16px').attr('width', '80px').attr('class', 'tt').attr('fill', 'white');
 
@@ -94,18 +95,20 @@ var Chart = {
         },
 
         /**
-                 * @method removeTooltip
-                 * @param {Object} d dataset
-                 * @description Removes all tooltips from the SVG
-                 */
+         * Removes all tooltips from the SVG
+         * @memberOf Chart
+         * @param {Object} d dataset
+         */
         removeTooltip: function removeTooltip() {
           d3.select('#' + this.chartData.selector).selectAll('.tt').remove();
         },
 
         /**
-             * @method setOverrides
-             * @description override default values 
-             */
+         * Override default values 
+         * @param {Object} cs configuration of the coordinate systems
+         * @param {Object} overrides the additional values that can be used for an object
+         * @returns {Object} updated configuration of coordinate system 
+         */
         setOverrides: function setOverrides(cs, overrides) {
           overrides = overrides || {};
           var keys = _Object$keys(cs);
@@ -138,9 +141,10 @@ var Chart = {
         },
 
         /**
-             * @method generateLegend
-             * @description generate legend if option -legends- defined as true
-             */
+         * Generate legend if option -legends- defined as true
+         * @memberOf Chart
+         * @param {Object} cs configuration of the coordinate system
+         */
         generateLegend: function generateLegend(cs) {
           if (this.chartData.legends && this.chartData.legends.enabled === true) {
             d3.select('#' + this.chartData.selector).append('text').attr('x', this.width - 60).attr('y', this.height * 0.95).style('text-anchor', 'middle').text(this.chartData.metric);
@@ -154,10 +158,10 @@ var Chart = {
       }, typeof barChart !== 'undefined' && { barChart: barChart }, typeof vBarChart !== 'undefined' && { vBarChart: vBarChart }, typeof scatterPlot !== 'undefined' && { scatterPlot: scatterPlot }, typeof pieChart !== 'undefined' && { pieChart: pieChart }, typeof areaChart !== 'undefined' && { areaChart: areaChart }, typeof lineGraph !== 'undefined' && { lineGraph: lineGraph }),
       computed: {
         /**
-                 * @method ds
-                 * @description Computed.
-                 * @returns {Object} normalized dataset
-                 */
+         * Dataset getter function
+         * @memberOf Chart
+         * @returns {Object} normalized dataset
+         */
         ds: function ds() {
           var _this = this;
 
@@ -170,28 +174,28 @@ var Chart = {
         },
 
         /**
-                 * @method height
-                 * @description Computed.
-                 * @returns {number} Chart Height
-                 */
+         * Height getter function
+         * @memberOf Chart
+         * @returns {number} Chart Height
+         */
         height: function height() {
           return this.chartData.height || 200;
         },
 
         /**
-                 * @method width
-                 * @description Computed.
-                 * @returns {number} Chart width
-                 */
+         * Width getter function
+         * @memberOf Chart
+         * @returns {number} Chart width
+         */
         width: function width() {
           return this.chartData.width || 200;
         },
 
         /**
-                 * @method max
-                 * @description Computed.
-                 * @returns {number} Max value for metric
-                 */
+         * Get the maxium value for metric
+         * @memberOf Chart
+         * @returns {number} Max value for metric
+         */
         max: function max() {
           var max = 0;
           this.ds.forEach(function (e) {
@@ -201,10 +205,10 @@ var Chart = {
         },
 
         /**
-                 * @method min
-                 * @description Computed.
-                 * @returns {number} Min value for metric
-                 */
+         * Get the minimum value for dataset
+         * @memberOf Chart
+         * @returns {number} Min value for metric
+         */
         min: function min() {
           return Math.min.apply(Math, _toConsumableArray(this.ds.map(function (o) {
             return o.metric;
@@ -212,20 +216,20 @@ var Chart = {
         },
 
         /**
-                 * @method titleHeight
-                 * @description Computed.
-                 * @returns {number} Height of the chart title
-                 */
+         * Gets the height of the title 
+         * @memberOf Chart
+         * @returns {number} Height of the chart title
+         */
         titleHeight: function titleHeight() {
           if (this.chartData.title) return this.chartData.textHeight || 25;
           return 0;
         },
 
         /**
-                 * @method displayHeight
-                 * @description Computed.
-                 * @returns {number} Height of the chart display
-                 */
+         * Gets the height of the dispaly area
+         * @memberOf Chart
+         * @returns {number} Height of the chart display
+         */
         displayHeight: function displayHeight() {
           if (this.chartData.legends && this.chartData.legends.enabled === true) {
             return this.height * .80;
@@ -235,20 +239,20 @@ var Chart = {
         },
 
         /**
-                 * @method subtitleHeight
-                 * @description Computed.
-                 * @returns {number} Height of chart subtitle
-                 */
+         * Gets the subtitle height
+         * @memberOf Chart
+         * @returns {number} Height of chart subtitle
+         */
         subtitleHeight: function subtitleHeight() {
           if (this.chartData.subtitle) return this.chartData.textHeight * 0.66 || 25 * 0.66;
           return 0;
         },
 
         /**
-                 * @method header
-                 * @description Computed.
-                 * @returns {number} Total header height
-                 */
+         * Gets the combined height of the title and subtitle
+         * @memberOf Chart
+         * @returns {number} Total header height
+         */
         header: function header() {
           return this.titleHeight + this.subtitleHeight;
         }
