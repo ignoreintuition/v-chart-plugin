@@ -172,8 +172,18 @@ const Chart = {
          */
         ds() {
           return this.chartData.data.map((d) => {
-            const td = {};
-            td.metric = this.chartData.metric ? d[this.chartData.metric] : d;
+            const td = {
+              metric: [],
+            };
+            if (!this.chartData.metric) {
+              td.metric.push(d);
+            } else {
+              if (!Array.isArray(this.chartData.metric)){
+                td.metric.push(d[this.chartData.metric]);
+              } else {
+                td.metric.push(d[this.chartData.metric[0]]);
+              }
+            }
             td.dim = this.chartData.dim ? d[this.chartData.dim] : null;
             return td;
           });
