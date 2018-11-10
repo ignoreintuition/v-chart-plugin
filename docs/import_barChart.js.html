@@ -26,7 +26,16 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-env browser */
+            <pre class="prettyprint source linenums"><code>/** 
+ *  @fileOverview Bar chart component definition
+ *
+ *  @author       Brian Greig
+ *
+ *  @requires     NPM:d3:Vue
+ *  @requires     src/v-chart-plugin.js
+ */
+
+ /* eslint-env browser */
 const d3 = Object.assign({},
   require('d3-selection'),
   require('d3-scale'),
@@ -34,13 +43,19 @@ const d3 = Object.assign({},
   require('d3-ease'));
 /**
  * Builds a Bar Chart.
- * @constructor
- * @param {String} mode (init / refresh)
- * @exports barChart
+ * @module barChart
  */
 
 const barChart = function chart() {
+  /**
+   * The SVG that stores the chart
+   * @member svgContainer
+   */
   const svgContainer = d3.select(`#${this.chartData.selector}`);
+  /**
+   * The configuration of the coordinate system
+   * @member cs
+   */
   let cs = {
     palette: {
       fill: '#005792',
@@ -61,52 +76,57 @@ const barChart = function chart() {
     },
   };
 
-  
   /**
-     * @method getWidth
-     * @param {Object} d (svg element)
-     * @description Returns width of the bar
-     */
+   * Returns width of the bar
+   * @member getWidth
+   * @function
+   * @param {Object} d (svg element)
+   */
   const getWidth = d => cs.x.scale(d.metric);
 
- /**
-     * @method getHeight
-     * @description Returns height of the bar
-     */
+  /**
+   * Returns height of the bar
+   * @member getHeight
+   * @function
+   */
   const getHeight = () => (
-    this.height - cs.x.axisHeight - this.header - cs.bar.vPadding) / this.ds.length - 1;
+    this.displayHeight - cs.x.axisHeight - this.header - cs.bar.vPadding) / this.ds.length - 1;
 
   /**
-     * @method getYCoord
-     * @param {Object} d (svg element)
-     * @param {Object} i (svg element)
-     * @description Returns y axis co-ordinate of the bar
-     */
+   * Returns y axis co-ordinate of the bar
+   * @member getYCoord
+   * @function
+   * @param {Object} d (svg element)
+   * @param {Object} i (svg element)
+   */
   const getYCoord = (d, i) => i * (
-    this.height - cs.x.axisHeight - this.header) / this.ds.length + 1 + this.header;
+    this.displayHeight - cs.x.axisHeight - this.header) / this.ds.length + 1 + this.header;
 
   /**
-     * @method mouseOver
-     * @param {Object} d (svg element)
-     * @description Adds a tooltip on mouse over
-     */
+   * Adds a tooltip on mouse over
+   * @member mouseOver
+   * @function
+   * @param {Object} d (svg element)
+   */
   const mouseOver = (d) => {
     this.addTooltip(d, window.event);
   };
 
   /**
-     * @method mouseOut
-     * @param {Object} d (svg element)
-     * @description Removes tooltip on mouse out
-     */
+   * Removes tooltip on mouse out
+   * @member mouseOut
+   * @function
+   * @param {Object} d (svg element)
+   */
   const mouseOut = (d) => {
     this.removeTooltip(d);
   };
-    /**
-     * @method enter
-     * @param {Object} rects (svg element)
-     * @description Runs when a new element is added to the dataset
-     */
+  /**
+   * Runs when a new element is added to the dataset
+   * @member enter
+   * @function
+   * @param {Object} rects (svg element)
+   */
   const enter = (rects) => {
     rects.enter()
       .append('rect')
@@ -121,11 +141,12 @@ const barChart = function chart() {
       .on('mouseout', mouseOut);
     return rects;
   };
-    /**
-     * @method transition
-     * @param {Object} rects (svg element)
-     * @description Runs when a value of an element in dataset is changed
-     */
+  /**
+   * Runs when a value of an element in dataset is changed
+   * @member transition
+   * @function
+   * @param {Object} rects (svg element)
+   */
   const transition = (rects) => {
     rects.transition()
       .attr('width', getWidth)
@@ -134,36 +155,39 @@ const barChart = function chart() {
       .attr('x', cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
-    /**
-     * @method exit
-     * @param {Object} rect (svg element)
-     * @description Runs when an element is removed from the dataset
-     */
+  /**
+   * Runs when an element is removed from the dataset
+   * @member exit
+   * @function
+   * @param {Object} rect (svg element)
+   */
   const exit = (rects) => {
     rects.exit().remove();
     return rects;
   };
-    /**
-     * @method buildScales
-     * @description builds the scales for the x and y axes
-     */
+  /**
+   * Builds the scales for the x and y axes
+   * @member buildScales
+   * @function
+   */
   const buildScales = () => {
     cs.x.scale = d3.scaleLinear()
       .domain([0, this.max])
       .range([0, this.width - cs.bar.hPadding - cs.y.axisWidth]);
     this.ds.forEach(t => cs.y.domain.push(t.dim));
     this.ds.forEach((t, i) => cs.y.range.push(((
-      this.chartData.height - cs.x.axisHeight - this.header + cs.bar.vPadding) * i) / this.ds.length));
+      this.displayHeight - cs.x.axisHeight - this.header + cs.bar.vPadding) * i) / this.ds.length));
     cs.y.scale = d3.scaleOrdinal().domain(cs.y.domain).range(cs.y.range);
   };
-    /**
-     * @method drawAxis
-     * @description draws the x and y axes on the svg
-     */
+  /**
+   * Draws the x and y axes on the svg
+   * @member drawAxis
+   * @function
+   */
   const drawAxis = () => {
     cs.x.axis = d3.axisBottom().ticks(cs.x.ticks, 's').scale(cs.x.scale);
     cs.y.axis = d3.axisLeft().scale(cs.y.scale);
-    cs.x.yOffset = this.height - cs.x.axisHeight;
+    cs.x.yOffset = this.displayHeight - cs.x.axisHeight;
     cs.x.xOffset = cs.bar.hPadding + cs.y.axisWidth;
     cs.y.yOffset = cs.bar.vPadding + this.header - 1;
     cs.y.xOffset = cs.y.axisWidth;
@@ -171,22 +195,30 @@ const barChart = function chart() {
       svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.y.xOffset}, ${cs.y.yOffset})`).call(cs.y.axis);
     svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.x.xOffset}, ${cs.x.yOffset})`).call(cs.x.axis);
   };
-
+  /**
+   * Get the maximum dimension length
+   * @member getMaxDimLength
+   * @function
+   * @param {number} accumulator
+   * @param {number} currentValue
+   */
   const getMaxDimLength = (accumulator, currentValue) => {
     return (currentValue.dim.length > accumulator) ? currentValue.dim.length : accumulator;
   }
 
   const rects = svgContainer.selectAll('rect').data(this.ds);
 
-  cs = this.setOverrides(cs, this.chartData.overrides); 
+  cs = this.setOverrides(cs, this.chartData.overrides);
   if (this.ds[0].dim)
     cs.y.axisWidth = cs.y.axisWidth || (this.ds.reduce(getMaxDimLength, 0)) * 10;
-  
+
   buildScales(cs);
   drawAxis(cs);
   enter(rects);
   transition(rects);
   exit(rects);
+
+  return cs;
 };
 
 export default barChart;
@@ -200,13 +232,13 @@ export default barChart;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-areaChart.html">areaChart</a></li><li><a href="module-barChart.html">barChart</a></li><li><a href="module-lineGraph.html">lineGraph</a></li><li><a href="module-pieChart.html">pieChart</a></li><li><a href="module-scatterPlot.html">scatterPlot</a></li><li><a href="module-v-chart-plugin-module.html">v-chart-plugin-module</a></li><li><a href="module-vBarChart.html">vBarChart</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-areaChart.html">areaChart</a></li><li><a href="module-barChart.html">barChart</a></li><li><a href="module-lineGraph.html">lineGraph</a></li><li><a href="module-pieChart.html">pieChart</a></li><li><a href="module-scatterPlot.html">scatterPlot</a></li><li><a href="module-vBarChart.html">vBarChart</a></li></ul><h3>Namespaces</h3><ul><li><a href="Chart.html">Chart</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Oct 30 2018 22:19:35 GMT-0400 (EDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Oct 31 2018 22:43:41 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,17 +1,32 @@
 import _Object$assign from 'babel-runtime/core-js/object/assign';
+/** 
+ *  @fileOverview Scatter Plot component definition
+ *
+ *  @author       Brian Greig
+ *
+ *  @requires     NPM:d3:Vue
+ *  @requires     src/v-chart-plugin.js
+ */
+
 /* eslint-env browser */
 var d3 = _Object$assign({}, require('d3-selection'), require('d3-scale'), require('d3-axis'));
 /**
  * Builds a Scatter Plot.
- * @constructor
- * @param {String} mode (init / refresh)
- * @exports scatterPlot
+ * @module scatterPlot
  */
 
 var scatterPlot = function chart() {
   var _this = this;
 
+  /**
+   * The SVG that stores the chart
+   * @member svgContainer
+   */
   var svgContainer = d3.select('#' + this.chartData.selector);
+  /**
+   * The configuration of the coordinate system
+   * @member cs
+   */
   var cs = {
     x: {
       domain: [],
@@ -25,9 +40,10 @@ var scatterPlot = function chart() {
   };
   var points = svgContainer.selectAll('circle').data(this.ds);
   /**
-   * @method enter
+   * Runs when a new element is added to the dataset
+   * @member enter
+   * @function
    * @param {Object} p (svg element)
-   * @description Runs when a new element is added to the dataset
    */
   var enter = function enter(p) {
     p.enter().append('circle').attr('class', _this.selector).attr('r', 2).on('mouseover', function (d) {
@@ -42,9 +58,10 @@ var scatterPlot = function chart() {
     return points;
   };
   /**
-   * @method transition
+   * Runs when a value of an element in dataset is changed
+   * @member transition
+   * @function
    * @param {Object} p (svg element)
-   * @description Runs when a value of an element in dataset is changed
    */
   var transition = function transition(p) {
     p.transition().attr('cx', function (d) {
@@ -59,17 +76,19 @@ var scatterPlot = function chart() {
     return points;
   };
   /**
-   * @method exit
+   * Runs when an element is removed from the dataset
+   * @member exit
+   * @function
    * @param {Object} rect (svg element)
-   * @description Runs when an element is removed from the dataset
    */
   var exit = function exit() {
     points.exit().remove();
     return points;
   };
   /**
-   * @method buildScales
-   * @description builds the scales for the x and y axes
+   * Builds the scales for the x and y axes
+   * @member buildScales
+   * @function
    */
   var buildScales = function buildScales() {
     cs.y.scale = d3.scaleLinear().domain([_this.min, _this.max]).range([_this.displayHeight - cs.x.axisHeight, _this.header]);
@@ -83,8 +102,9 @@ var scatterPlot = function chart() {
     cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
   };
   /**
-   * @method drawAxis
-   * @description draws the x and y axes on the svg
+   * Draws the x and y axes on the svg
+   * @member drawAxis
+   * @function
    */
   var drawAxis = function drawAxis() {
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);

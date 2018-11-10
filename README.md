@@ -1,6 +1,29 @@
-# V CHART PLUGIN
-![logo](https://user-images.githubusercontent.com/5210420/46899802-2d7db800-ce66-11e8-896c-115ce3dcfb98.png)
-> A plugin for adding charts to Vue
+<h1 align="center">
+  <br>
+  <a href="https://resurgencewebdesign.com/v-chart-plugin-demo/"><img src="https://user-images.githubusercontent.com/5210420/46899802-2d7db800-ce66-11e8-896c-115ce3dcfb98.png" width="200"></a>
+  <br>
+  A plugin for adding charts to Vue
+  <br>
+</h1>
+
+<p align="center">
+  <a href="#">
+    <img src="https://img.shields.io/github/release-pre/ignoreintuition/v-chart-plugin.svg"
+         alt="version">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/github/license/ignoreintuition/v-chart-plugin.svg"
+         alt="version">
+  </a>
+
+</p>
+<h2 align="left"> Table of Contents </h2>
+<ul align="left">
+  <li><a href="#purpose">Purpose</a> </li>
+  <li><a href="#usage">Usage</a> </li>
+  <li><a href="#performance-consideration">Performance Consideration</a> </li>
+  <li><a href="#build-setup">Build Setup</a> </li>
+</ul>
 
 ![Screenshot](https://user-images.githubusercontent.com/5210420/48297569-b85bcd80-e479-11e8-85ad-b1a4cc00967f.gif)
 
@@ -72,7 +95,7 @@ export default {
 ### Overrides
 If you need to override any of the default values of the charts (pallette colors, ticks, margins, etc) you can pass an overrides object to you chartData.
 
-```
+```JavaScript
       vBarChartData: {
         chartType: "vBarChart",
         ...   
@@ -85,6 +108,20 @@ If you need to override any of the default values of the charts (pallette colors
           },
         }
       },
+```
+### Legends
+Legends are turned off by default.  You can add a legend to a chart by including a legends objects in your chartData as such:
+
+```JavaScript
+chartData: {
+  chartType: "vBarChart",
+  ...
+  legends: {
+    enabled: true,
+    height: 25,
+    width: 50,
+  }
+}
 ```
 
 ### Chart types currently supported:
@@ -114,7 +151,7 @@ If you wish to style the components of the chart you can via the selectors:
 
 By default all charts are imported into v-chart-plugin.js.  This allows all charts to share one common interface.  If you are only using a few select charts in your implementation you can remove those unused charts from the import statements in the v-chart-plugin.js.  
 
-```
+```JavaScript
 import barChart     from './import/barChart' 
 import vBarChart    from './import/vBarChart'
 import lineGraph    from './import/lineGraph'

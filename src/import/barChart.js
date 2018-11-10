@@ -1,4 +1,13 @@
-/* eslint-env browser */
+/** 
+ *  @fileOverview Bar chart component definition
+ *
+ *  @author       Brian Greig
+ *
+ *  @requires     NPM:d3:Vue
+ *  @requires     src/v-chart-plugin.js
+ */
+
+ /* eslint-env browser */
 const d3 = Object.assign({},
   require('d3-selection'),
   require('d3-scale'),
@@ -6,13 +15,19 @@ const d3 = Object.assign({},
   require('d3-ease'));
 /**
  * Builds a Bar Chart.
- * @constructor
- * @param {String} mode (init / refresh)
- * @exports barChart
+ * @module barChart
  */
 
 const barChart = function chart() {
+  /**
+   * The SVG that stores the chart
+   * @member svgContainer
+   */
   const svgContainer = d3.select(`#${this.chartData.selector}`);
+  /**
+   * The configuration of the coordinate system
+   * @member cs
+   */
   let cs = {
     palette: {
       fill: '#005792',
@@ -33,52 +48,57 @@ const barChart = function chart() {
     },
   };
 
-  
   /**
-     * @method getWidth
-     * @param {Object} d (svg element)
-     * @description Returns width of the bar
-     */
+   * Returns width of the bar
+   * @member getWidth
+   * @function
+   * @param {Object} d (svg element)
+   */
   const getWidth = d => cs.x.scale(d.metric);
 
- /**
-     * @method getHeight
-     * @description Returns height of the bar
-     */
+  /**
+   * Returns height of the bar
+   * @member getHeight
+   * @function
+   */
   const getHeight = () => (
     this.displayHeight - cs.x.axisHeight - this.header - cs.bar.vPadding) / this.ds.length - 1;
 
   /**
-     * @method getYCoord
-     * @param {Object} d (svg element)
-     * @param {Object} i (svg element)
-     * @description Returns y axis co-ordinate of the bar
-     */
+   * Returns y axis co-ordinate of the bar
+   * @member getYCoord
+   * @function
+   * @param {Object} d (svg element)
+   * @param {Object} i (svg element)
+   */
   const getYCoord = (d, i) => i * (
     this.displayHeight - cs.x.axisHeight - this.header) / this.ds.length + 1 + this.header;
 
   /**
-     * @method mouseOver
-     * @param {Object} d (svg element)
-     * @description Adds a tooltip on mouse over
-     */
+   * Adds a tooltip on mouse over
+   * @member mouseOver
+   * @function
+   * @param {Object} d (svg element)
+   */
   const mouseOver = (d) => {
     this.addTooltip(d, window.event);
   };
 
   /**
-     * @method mouseOut
-     * @param {Object} d (svg element)
-     * @description Removes tooltip on mouse out
-     */
+   * Removes tooltip on mouse out
+   * @member mouseOut
+   * @function
+   * @param {Object} d (svg element)
+   */
   const mouseOut = (d) => {
     this.removeTooltip(d);
   };
-    /**
-     * @method enter
-     * @param {Object} rects (svg element)
-     * @description Runs when a new element is added to the dataset
-     */
+  /**
+   * Runs when a new element is added to the dataset
+   * @member enter
+   * @function
+   * @param {Object} rects (svg element)
+   */
   const enter = (rects) => {
     rects.enter()
       .append('rect')
@@ -93,11 +113,12 @@ const barChart = function chart() {
       .on('mouseout', mouseOut);
     return rects;
   };
-    /**
-     * @method transition
-     * @param {Object} rects (svg element)
-     * @description Runs when a value of an element in dataset is changed
-     */
+  /**
+   * Runs when a value of an element in dataset is changed
+   * @member transition
+   * @function
+   * @param {Object} rects (svg element)
+   */
   const transition = (rects) => {
     rects.transition()
       .attr('width', getWidth)
@@ -106,19 +127,21 @@ const barChart = function chart() {
       .attr('x', cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
-    /**
-     * @method exit
-     * @param {Object} rect (svg element)
-     * @description Runs when an element is removed from the dataset
-     */
+  /**
+   * Runs when an element is removed from the dataset
+   * @member exit
+   * @function
+   * @param {Object} rect (svg element)
+   */
   const exit = (rects) => {
     rects.exit().remove();
     return rects;
   };
-    /**
-     * @method buildScales
-     * @description builds the scales for the x and y axes
-     */
+  /**
+   * Builds the scales for the x and y axes
+   * @member buildScales
+   * @function
+   */
   const buildScales = () => {
     cs.x.scale = d3.scaleLinear()
       .domain([0, this.max])
@@ -128,10 +151,11 @@ const barChart = function chart() {
       this.displayHeight - cs.x.axisHeight - this.header + cs.bar.vPadding) * i) / this.ds.length));
     cs.y.scale = d3.scaleOrdinal().domain(cs.y.domain).range(cs.y.range);
   };
-    /**
-     * @method drawAxis
-     * @description draws the x and y axes on the svg
-     */
+  /**
+   * Draws the x and y axes on the svg
+   * @member drawAxis
+   * @function
+   */
   const drawAxis = () => {
     cs.x.axis = d3.axisBottom().ticks(cs.x.ticks, 's').scale(cs.x.scale);
     cs.y.axis = d3.axisLeft().scale(cs.y.scale);
@@ -143,17 +167,23 @@ const barChart = function chart() {
       svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.y.xOffset}, ${cs.y.yOffset})`).call(cs.y.axis);
     svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.x.xOffset}, ${cs.x.yOffset})`).call(cs.x.axis);
   };
-
+  /**
+   * Get the maximum dimension length
+   * @member getMaxDimLength
+   * @function
+   * @param {number} accumulator
+   * @param {number} currentValue
+   */
   const getMaxDimLength = (accumulator, currentValue) => {
     return (currentValue.dim.length > accumulator) ? currentValue.dim.length : accumulator;
   }
 
   const rects = svgContainer.selectAll('rect').data(this.ds);
 
-  cs = this.setOverrides(cs, this.chartData.overrides); 
+  cs = this.setOverrides(cs, this.chartData.overrides);
   if (this.ds[0].dim)
     cs.y.axisWidth = cs.y.axisWidth || (this.ds.reduce(getMaxDimLength, 0)) * 10;
-  
+
   buildScales(cs);
   drawAxis(cs);
   enter(rects);

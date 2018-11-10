@@ -1,17 +1,32 @@
-/* eslint-env browser */
+/** 
+ *  @fileOverview Scatter Plot component definition
+ *
+ *  @author       Brian Greig
+ *
+ *  @requires     NPM:d3:Vue
+ *  @requires     src/v-chart-plugin.js
+ */
+
+ /* eslint-env browser */
 const d3 = Object.assign({},
   require('d3-selection'),
   require('d3-scale'),
   require('d3-axis'));
 /**
  * Builds a Scatter Plot.
- * @constructor
- * @param {String} mode (init / refresh)
- * @exports scatterPlot
+ * @module scatterPlot
  */
 
 const scatterPlot = function chart() {
+  /**
+   * The SVG that stores the chart
+   * @member svgContainer
+   */
   const svgContainer = d3.select(`#${this.chartData.selector}`);
+  /**
+   * The configuration of the coordinate system
+   * @member cs
+   */
   let cs = {
     x: {
       domain: [],
@@ -25,9 +40,10 @@ const scatterPlot = function chart() {
   };
   const points = svgContainer.selectAll('circle').data(this.ds);
   /**
-   * @method enter
+   * Runs when a new element is added to the dataset
+   * @member enter
+   * @function
    * @param {Object} p (svg element)
-   * @description Runs when a new element is added to the dataset
    */
   const enter = (p) => {
     p.enter()
@@ -45,9 +61,10 @@ const scatterPlot = function chart() {
     return points;
   };
   /**
-   * @method transition
+   * Runs when a value of an element in dataset is changed
+   * @member transition
+   * @function
    * @param {Object} p (svg element)
-   * @description Runs when a value of an element in dataset is changed
    */
   const transition = (p) => {
     p.transition()
@@ -58,17 +75,19 @@ const scatterPlot = function chart() {
     return points;
   };
   /**
-   * @method exit
+   * Runs when an element is removed from the dataset
+   * @member exit
+   * @function
    * @param {Object} rect (svg element)
-   * @description Runs when an element is removed from the dataset
    */
   const exit = () => {
     points.exit().remove();
     return points;
   };
   /**
-   * @method buildScales
-   * @description builds the scales for the x and y axes
+   * Builds the scales for the x and y axes
+   * @member buildScales
+   * @function
    */
   const buildScales = () => {
     cs.y.scale = d3.scaleLinear()
@@ -80,8 +99,9 @@ const scatterPlot = function chart() {
     cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
   };
   /**
-   * @method drawAxis
-   * @description draws the x and y axes on the svg
+   * Draws the x and y axes on the svg
+   * @member drawAxis
+   * @function
    */
   const drawAxis = () => {
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
@@ -93,7 +113,7 @@ const scatterPlot = function chart() {
     svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.y.xOffset},${cs.y.yOffset})`).call(cs.y.axis);
   };
 
-  cs = this.setOverrides(cs, this.chartData.overrides); 
+  cs = this.setOverrides(cs, this.chartData.overrides);
   buildScales(cs);
   drawAxis(cs);
   enter(points);

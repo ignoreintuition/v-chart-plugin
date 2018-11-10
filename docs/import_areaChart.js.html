@@ -26,7 +26,16 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-env browser */
+            <pre class="prettyprint source linenums"><code>/** 
+ *  @fileOverview Area chart component definition
+ *
+ *  @author       Brian Greig
+ *
+ *  @requires     NPM:d3:Vue
+ *  @requires     src/v-chart-plugin.js
+ */
+
+ /* eslint-env browser */
 const d3 = Object.assign({},
   require('d3-selection'),
   require('d3-scale'),
@@ -34,12 +43,18 @@ const d3 = Object.assign({},
   require('d3-shape'));
 /**
  * Builds an Area Chart.
- * @constructor
- * @param {String} mode (init / refresh)
- * @exports areaChart
+ * @module areaChart
  */
 const areaChart = function chart() {
+  /**
+   * The SVG that stores the chart
+   * @member svgContainer
+   */
   const svgContainer = d3.select(`#${this.chartData.selector}`);
+  /**
+   * The configuration of the coordinate system
+   * @member cs
+   */
   let cs = {
     palette: {
       stroke: '#d1f4fa',
@@ -56,9 +71,10 @@ const areaChart = function chart() {
     },
   };
   /**
-   * @method getPoints
+   * Returns plot points  
+   * @member getPoints
+   * @function
    * @param {Object} p
-   * @description Returns plot points  
    */
   const getPoints = (p) => {
     let poly = (` ${this.width}, ${cs.x.yOffset} `);
@@ -70,9 +86,10 @@ const areaChart = function chart() {
   const poly = svgContainer.selectAll('polygon').data([this.ds]);
 
   /**
-   * @method enter
+   * Runs when a new element is added to the dataset
+   * @member enter
+   * @function
    * @param {Object} s (svg element)
-   * @description Runs when a new element is added to the dataset
    */
   const enter = (s) => {
     s.enter()
@@ -82,31 +99,34 @@ const areaChart = function chart() {
       .attr('points', getPoints);
   };
   /**
-   * @method transition
+   * Runs when a value of an element in dataset is changed
+   * @member transition
+   * @function
    * @param {Object} s (svg element)
-   * @description Runs when a value of an element in dataset is changed
    */
   const transition = (s) => {
     s.transition()
       .attr('points', getPoints);
   };
   /**
-   * @method exit
+   * Runs when an element is removed from the dataset
+   * @member exit
+   * @function
    * @param {Object} s (svg element)
-   * @description Runs when an element is removed from the dataset
    */
   const exit = (s) => {
     s.exit().remove();
     return s;
   };
   /**
-   * @method buildScales
-   * @description builds the scales for the x and y axes
+   * Builds the scales for the x and y axes
+   * @member buildScales
+   * @function
    */
   const buildScales = () => {
     cs.y.scale = d3.scaleLinear()
       .domain([0, this.max])
-      .range([this.height - cs.x.axisHeight, this.titleHeight]);
+      .range([this.displayHeight - cs.x.axisHeight, this.titleHeight]);
     cs.y.axis = d3.axisLeft().ticks(10, 's').scale(cs.y.scale);
     this.ds.forEach(t => cs.x.domain.push(t.dim));
     this.ds.forEach((t, i) => cs.x.range.push((((
@@ -115,15 +135,16 @@ const areaChart = function chart() {
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
   };
   /**
-   * @method drawAxis
-   * @description draws the x and y axes on the svg
+   * Draws the x and y axes on the svg
+   * @member drawAxis
+   * @function
    */
   const drawAxis = () => {
     cs.polyFunction = d3.line()
       .x(d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
       .y(d => cs.y.scale(d.metric));
     cs.x.xOffset = cs.y.axisWidth + 5;
-    cs.x.yOffset = this.height - cs.x.axisHeight;
+    cs.x.yOffset = this.displayHeight - cs.x.axisHeight;
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
     svgContainer.append('g').append('g')
@@ -134,12 +155,15 @@ const areaChart = function chart() {
         .attr('transform', `translate(${cs.y.xOffset},${cs.y.yOffset})`)
         .call(cs.y.axis);
   };
-  cs = this.setOverrides(cs, this.chartData.overrides); 
+  
+  cs = this.setOverrides(cs, this.chartData.overrides);
   buildScales(cs);
   drawAxis(cs);
   enter(poly);
   transition(poly);
   exit(poly);
+
+  return cs;
 };
 
 export default areaChart;
@@ -153,13 +177,13 @@ export default areaChart;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-areaChart.html">areaChart</a></li><li><a href="module-barChart.html">barChart</a></li><li><a href="module-lineGraph.html">lineGraph</a></li><li><a href="module-pieChart.html">pieChart</a></li><li><a href="module-scatterPlot.html">scatterPlot</a></li><li><a href="module-v-chart-plugin-module.html">v-chart-plugin-module</a></li><li><a href="module-vBarChart.html">vBarChart</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-areaChart.html">areaChart</a></li><li><a href="module-barChart.html">barChart</a></li><li><a href="module-lineGraph.html">lineGraph</a></li><li><a href="module-pieChart.html">pieChart</a></li><li><a href="module-scatterPlot.html">scatterPlot</a></li><li><a href="module-vBarChart.html">vBarChart</a></li></ul><h3>Namespaces</h3><ul><li><a href="Chart.html">Chart</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Oct 30 2018 22:19:35 GMT-0400 (EDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Oct 31 2018 22:43:41 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>
