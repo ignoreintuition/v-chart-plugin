@@ -216,7 +216,7 @@ const Chart = {
         max() {
           let max = 0;
           this.ds.forEach((e) => {
-            max = max > e.metric ? max : e.metric;
+            max = max > e.metric[0] ? max : e.metric[0];
           });
           return max;
         },
@@ -226,7 +226,7 @@ const Chart = {
          * @returns {number} Min value for metric
          */
         min() {
-          return Math.min(...this.ds.map(o => o.metric));
+          return Math.min(...this.ds.map(o => o.metric[0]));
         },
         /**
          * Gets the height of the title 

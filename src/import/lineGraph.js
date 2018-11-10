@@ -50,13 +50,13 @@ const lineGraph = function chart(mode) {
    * @param {Object} points (svg element) 
    */
   const enter = (points, path) => {
-    if (mode === 'init')
-        path.enter()
+    path.enter()
         .append('path')
         .attr('d', cs.lineFunction)
         .attr('fill', 'none')
         .attr('stroke', cs.palette.lineFill)
         .attr('stroke-width', 3);
+
     points.enter()
       .append('circle')
       .attr('class', this.selector)
@@ -68,7 +68,7 @@ const lineGraph = function chart(mode) {
         this.removeTooltip(d);
       })
       .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-      .attr('cy', d => cs.y.scale(d.metric));
+      .attr('cy', d => cs.y.scale(d.metric[0]));
     return points;
   };
   /**
@@ -83,9 +83,9 @@ const lineGraph = function chart(mode) {
 
     points.transition()
       .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-      .attr('cy', d => cs.y.scale(d.metric))
+      .attr('cy', d => cs.y.scale(d.metric[0]))
       .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-      .attr('cy', d => cs.y.scale(d.metric));
+      .attr('cy', d => cs.y.scale(d.metric[0]));
     return points;
   };
 
@@ -129,7 +129,10 @@ const lineGraph = function chart(mode) {
   };
 
   cs.lineFunction = d3.line()
-    .x(d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
+    .x(d => {
+      cs.x.scale(d.dim) + cs.y.axisWidth + 5;
+      console.log(cs.x.scale(d.dim) + cs.y.axisWidth + 5);
+    })
     .y(d => cs.y.scale(d.metric[0]));
 
   const points = svgContainer.selectAll('circle').data(this.ds);
