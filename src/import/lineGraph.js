@@ -52,7 +52,7 @@ const lineGraph = function chart(mode) {
   const enter = (points, path) => {
     path.enter()
         .append('path')
-        .attr('d', cs.lineFunction)
+        .attr('d', cs.lineFunction(this.ds))
         .attr('fill', 'none')
         .attr('stroke', cs.palette.lineFill)
         .attr('stroke-width', 3);
@@ -129,10 +129,7 @@ const lineGraph = function chart(mode) {
   };
 
   cs.lineFunction = d3.line()
-    .x(d => {
-      cs.x.scale(d.dim) + cs.y.axisWidth + 5;
-      console.log(cs.x.scale(d.dim) + cs.y.axisWidth + 5);
-    })
+    .x(d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
     .y(d => cs.y.scale(d.metric[0]));
 
   const points = svgContainer.selectAll('circle').data(this.ds);
