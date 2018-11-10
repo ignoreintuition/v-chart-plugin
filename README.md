@@ -25,6 +25,8 @@
   <li><a href="#build-setup">Build Setup</a> </li>
 </ul>
 
+![Screenshot](https://user-images.githubusercontent.com/5210420/48297569-b85bcd80-e479-11e8-85ad-b1a4cc00967f.gif)
+
 ## Purpose
 
 This plugin is designed to allow Vue.js developers to incorporate fully reactive and customizable charts into their applications.  The plugin is built off of the D3.js JavaScript library for manipulating documents based on data.  By binding data from your components, you can create complex charts and graphs that respond to changes in your application.  Vue.js lifecycle events will trigger the charts to update and maintain two-way binding between your charts and your data.  By adding in a state management (such as Vuex) you can additionally persist state across an entire application.
@@ -145,9 +147,6 @@ If you wish to style the components of the chart you can via the selectors:
   }
 </style>
 ```
-![screenshot](https://user-images.githubusercontent.com/5210420/47540328-a3d8dc00-d8a2-11e8-9948-3f878e01109f.gif)
-
-
 ## Performance Consideration
 
 By default all charts are imported into v-chart-plugin.js.  This allows all charts to share one common interface.  If you are only using a few select charts in your implementation you can remove those unused charts from the import statements in the v-chart-plugin.js.  
