@@ -28,7 +28,7 @@ const lineGraph = function chart(mode) {
    */
   let cs = {
     palette: {
-      lineFill: '#ffcdcd',
+      lineFill: ['#ffcdcd', '#005792'],
       pointFill: '#005792',
       pointStroke: '#d1f4fa',
     },
@@ -50,26 +50,28 @@ const lineGraph = function chart(mode) {
    * @param {Object} points (svg element) 
    */
   const enter = (points, path) => {
-    path.enter()
-        .append('path')
-        .attr('d', cs.lineFunction(this.ds))
+    this.metric.forEach( (e, i) => {
+      path[i].enter().append('path')
+        .attr('d', cs.lineFunction[i](this.ds))
         .attr('fill', 'none')
-        .attr('stroke', cs.palette.lineFill)
-        .attr('stroke-width', 3);
-
-    points.enter()
-      .append('circle')
-      .attr('class', this.selector)
-      .attr('r', 2)
-      .on('mouseover', (d) => {
-        this.addTooltip(d, window.event);
-      })
-      .on('mouseout', (d) => {
-        this.removeTooltip(d);
-      })
-      .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-      .attr('cy', d => cs.y.scale(d.metric[0]));
-    return points;
+        .attr('id', 'p' + i)
+        .attr('stroke', cs.palette.lineFill[i])
+        .attr('stroke-width', 3)
+    })    
+        
+    // points.enter()
+    //   .append('circle')
+    //   .attr('class', this.selector)
+    //   .attr('r', 2)
+    //   .on('mouseover', (d) => {
+    //     this.addTooltip(d, window.event);
+    //   })
+    //   .on('mouseout', (d) => {
+    //     this.removeTooltip(d);
+    //   })
+    //   .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
+    //   .attr('cy', d => cs.y.scale(d.metric[0]));
+    // return points;
   };
   /**
    * Runs when a value of an element in dataset is changed
@@ -78,15 +80,17 @@ const lineGraph = function chart(mode) {
    * @param {Object} points (svg element) 
    */
   const transition = (points, path) => {
-    path.transition()
-      .attr('d', cs.lineFunction(this.ds));
-
-    points.transition()
-      .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-      .attr('cy', d => cs.y.scale(d.metric[0]))
-      .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-      .attr('cy', d => cs.y.scale(d.metric[0]));
-    return points;
+    this.metric.forEach( (e, i) => {
+      path[i].transition()
+      .attr('d', cs.lineFunction[i](this.ds));
+    })
+  
+    // points.transition()
+    //   .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
+    //   .attr('cy', d => cs.y.scale(d.metric[0]))
+    //   .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
+    //   .attr('cy', d => cs.y.scale(d.metric[0]));
+    // return points;
   };
 
   /**
@@ -97,7 +101,9 @@ const lineGraph = function chart(mode) {
    */
   const exit = (points, path) => {
     points.exit().remove();
-    path.exit().remove();
+    this.metric.forEach( (e, i) => {
+      path[i].exit().remove();
+    })
     return points;
   };
 
@@ -128,12 +134,20 @@ const lineGraph = function chart(mode) {
     cs.y.yOffset = 0;
   };
 
-  cs.lineFunction = d3.line()
-    .x(d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-    .y(d => cs.y.scale(d.metric[0]));
-
+  cs.lineFunction = [];
+  this.metric.forEach( (e, i) => {
+    cs.lineFunction.push( 
+      d3.line()
+        .x(d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
+        .y(d => cs.y.scale(d.metric[i]))
+      )  
+  });
+  
   const points = svgContainer.selectAll('circle').data(this.ds);
-  const path = svgContainer.selectAll('path').data(this.ds);
+  const path = []
+  this.metric.forEach( (e, i) => {
+    path.push(svgContainer.selectAll('path#p' + i).data(this.ds))
+  })
 
   cs = this.setOverrides(cs, this.chartData.overrides);
 

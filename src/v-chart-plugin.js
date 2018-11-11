@@ -186,11 +186,19 @@ const Chart = {
               metric: []
             };
             ds.metric.forEach(function(e, i){
-              td.metric[i] = d[e];
+              td.metric[i] = d[e] || 0;
             })
             td.dim = this.chartData.dim ? d[this.chartData.dim] : null;
             return td;
           });
+        },
+        /**
+         * Metric getter function
+         * @memberOf Chart
+         * @returns {array} Metrics 
+         */
+        metric() {
+          return this.chartData.metric;
         },
         /**
          * Height getter function

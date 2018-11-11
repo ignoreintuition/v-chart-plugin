@@ -97,7 +97,7 @@ export default {
         width: 600,
         subtitle: "Sales by month",        
         height: 200,
-        metric: ["yoy", "total"],
+        metric: ["forecast", "total"],
         dim: "month",
         data: sales,
         legends: {
