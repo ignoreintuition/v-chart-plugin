@@ -223,8 +223,12 @@ const Chart = {
          */
         max() {
           let max = 0;
-          this.ds.forEach((e) => {
-            max = max > e.metric[0] ? max : e.metric[0];
+          var results = []; 
+          this.ds.forEach(e => {
+            results = results.concat([...e.metric]);
+          });
+          results.forEach((e) => {
+            max = max > e ? max : e;
           });
           return max;
         },
@@ -237,15 +241,6 @@ const Chart = {
           return Math.min(...this.ds.map(o => o.metric[0]));
         },
         /**
-         * Gets the height of the title 
-         * @memberOf Chart
-         * @returns {number} Height of the chart title
-         */
-        titleHeight() {
-          if (this.chartData.title) return this.chartData.textHeight || 25;
-          return 0;
-        },
-        /**
          * Gets the height of the dispaly area
          * @memberOf Chart
          * @returns {number} Height of the chart display
@@ -256,6 +251,15 @@ const Chart = {
           } else {
             return this.height;
           }
+        },
+        /**
+         * Gets the height of the title 
+         * @memberOf Chart
+         * @returns {number} Height of the chart title
+         */
+        titleHeight() {
+          if (this.chartData.title) return this.chartData.textHeight || 25;
+          return 0;
         },
         /**
          * Gets the subtitle height
