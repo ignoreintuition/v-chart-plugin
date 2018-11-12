@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/v-chart-plugin.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">src/</a> v-chart-plugin.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>51/68</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">66.67% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>32/48</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">85.71% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>6/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75.38% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>49/65</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/** 
+ *  @fileOverview Chart component containing all of the generic components required for charts
+ *
+ *  @author       Brian Greig
+ *
+ *  @requires     NPM:d3:Vue
+ */
+&nbsp;
+/* eslint-env browser */
+import barChart from './import/barChart';
+import vBarChart from './import/vBarChart';
+import lineGraph from './import/lineGraph';
+import scatterPlot from './import/scatterPlot';
+import pieChart from './import/pieChart';
+import areaChart from './import/areaChart';
+&nbsp;
+const d3 = Object.assign({},
+  require('d3-selection'));
+&nbsp;
+/**
+ *  Chart is the generic component used for any chart type
+ *  @namespace
+ */
+  
+const Chart = {
+  install(Vue) {
+    Vue.component('v-chart', {
+      props: ['chartData'],
+      data() {
+        return {
+          selector: `${this.chartData.selector}-${this.chartData.chartType}`,
+        };
+      },
+      methods: {
+        /**
+         * Generate a new Chart of type chartType
+         * @memberOf Chart
+         */
+        initalizeChart() {
+          const cs = this[this.chartData.chartType]('init');
+          this.drawTitle();
+          this.generateLegend(cs);
+        },
+        /**
+         * Redraw the Chart when the data is recycled
+         * @memberOf Chart
+         */
+        refreshChart() {
+<span class="cstat-no" title="statement not covered" >          this.clearAxis();</span>
+<span class="cstat-no" title="statement not covered" >          this[this.chartData.chartType]('refresh');</span>
+        },
+        /**
+         * Remove x and y axes
+         * @memberOf Chart
+         */
+        clearAxis() {
+<span class="cstat-no" title="statement not covered" >          d3.select(`#${this.chartData.selector}`).selectAll('.axis').remove();</span>
+        },
+        /**
+         * Remove all content from the SVG
+         * @memberOf Chart
+         */
+        clearCanvas() {
+<span class="cstat-no" title="statement not covered" >          d3.select(`#${this.chartData.selector}`).selectAll('*').remove();</span>
+        },
+        /**
+         * Appends title and subtitle to the chart
+         * @memberOf Chart
+         */
+        drawTitle() {
+          d3.select(`#${this.chartData.selector}`)
+            .append('text')
+            .attr('x', this.width / 2)
+            .attr('y', this.titleHeight - this.titleHeight * 0.1)
+            .style('text-anchor', 'middle')
+            .text(this.chartData.title);
+&nbsp;
+          d3.select(`#${this.chartData.selector}`)
+            .append('text')
+            .attr('x', this.width / 2)
+            .attr('y', this.titleHeight - this.titleHeight * 0.1 + this.subtitleHeight)
+            .style('text-anchor', 'middle')
+            .text(this.chartData.subtitle);
+        },
+        /**
+         * Adds a tooltip to the SVG
+         * @memberOf Chart
+         * @param {Object} d dataset
+         * @param {Object} e event x and y coordinates
+         */
+        addTooltip(d, e) {
+<span class="cstat-no" title="statement not covered" >          d3.select(`#${this.chartData.selector}`)</span>
+            .append('rect')
+            .attr('x', e.layerX - 5 - 50)
+            .attr('y', e.layerY - 13 - 25)
+            .attr('height', '16px')
+            .attr('width', '80px')
+            .attr('class', 'tt')
+            .attr('fill', 'white');
+&nbsp;
+<span class="cstat-no" title="statement not covered" >          d3.select(`#${this.chartData.selector}`)</span>
+            .append('text')
+            .attr('x', e.layerX - 50)
+            .attr('y', e.layerY - 25)
+            .attr('class', 'tt')
+            .attr('font-size', '10px')
+            .text(`${d.dim}:${d.metric}`);
+        },
+        /**
+         * Removes all tooltips from the SVG
+         * @memberOf Chart
+         * @param {Object} d dataset
+         */
+        removeTooltip() {
+<span class="cstat-no" title="statement not covered" >          d3.select(`#${this.chartData.selector}`)</span>
+            .selectAll('.tt').remove();
+        },
+        /**
+         * Override default values 
+         * @param {Object} cs configuration of the coordinate systems
+         * @param {Object} overrides the additional values that can be used for an object
+         * @returns {Object} updated configuration of coordinate system 
+         */
+        setOverrides(cs, overrides) {
+          overrides = overrides || {};
+          const keys = Object.keys(cs);
+          for (const key of keys)
+            Object.assign(cs[key], overrides[key]);
+          return cs;
+        },
+        /**
+         * Generate legend if option -legends- defined as true
+         * @memberOf Chart
+         * @param {Object} cs configuration of the coordinate system
+         */
+        generateLegend(cs) {
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (this.chartData.legends &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >this.chartData.legends.enabled === true)</span> {
+<span class="cstat-no" title="statement not covered" >            d3.select(`#${this.chartData.selector}`)</span>
+              .append('text')
+              .attr('x', this.width - 60)
+              .attr('y', this.height * 0.95)
+              .style('text-anchor', 'middle')
+              .text(this.chartData.metric[0]);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            d3.select(`#${this.chartData.selector}`)</span>
+              .append("g")
+              .attr("class", "legends")
+              .append("rect")
+              .attr('x', this.width - 30)
+              .attr('y', this.height * 0.95 - 10)
+              .attr("width", 30)
+              .attr("height", 10)
+              .style("fill", function () <span class="fstat-no" title="function not covered" >{</span>
+                const fill = <span class="cstat-no" title="statement not covered" >cs.palette.lineFill || cs.palette.fill;</span>
+<span class="cstat-no" title="statement not covered" >                return fill;</span>
+              });
+          }
+        },
+&nbsp;
+        ...((typeof barChart !== 'undefined') &amp;&amp; { barChart }),
+        ...((typeof vBarChart !== 'undefined') &amp;&amp; { vBarChart }),
+        ...((typeof scatterPlot !== 'undefined') &amp;&amp; { scatterPlot }),
+        ...((typeof pieChart !== 'undefined') &amp;&amp; { pieChart }),
+        ...((typeof areaChart !== 'undefined') &amp;&amp; { areaChart }),
+        ...((typeof lineGraph !== 'undefined') &amp;&amp; { lineGraph }),
+      },
+      computed: {
+        /**
+         * Dataset getter function
+         * @memberOf Chart
+         * @returns {Object} normalized dataset
+         */
+        ds() {
+          //TODO add in support for arrays with undefined metric
+          const ds = { metric: [] };
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (!Array.isArray(this.chartData.metric)){
+            ds.metric.push(this.chartData.metric);
+          } else {
+<span class="cstat-no" title="statement not covered" >            ds.metric = this.chartData.metric;</span>
+          }
+          ds.dim = this.chartData.dim;
+          ds.data = this.chartData.data;
+&nbsp;
+          return ds.data.map((d) =&gt; {
+            const td = {
+              metric: []
+            };
+            ds.metric.forEach(function(e, i){
+              td.metric[i] = d[e] || 0;
+            })
+            td.dim = this.chartData.dim ? <span class="branch-0 cbranch-no" title="branch not covered" >d[this.chartData.dim] </span>: null;
+            return td;
+          });
+        },
+        /**
+         * Metric getter function
+         * @memberOf Chart
+         * @returns {array} Metrics 
+         */
+        metric() {
+          return this.chartData.metric;
+        },
+        /**
+         * Height getter function
+         * @memberOf Chart
+         * @returns {number} Chart Height
+         */
+        height() {
+          return this.chartData.height || <span class="branch-1 cbranch-no" title="branch not covered" >200;</span>
+        },
+        /**
+         * Width getter function
+         * @memberOf Chart
+         * @returns {number} Chart width
+         */
+        width() {
+          return this.chartData.width || <span class="branch-1 cbranch-no" title="branch not covered" >200;</span>
+        },
+        /**
+         * Get the maxium value for metric
+         * @memberOf Chart
+         * @returns {number} Max value for metric
+         */
+        max() {
+          let max = 0;
+          var results = []; 
+          this.ds.forEach(e =&gt; {
+            results = results.concat([...e.metric]);
+          });
+          results.forEach((e) =&gt; {
+            max = max &gt; e ? <span class="branch-0 cbranch-no" title="branch not covered" >max </span>: e;
+          });
+          return max;
+        },
+        /**
+         * Get the minimum value for dataset
+         * @memberOf Chart
+         * @returns {number} Min value for metric
+         */
+        min() {
+          let max = 0;
+          var results = []; 
+          this.ds.forEach(e =&gt; {
+            results = results.concat([...e.metric]);
+          });
+          return Math.min(...results.map(o =&gt; o));
+        },
+        /**
+         * Gets the height of the dispaly area
+         * @memberOf Chart
+         * @returns {number} Height of the chart display
+         */
+        displayHeight() {
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (this.chartData.legends &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >this.chartData.legends.enabled === true)</span> {
+<span class="cstat-no" title="statement not covered" >            return this.height * .80;</span>
+          } else {
+            return this.height;
+          }
+        },
+        /**
+         * Gets the height of the title 
+         * @memberOf Chart
+         * @returns {number} Height of the chart title
+         */
+        titleHeight() {
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (this.chartData.title) return this.chartData.textHeight || 25;
+<span class="cstat-no" title="statement not covered" >          return 0;</span>
+        },
+        /**
+         * Gets the subtitle height
+         * @memberOf Chart
+         * @returns {number} Height of chart subtitle
+         */
+        subtitleHeight() {
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (this.chartData.subtitle) <span class="cstat-no" title="statement not covered" >return this.chartData.textHeight * 0.66 || 25 * 0.66;</span>
+          return 0;
+        },
+        /**
+         * Gets the combined height of the title and subtitle
+         * @memberOf Chart
+         * @returns {number} Total header height
+         */
+        header() {
+          return (this.titleHeight + this.subtitleHeight);
+        },
+      },
+      mounted() {
+        this.initalizeChart();
+      },
+      watch: {
+        chartData: {
+          handler() {
+<span class="cstat-no" title="statement not covered" >            this.refreshChart();</span>
+          },
+          deep: true,
+        },
+      },
+      template:
+        '&lt;svg :id=\'this.chartData.selector\' x=\'5\' y=\'5\' :height=\'this.height + 20\' :width=\'this.width + 20\'&gt; &lt;/svg&gt;',
+    });
+  },
+};
+&nbsp;
+export default Chart;
+&nbsp;
+<span class="missing-if-branch" title="if path not taken" >I</span>if (typeof window !== 'undefined' &amp;&amp; window.Vue) {
+<span class="cstat-no" title="statement not covered" >  window.Vue.use(Chart);</span>
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 12 2018 09:46:11 GMT-0500 (EST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

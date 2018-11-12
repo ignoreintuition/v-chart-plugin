@@ -147,7 +147,7 @@ var Chart = {
          */
         generateLegend: function generateLegend(cs) {
           if (this.chartData.legends && this.chartData.legends.enabled === true) {
-            d3.select('#' + this.chartData.selector).append('text').attr('x', this.width - 60).attr('y', this.height * 0.95).style('text-anchor', 'middle').text(this.chartData.metric);
+            d3.select('#' + this.chartData.selector).append('text').attr('x', this.width - 60).attr('y', this.height * 0.95).style('text-anchor', 'middle').text(this.chartData.metric[0]);
 
             d3.select('#' + this.chartData.selector).append("g").attr("class", "legends").append("rect").attr('x', this.width - 30).attr('y', this.height * 0.95 - 10).attr("width", 30).attr("height", 10).style("fill", function () {
               var fill = cs.palette.lineFill || cs.palette.fill;
@@ -165,12 +165,35 @@ var Chart = {
         ds: function ds() {
           var _this = this;
 
-          return this.chartData.data.map(function (d) {
-            var td = {};
-            td.metric = _this.chartData.metric ? d[_this.chartData.metric] : d;
+          //TODO add in support for arrays with undefined metric
+          var ds = { metric: [] };
+          if (!Array.isArray(this.chartData.metric)) {
+            ds.metric.push(this.chartData.metric);
+          } else {
+            ds.metric = this.chartData.metric;
+          }
+          ds.dim = this.chartData.dim;
+          ds.data = this.chartData.data;
+
+          return ds.data.map(function (d) {
+            var td = {
+              metric: []
+            };
+            ds.metric.forEach(function (e, i) {
+              td.metric[i] = d[e] || 0;
+            });
             td.dim = _this.chartData.dim ? d[_this.chartData.dim] : null;
             return td;
           });
+        },
+
+        /**
+         * Metric getter function
+         * @memberOf Chart
+         * @returns {array} Metrics 
+         */
+        metric: function metric() {
+          return this.chartData.metric;
         },
 
         /**
@@ -198,8 +221,12 @@ var Chart = {
          */
         max: function max() {
           var max = 0;
+          var results = [];
           this.ds.forEach(function (e) {
-            max = max > e.metric ? max : e.metric;
+            results = results.concat([].concat(_toConsumableArray(e.metric)));
+          });
+          results.forEach(function (e) {
+            max = max > e ? max : e;
           });
           return max;
         },
@@ -210,19 +237,14 @@ var Chart = {
          * @returns {number} Min value for metric
          */
         min: function min() {
-          return Math.min.apply(Math, _toConsumableArray(this.ds.map(function (o) {
-            return o.metric;
+          var max = 0;
+          var results = [];
+          this.ds.forEach(function (e) {
+            results = results.concat([].concat(_toConsumableArray(e.metric)));
+          });
+          return Math.min.apply(Math, _toConsumableArray(results.map(function (o) {
+            return o;
           })));
-        },
-
-        /**
-         * Gets the height of the title 
-         * @memberOf Chart
-         * @returns {number} Height of the chart title
-         */
-        titleHeight: function titleHeight() {
-          if (this.chartData.title) return this.chartData.textHeight || 25;
-          return 0;
         },
 
         /**
@@ -236,6 +258,16 @@ var Chart = {
           } else {
             return this.height;
           }
+        },
+
+        /**
+         * Gets the height of the title 
+         * @memberOf Chart
+         * @returns {number} Height of the chart title
+         */
+        titleHeight: function titleHeight() {
+          if (this.chartData.title) return this.chartData.textHeight || 25;
+          return 0;
         },
 
         /**

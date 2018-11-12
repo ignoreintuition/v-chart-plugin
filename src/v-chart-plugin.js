@@ -140,7 +140,7 @@ const Chart = {
               .attr('x', this.width - 60)
               .attr('y', this.height * 0.95)
               .style('text-anchor', 'middle')
-              .text(this.chartData.metric);
+              .text(this.chartData.metric[0]);
 
             d3.select(`#${this.chartData.selector}`)
               .append("g")
@@ -238,7 +238,12 @@ const Chart = {
          * @returns {number} Min value for metric
          */
         min() {
-          return Math.min(...this.ds.map(o => o.metric[0]));
+          let max = 0;
+          var results = []; 
+          this.ds.forEach(e => {
+            results = results.concat([...e.metric]);
+          });
+          return Math.min(...results.map(o => o));
         },
         /**
          * Gets the height of the dispaly area
