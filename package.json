@@ -1,7 +1,7 @@
 {
   "name": "v-chart-plugin",
   "main": "./dist/module/v-chart-plugin.js",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "This plugin is designed to allow Vue.js developers to incorporate fully reactive and customizable charts into your applications.  Uses D3.js for charting.",
   "keywords": [
     "vue",

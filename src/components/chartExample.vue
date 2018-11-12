@@ -66,7 +66,7 @@ export default {
         title: "Area Chart",
         width: 300,
         height: 200,
-        metric: "total",
+        metric: ["total"],
         dim: "month",
         data: sales,
         legends: {
@@ -97,7 +97,7 @@ export default {
         width: 600,
         subtitle: "Sales by month",        
         height: 200,
-        metric: "total",
+        metric: ["total", "forecast"],
         dim: "month",
         data: sales,
         legends: {
