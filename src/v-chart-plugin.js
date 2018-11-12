@@ -140,7 +140,7 @@ const Chart = {
               .attr('x', this.width - 60)
               .attr('y', this.height * 0.95)
               .style('text-anchor', 'middle')
-              .text(this.chartData.metric);
+              .text(this.chartData.metric[0]);
 
             d3.select(`#${this.chartData.selector}`)
               .append("g")
@@ -171,12 +171,34 @@ const Chart = {
          * @returns {Object} normalized dataset
          */
         ds() {
-          return this.chartData.data.map((d) => {
-            const td = {};
-            td.metric = this.chartData.metric ? d[this.chartData.metric] : d;
+          //TODO add in support for arrays with undefined metric
+          const ds = { metric: [] };
+          if (!Array.isArray(this.chartData.metric)){
+            ds.metric.push(this.chartData.metric);
+          } else {
+            ds.metric = this.chartData.metric;
+          }
+          ds.dim = this.chartData.dim;
+          ds.data = this.chartData.data;
+
+          return ds.data.map((d) => {
+            const td = {
+              metric: []
+            };
+            ds.metric.forEach(function(e, i){
+              td.metric[i] = d[e] || 0;
+            })
             td.dim = this.chartData.dim ? d[this.chartData.dim] : null;
             return td;
           });
+        },
+        /**
+         * Metric getter function
+         * @memberOf Chart
+         * @returns {array} Metrics 
+         */
+        metric() {
+          return this.chartData.metric;
         },
         /**
          * Height getter function
@@ -201,8 +223,12 @@ const Chart = {
          */
         max() {
           let max = 0;
-          this.ds.forEach((e) => {
-            max = max > e.metric ? max : e.metric;
+          var results = []; 
+          this.ds.forEach(e => {
+            results = results.concat([...e.metric]);
+          });
+          results.forEach((e) => {
+            max = max > e ? max : e;
           });
           return max;
         },
@@ -212,16 +238,12 @@ const Chart = {
          * @returns {number} Min value for metric
          */
         min() {
-          return Math.min(...this.ds.map(o => o.metric));
-        },
-        /**
-         * Gets the height of the title 
-         * @memberOf Chart
-         * @returns {number} Height of the chart title
-         */
-        titleHeight() {
-          if (this.chartData.title) return this.chartData.textHeight || 25;
-          return 0;
+          let max = 0;
+          var results = []; 
+          this.ds.forEach(e => {
+            results = results.concat([...e.metric]);
+          });
+          return Math.min(...results.map(o => o));
         },
         /**
          * Gets the height of the dispaly area
@@ -234,6 +256,15 @@ const Chart = {
           } else {
             return this.height;
           }
+        },
+        /**
+         * Gets the height of the title 
+         * @memberOf Chart
+         * @returns {number} Height of the chart title
+         */
+        titleHeight() {
+          if (this.chartData.title) return this.chartData.textHeight || 25;
+          return 0;
         },
         /**
          * Gets the subtitle height

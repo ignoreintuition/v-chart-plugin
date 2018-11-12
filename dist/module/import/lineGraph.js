@@ -27,7 +27,7 @@ var lineGraph = function chart(mode) {
    */
   var cs = {
     palette: {
-      lineFill: '#ffcdcd',
+      lineFill: ['#ffcdcd', '#005792'],
       pointFill: '#005792',
       pointStroke: '#d1f4fa'
     },
@@ -49,18 +49,23 @@ var lineGraph = function chart(mode) {
    * @param {Object} points (svg element) 
    */
   var enter = function enter(points, path) {
-    if (mode === 'init') path.enter().append('path').attr('d', cs.lineFunction(_this.ds)).attr('fill', 'none').attr('stroke', cs.palette.lineFill).attr('stroke-width', 3);
-
-    points.enter().append('circle').attr('class', _this.selector).attr('r', 2).on('mouseover', function (d) {
-      _this.addTooltip(d, window.event);
-    }).on('mouseout', function (d) {
-      _this.removeTooltip(d);
-    }).attr('cx', function (d) {
-      return cs.x.scale(d.dim) + cs.y.axisWidth + 5;
-    }).attr('cy', function (d) {
-      return cs.y.scale(d.metric);
+    _this.metric.forEach(function (e, i) {
+      path[i].enter().append('path').attr('d', cs.lineFunction[i](_this.ds)).attr('fill', 'none').attr('id', 'p' + i).attr('stroke', cs.palette.lineFill[i]).attr('stroke-width', 3);
     });
-    return points;
+
+    // points.enter()
+    //   .append('circle')
+    //   .attr('class', this.selector)
+    //   .attr('r', 2)
+    //   .on('mouseover', (d) => {
+    //     this.addTooltip(d, window.event);
+    //   })
+    //   .on('mouseout', (d) => {
+    //     this.removeTooltip(d);
+    //   })
+    //   .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
+    //   .attr('cy', d => cs.y.scale(d.metric[0]));
+    // return points;
   };
   /**
    * Runs when a value of an element in dataset is changed
@@ -69,18 +74,16 @@ var lineGraph = function chart(mode) {
    * @param {Object} points (svg element) 
    */
   var transition = function transition(points, path) {
-    path.transition().attr('d', cs.lineFunction(_this.ds));
-
-    points.transition().attr('cx', function (d) {
-      return cs.x.scale(d.dim) + cs.y.axisWidth + 5;
-    }).attr('cy', function (d) {
-      return cs.y.scale(d.metric);
-    }).attr('cx', function (d) {
-      return cs.x.scale(d.dim) + cs.y.axisWidth + 5;
-    }).attr('cy', function (d) {
-      return cs.y.scale(d.metric);
+    _this.metric.forEach(function (e, i) {
+      path[i].transition().attr('d', cs.lineFunction[i](_this.ds));
     });
-    return points;
+
+    // points.transition()
+    //   .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
+    //   .attr('cy', d => cs.y.scale(d.metric[0]))
+    //   .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
+    //   .attr('cy', d => cs.y.scale(d.metric[0]));
+    // return points;
   };
 
   /**
@@ -91,7 +94,9 @@ var lineGraph = function chart(mode) {
    */
   var exit = function exit(points, path) {
     points.exit().remove();
-    path.exit().remove();
+    _this.metric.forEach(function (e, i) {
+      path[i].exit().remove();
+    });
     return points;
   };
 
@@ -100,9 +105,8 @@ var lineGraph = function chart(mode) {
    * @member buildScales
    * @function
    */
-  var buildScales = function buildScales() {
+  var buildScales = function buildScales(cs) {
     cs.y.scale = d3.scaleLinear().domain([_this.min, _this.max]).range([_this.displayHeight - cs.x.axisHeight, _this.header]);
-    cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     _this.ds.forEach(function (t) {
       return cs.x.domain.push(t.dim);
     });
@@ -116,22 +120,31 @@ var lineGraph = function chart(mode) {
    * @member drawAxis
    * @function
    */
-  var drawAxis = function drawAxis() {
+  var drawAxis = function drawAxis(cs) {
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     cs.x.xOffset = cs.y.axisWidth + 5;
     cs.x.yOffset = _this.displayHeight - cs.x.axisHeight;
+    cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
+    svgContainer.append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.x.xOffset + ', ' + cs.x.yOffset + ')').call(cs.x.axis);
+    svgContainer.append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.y.xOffset + ',' + cs.y.yOffset + ')').call(cs.y.axis);
   };
 
-  cs.lineFunction = d3.line().x(function (d) {
-    return cs.x.scale(d.dim) + cs.y.axisWidth + 5;
-  }).y(function (d) {
-    return cs.y.scale(d.metric);
+  cs.lineFunction = [];
+  this.metric.forEach(function (e, i) {
+    cs.lineFunction.push(d3.line().x(function (d) {
+      return cs.x.scale(d.dim) + cs.y.axisWidth + 5;
+    }).y(function (d) {
+      return cs.y.scale(d.metric[i]);
+    }));
   });
 
   var points = svgContainer.selectAll('circle').data(this.ds);
-  var path = svgContainer.selectAll('path').data(this.ds);
+  var path = [];
+  this.metric.forEach(function (e, i) {
+    path.push(svgContainer.selectAll('path#p' + i).data(_this.ds));
+  });
 
   cs = this.setOverrides(cs, this.chartData.overrides);
 
@@ -140,9 +153,6 @@ var lineGraph = function chart(mode) {
   enter(points, path);
   transition(points, path);
   exit(points, path);
-
-  svgContainer.append('g').append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.x.xOffset + ', ' + cs.x.yOffset + ')').call(cs.x.axis);
-  svgContainer.append('g').append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.y.xOffset + ',' + cs.y.yOffset + ')').call(cs.y.axis);
 
   return cs;
 };
