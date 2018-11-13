@@ -135,25 +135,29 @@ const Chart = {
          */
         generateLegend(cs) {
           if (this.chartData.legends && this.chartData.legends.enabled === true) {
-            d3.select(`#${this.chartData.selector}`)
+            cs.palette.lineFill = (Array.isArray(cs.palette.lineFill)) ? cs.palette.lineFill : new Array(cs.palette.lineFill); 
+            cs.palette.fill = (Array.isArray(cs.palette.fill)) ? cs.palette.fill : new Array(cs.palette.fill); 
+            this.metric.forEach( (e, i) => {
+              d3.select(`#${this.chartData.selector}`)
               .append('text')
               .attr('x', this.width - 60)
-              .attr('y', this.height * 0.95)
+              .attr('y', this.height * 0.95 - (i * 15))
               .style('text-anchor', 'middle')
-              .text(this.chartData.metric[0]);
+              .text(this.metric[i]);
 
             d3.select(`#${this.chartData.selector}`)
               .append("g")
               .attr("class", "legends")
               .append("rect")
               .attr('x', this.width - 30)
-              .attr('y', this.height * 0.95 - 10)
+              .attr('y', this.height * 0.95 - (i * 15) - 10)
               .attr("width", 30)
               .attr("height", 10)
               .style("fill", function () {
-                const fill = cs.palette.lineFill || cs.palette.fill;
+              const fill = cs.palette.lineFill[i] || cs.palette.fill[i];
                 return fill;
               });
+            })
           }
         },
 
@@ -198,7 +202,7 @@ const Chart = {
          * @returns {array} Metrics 
          */
         metric() {
-          return this.chartData.metric;
+          return (Array.isArray(this.chartData.metric)) ? this.chartData.metric : new Array(this.chartData.metric);
         },
         /**
          * Height getter function
