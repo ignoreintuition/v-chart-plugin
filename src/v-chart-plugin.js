@@ -175,23 +175,19 @@ const Chart = {
          * @returns {Object} normalized dataset
          */
         ds() {
-          //TODO add in support for arrays with undefined metric
           const ds = { metric: [] };
-          if (!Array.isArray(this.chartData.metric)){
-            ds.metric.push(this.chartData.metric);
-          } else {
-            ds.metric = this.chartData.metric;
-          }
+          ds.metric = (Array.isArray(this.chartData.metric)) ? ds.metric = this.chartData.metric : new Array(this.chartData.metric);
           ds.dim = this.chartData.dim;
           ds.data = this.chartData.data;
-
           return ds.data.map((d) => {
-            const td = {
-              metric: []
-            };
-            ds.metric.forEach(function(e, i){
-              td.metric[i] = d[e] || 0;
-            })
+            const td = { metric: [] };
+            if (!ds.metric[0])
+              td.metric[0] = d;
+            else {
+              ds.metric.forEach(function(e, i){
+                td.metric[i] = d[e] || 0;
+              })
+            }
             td.dim = this.chartData.dim ? d[this.chartData.dim] : null;
             return td;
           });
