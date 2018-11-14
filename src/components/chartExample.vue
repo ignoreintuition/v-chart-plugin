@@ -81,7 +81,7 @@ export default {
         title: "Bar Chart",
         subtitle: "Sales by month",
         height: 200,
-        metric: "total",
+        metric: ["total"],
         dim: "month",
         data: sales,
         legends: {
