@@ -17,13 +17,13 @@
       <div class="col-6 col-md-8">
         <div class="row">
           <div class="col-12">
-            <v-chart v-bind:chartData="lineGraphData"></v-chart>
+            <v-chart v-bind:chartData="barChartData"></v-chart>
           </div>
           <div class="col-12 col-lg-6">
             <v-chart v-bind:chartData="areaChartData"></v-chart>
           </div>
           <div class="col-12 col-lg-6">
-            <v-chart v-bind:chartData="barChartData"></v-chart>
+            <v-chart v-bind:chartData="lineGraphData"></v-chart>
           </div>
           <div class="col-12 col-lg-6">
             <v-chart v-bind:chartData="vBarChartData"></v-chart>
@@ -80,8 +80,9 @@ export default {
         selector: "chart",
         title: "Bar Chart",
         subtitle: "Sales by month",
-        height: 200,
-        metric: ["total"],
+        width: 600,
+        height: 500,
+        metric: ["total", "forecast"],
         dim: "month",
         data: sales,
         legends: {
@@ -94,7 +95,7 @@ export default {
         chartType: "lineGraph",
         selector: "lineGraph",
         title: "Line Graph",
-        width: 600,
+        width: 200,
         subtitle: "Sales by month",        
         height: 200,
         metric: ["total", "forecast"],
