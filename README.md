@@ -25,7 +25,7 @@
   <li><a href="#build-setup">Build Setup</a> </li>
 </ul>
 
-![Screenshot](https://user-images.githubusercontent.com/5210420/48297569-b85bcd80-e479-11e8-85ad-b1a4cc00967f.gif)
+![Screenshot](https://user-images.githubusercontent.com/5210420/48656734-1eef6700-e9f7-11e8-8225-236db25fa167.gif)
 
 ## Purpose
 
@@ -80,7 +80,7 @@ export default {
         title: "Important Data",
         width: 400,
         height: 200,
-        metric: 'count',
+        metric: 'count', // for two or more metrics pass as an array ['count', 'pyCount']
         data: [
           {'count': 120,
            'fruit': 'apples'}, 
@@ -131,6 +131,10 @@ chartData: {
 * scatterPlot: a graph in which the values of two variables are plotted along two axes, the pattern of the resulting points revealing any correlation present.
 * pieChart: a chart in which a circle is divided into slices to illustrate proportion
 * areaChart: a chart which displays graphically quantitative data
+
+### Charts that support two or more metrics
+* barChart
+* lineGraph
 
 Lastly you will need to add the component and bind your data
 
