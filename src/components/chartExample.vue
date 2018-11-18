@@ -17,7 +17,7 @@
       <div class="col-6 col-md-8">
         <div class="row">
           <div class="col-12">
-            <v-chart v-bind:chartData="barChartData"></v-chart>
+            <v-chart v-bind:chartData="bubbleChartData"></v-chart>
           </div>
           <div class="col-12 col-lg-6">
             <v-chart v-bind:chartData="areaChartData"></v-chart>
@@ -75,15 +75,14 @@ export default {
           width: 50
         },                      
       },
-      barChartData: {
-        chartType: "barChart",
+      bubbleChartData: {
+        chartType: "bubbleChart",
         selector: "chart",
         title: "Bar Chart",
         subtitle: "Sales by month",
         width: 600,
         height: 500,
-        metric: ["total", "forecast"],
-        dim: "month",
+        metric: ["total", "forecast", "yoy"],
         data: sales,
         goal: 500,
         legends: {

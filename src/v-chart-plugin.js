@@ -13,6 +13,7 @@ import lineGraph from './import/lineGraph';
 import scatterPlot from './import/scatterPlot';
 import pieChart from './import/pieChart';
 import areaChart from './import/areaChart';
+import bubbleChart from './import/bubbleChart';
 
 const d3 = Object.assign({},
   require('d3-selection'));
@@ -189,6 +190,7 @@ const Chart = {
         ...((typeof pieChart !== 'undefined') && { pieChart }),
         ...((typeof areaChart !== 'undefined') && { areaChart }),
         ...((typeof lineGraph !== 'undefined') && { lineGraph }),
+        ...((typeof bubbleChart !== 'undefined') && { bubbleChart }),
       },
       computed: {
         /**
