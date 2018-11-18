@@ -113,8 +113,8 @@ export default {
         title: "Verticle Bar Chart",
         subtitle: "Sales by month",
         width: 300,
-        height: 200,
-        metric: "total",
+        height: 300,
+        metric: ["total", "forecast"],
         dim: "month",
         data: sales,
         legends: {

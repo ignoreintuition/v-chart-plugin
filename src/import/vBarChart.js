@@ -29,7 +29,7 @@ const vBarChart = function chart() {
    */
   let cs = {
     palette: {
-      fill: '#005792',
+      fill: ['#005792', '#ffcdcd'],
       stroke: '#d1f4fa',
     },
     bar: {
@@ -52,7 +52,7 @@ const vBarChart = function chart() {
    * @function
    */
 
-  const getWidth = () => ((this.width - cs.y.axisWidth) / this.chartData.data.length - 1);
+  const getWidth = () => ((this.width - cs.y.axisWidth) / this.chartData.data.length - 1) / this.metric.length ;
 
   /**
    * Returns height of the bar
@@ -70,7 +70,7 @@ const vBarChart = function chart() {
    * @param {Object} i (svg element)
    */
   const getXCoord = (d, i) => (
-    i * (this.width - cs.y.axisWidth) / this.chartData.data.length) + cs.y.axisWidth;
+    i * (this.width - cs.y.axisWidth) / this.chartData.data.length) + cs.y.axisWidth + cs.bar.offset * getWidth();
   /**
    * Returns y axis co-ordinate of the bar
    * @member getYCoord
@@ -106,17 +106,20 @@ const vBarChart = function chart() {
    * @param {Object} rects (svg element)
    */
   const enter = (rects) => {
-    rects.enter()
-      .append('rect')
-      .attr('fill', cs.palette.fill)
-      .attr('stroke', cs.palette.stroke)
-      .attr('class', this.selector)
-      .attr('width', getWidth)
-      .attr('height', getHeight)
-      .attr('x', getXCoord)
-      .attr('y', getYCoord)
-      .on('mouseover', mouseOver)
-      .on('mouseout', mouseOut);
+    this.metric.forEach( (e, i) => {
+      cs.bar.offset = i;
+      rects[i].enter()
+        .append('rect')
+        .attr('fill', cs.palette.fill[i])
+        .attr('stroke', cs.palette.stroke)
+        .attr('class', this.selector)
+        .attr('width', getWidth)
+        .attr('height', getHeight)
+        .attr('x', getXCoord)
+        .attr('y', getYCoord)
+        .on('mouseover', mouseOver)
+        .on('mouseout', mouseOut);
+    });
   };
   /**
    * Runs when a value of an element in dataset is changed
@@ -125,11 +128,14 @@ const vBarChart = function chart() {
    * @param {Object} rects (svg element)
    */
   const transition = (rects) => {
-    rects.transition()
-      .attr('width', getWidth)
-      .attr('height', getHeight)
-      .attr('x', getXCoord)
-      .attr('y', getYCoord);
+    this.metric.forEach( (e, i) => {
+      cs.bar.offset = i;
+      rects[i].transition()
+        .attr('width', getWidth)
+        .attr('height', getHeight)
+        .attr('x', getXCoord)
+        .attr('y', getYCoord);
+    });
   };
   /**
    * Runs when an element is removed from the dataset
@@ -138,7 +144,9 @@ const vBarChart = function chart() {
    * @param {Object} rects (svg element)
    */
   const exit = (rects) => {
-    rects.exit().remove();
+    this.metric.forEach( (e, i) => {
+      rects[i].exit().remove();
+    });
   };
   /**
    * Builds the scales for the x and y axes
@@ -175,7 +183,15 @@ const vBarChart = function chart() {
         .call(cs.x.axis);
   };
 
-  const rects = svgContainer.selectAll('rect').data(this.ds);
+  const rects = []
+  this.metric.forEach( (e, i) => {
+    rects.push(svgContainer.selectAll('rect.r' + i).data(this.ds.map(d => {
+      return  {
+        metric: d.metric[i],
+        dim: d.dim
+      }      
+    })))
+  })
 
   cs = this.setOverrides(cs, this.chartData.overrides);
   buildScales(cs);
