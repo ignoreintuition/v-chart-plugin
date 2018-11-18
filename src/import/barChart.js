@@ -109,7 +109,7 @@ const barChart = function chart() {
         .attr('fill', cs.palette.fill[i])
         .attr('stroke', cs.palette.stroke)
         .attr('class', this.selector)
-        .attr('class', 'r0')
+        .attr('class', 'r' + i)
         .attr('width', getWidth)
         .attr('height', getHeight)
         .attr('y', getYCoord)

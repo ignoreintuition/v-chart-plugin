@@ -113,6 +113,7 @@ const vBarChart = function chart() {
         .attr('fill', cs.palette.fill[i])
         .attr('stroke', cs.palette.stroke)
         .attr('class', this.selector)
+        .attr('class', 'r' + i)
         .attr('width', getWidth)
         .attr('height', getHeight)
         .attr('x', getXCoord)
