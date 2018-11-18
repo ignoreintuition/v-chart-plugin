@@ -117,7 +117,7 @@ const barChart = function chart() {
         .on('mouseover', mouseOver)
         .on('mouseout', mouseOut);
     });
-    if (this.goal) addGoal();
+    if (this.goal) this.generateGoal(cs, svgContainer, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
   /**
@@ -135,7 +135,7 @@ const barChart = function chart() {
         .attr('y', getYCoord)
         .attr('x', cs.y.axisWidth + cs.bar.hPadding);
     });
-    if (this.goal) addGoal();
+    if (this.goal) this.generateGoal(cs, svgContainer, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
   /**
@@ -188,20 +188,8 @@ const barChart = function chart() {
    * @param {number} currentValue
    */
   const getMaxDimLength = (accumulator, currentValue) => {
+    if(!currentValue.dim) return accumulator;
     return (currentValue.dim.length > accumulator) ? currentValue.dim.length : accumulator;
-  }
-
-  const addGoal = () => {
-    svgContainer.selectAll('line#goal').remove();
-
-    svgContainer.append("line")
-      .attr('x1', cs.x.scale(this.goal) + cs.y.axisWidth + cs.bar.hPadding)
-      .attr('x2', cs.x.scale(this.goal) + cs.y.axisWidth + cs.bar.hPadding)
-      .attr('y1', this.header)
-      .attr('y2', this.displayHeight - cs.x.axisHeight)
-      .attr('id', 'goal')
-      .style('stroke', '#708090')
-      .style('stroke-width', 3)
   }
 
   const rects = []
@@ -215,7 +203,7 @@ const barChart = function chart() {
   })
 
   cs = this.setOverrides(cs, this.chartData.overrides);
-  if (this.ds[0].dim)
+  if (this.ds[0] && this.ds[0].dim)
     cs.y.axisWidth = cs.y.axisWidth || (this.ds.reduce(getMaxDimLength, 0)) * 10;
 
   buildScales(cs);

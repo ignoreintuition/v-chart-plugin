@@ -99,6 +99,7 @@ export default {
         width: 200,
         subtitle: "Sales by month",        
         height: 200,
+        goal: 500,
         metric: ["total", "forecast"],
         dim: "month",
         data: sales,

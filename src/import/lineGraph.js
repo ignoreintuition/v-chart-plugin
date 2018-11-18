@@ -74,6 +74,7 @@ const lineGraph = function chart(mode) {
         .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
         .attr('cy', d => cs.y.scale(d.metric));
     });
+    if (this.goal) this.generateGoal(cs, svgContainer, true, 0);
     return points;
   };
   /**
@@ -96,6 +97,7 @@ const lineGraph = function chart(mode) {
         .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
         .attr('cy', d => cs.y.scale(d.metric));
     });
+    if (this.goal) this.generateGoal(cs, svgContainer, true, 0);
     return points;
   };
 
