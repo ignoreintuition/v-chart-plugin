@@ -160,6 +160,28 @@ const Chart = {
             })
           }
         },
+        /**
+         * Generate Goal 
+         * @memberOf Chart
+         * @param {Object} cs configuration of the coordinate system
+         */
+
+        generateGoal(cs, svgContainer, shiftAxis, padding) {
+          svgContainer.selectAll('line#goal').remove();
+          const x1 = shiftAxis ? cs.y.axisWidth: cs.x.scale(this.goal) + padding;
+          const x2 = shiftAxis ? 500 : cs.x.scale(this.goal) + padding;
+          const y1 = shiftAxis ? cs.y.scale(this.goal) + padding : this.header;
+          const y2 = shiftAxis ? cs.y.scale(this.goal) + padding : this.displayHeight - cs.x.axisHeight;
+          
+          svgContainer.append("line")
+            .attr('x1', x1)
+            .attr('x2', x2)
+            .attr('y1', y1)
+            .attr('y2', y2)
+            .attr('id', 'goal')
+            .style('stroke', '#708090')
+            .style('stroke-width', 1)
+        },
 
         ...((typeof barChart !== 'undefined') && { barChart }),
         ...((typeof vBarChart !== 'undefined') && { vBarChart }),
@@ -191,6 +213,14 @@ const Chart = {
             td.dim = this.chartData.dim ? d[this.chartData.dim] : null;
             return td;
           });
+        },
+        /**
+         * Goal getter function
+         * @memberOf Chart
+         * @returns {number} Goal 
+         */
+        goal() {
+          return this.chartData.goal;
         },
         /**
          * Metric getter function

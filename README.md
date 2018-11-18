@@ -134,6 +134,7 @@ chartData: {
 
 ### Charts that support two or more metrics
 * barChart
+* vBarChart
 * lineGraph
 
 Lastly you will need to add the component and bind your data

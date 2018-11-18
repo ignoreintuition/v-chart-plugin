@@ -85,6 +85,7 @@ export default {
         metric: ["total", "forecast"],
         dim: "month",
         data: sales,
+        goal: 500,
         legends: {
           enabled: true,
           height: 25,
@@ -98,6 +99,7 @@ export default {
         width: 200,
         subtitle: "Sales by month",        
         height: 200,
+        goal: 500,
         metric: ["total", "forecast"],
         dim: "month",
         data: sales,
