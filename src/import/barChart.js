@@ -1,3 +1,5 @@
+import { globalAgent } from 'http';
+
 /** 
  *  @fileOverview Bar chart component definition
  *
@@ -115,6 +117,7 @@ const barChart = function chart() {
         .on('mouseover', mouseOver)
         .on('mouseout', mouseOut);
     });
+    if (this.goal) addGoal();
     return rects;
   };
   /**
@@ -132,6 +135,7 @@ const barChart = function chart() {
         .attr('y', getYCoord)
         .attr('x', cs.y.axisWidth + cs.bar.hPadding);
     });
+    if (this.goal) addGoal();
     return rects;
   };
   /**
@@ -185,6 +189,19 @@ const barChart = function chart() {
    */
   const getMaxDimLength = (accumulator, currentValue) => {
     return (currentValue.dim.length > accumulator) ? currentValue.dim.length : accumulator;
+  }
+
+  const addGoal = () => {
+    svgContainer.selectAll('line#goal').remove();
+
+    svgContainer.append("line")
+      .attr('x1', cs.x.scale(this.goal) + cs.y.axisWidth + cs.bar.hPadding)
+      .attr('x2', cs.x.scale(this.goal) + cs.y.axisWidth + cs.bar.hPadding)
+      .attr('y1', this.header)
+      .attr('y2', this.displayHeight - cs.x.axisHeight)
+      .attr('id', 'goal')
+      .style('stroke', '#708090')
+      .style('stroke-width', 3)
   }
 
   const rects = []

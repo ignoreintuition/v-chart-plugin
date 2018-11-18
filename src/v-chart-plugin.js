@@ -193,6 +193,14 @@ const Chart = {
           });
         },
         /**
+         * Goal getter function
+         * @memberOf Chart
+         * @returns {number} Goal 
+         */
+        goal() {
+          return this.chartData.goal;
+        },
+        /**
          * Metric getter function
          * @memberOf Chart
          * @returns {array} Metrics 
