@@ -13,6 +13,7 @@ import lineGraph from './import/lineGraph';
 import scatterPlot from './import/scatterPlot';
 import pieChart from './import/pieChart';
 import areaChart from './import/areaChart';
+import bubbleChart from './import/bubbleChart';
 
 const d3 = Object.assign({},
   require('d3-selection'));
@@ -160,6 +161,28 @@ const Chart = {
             })
           }
         },
+        /**
+         * Generate Goal 
+         * @memberOf Chart
+         * @param {Object} cs configuration of the coordinate system
+         */
+
+        generateGoal(cs, svgContainer, shiftAxis, padding) {
+          svgContainer.selectAll('line#goal').remove();
+          const x1 = shiftAxis ? cs.y.axisWidth: cs.x.scale(this.goal) + padding;
+          const x2 = shiftAxis ? 500 : cs.x.scale(this.goal) + padding;
+          const y1 = shiftAxis ? cs.y.scale(this.goal) + padding : this.header;
+          const y2 = shiftAxis ? cs.y.scale(this.goal) + padding : this.displayHeight - cs.x.axisHeight;
+          
+          svgContainer.append("line")
+            .attr('x1', x1)
+            .attr('x2', x2)
+            .attr('y1', y1)
+            .attr('y2', y2)
+            .attr('id', 'goal')
+            .style('stroke', '#708090')
+            .style('stroke-width', 1)
+        },
 
         ...((typeof barChart !== 'undefined') && { barChart }),
         ...((typeof vBarChart !== 'undefined') && { vBarChart }),
@@ -167,6 +190,7 @@ const Chart = {
         ...((typeof pieChart !== 'undefined') && { pieChart }),
         ...((typeof areaChart !== 'undefined') && { areaChart }),
         ...((typeof lineGraph !== 'undefined') && { lineGraph }),
+        ...((typeof bubbleChart !== 'undefined') && { bubbleChart }),
       },
       computed: {
         /**
@@ -182,7 +206,7 @@ const Chart = {
           return ds.data.map((d) => {
             const td = { metric: [] };
             if (!ds.metric[0])
-              td.metric[0] = d;
+              td.metric[0] = d || 0;
             else {
               ds.metric.forEach(function(e, i){
                 td.metric[i] = d[e] || 0;
@@ -193,12 +217,29 @@ const Chart = {
           });
         },
         /**
+         * Goal getter function
+         * @memberOf Chart
+         * @returns {number} Goal 
+         */
+        goal() {
+          return this.chartData.goal;
+        },
+        /**
          * Metric getter function
          * @memberOf Chart
          * @returns {array} Metrics 
          */
         metric() {
-          return (Array.isArray(this.chartData.metric)) ? this.chartData.metric : new Array(this.chartData.metric);
+          const metric = (Array.isArray(this.chartData.metric)) ? this.chartData.metric : new Array(this.chartData.metric);
+          return metric;
+        },
+        /**
+         * triplet getter function
+         * @memberOf Chart
+         * @returns {array} Metrics 
+         */
+        triplet() {
+          return this.chartData.triplet;
         },
         /**
          * Height getter function
@@ -233,17 +274,56 @@ const Chart = {
           return max;
         },
         /**
+         * Get the maxium value for triplet
+         * @memberOf Chart
+         * @returns {Array} Max values for triplet
+         */
+        maxTriplet() {
+          const max = {
+            v1: 0,
+            v2: 0,
+            v3: 0
+          };
+          this.ds.forEach(e => {
+            max.v1 = max.v1 > e.metric[0][this.triplet[0]] ? max.v1 : e.metric[0][this.triplet[0]];
+            max.v2 = max.v2 > e.metric[0][this.triplet[1]] ? max.v2 : e.metric[0][this.triplet[1]];
+            max.v3 = max.v3 > e.metric[0][this.triplet[2]] ? max.v3 : e.metric[0][this.triplet[2]];
+          });
+          return max;
+        },
+        /**
          * Get the minimum value for dataset
          * @memberOf Chart
          * @returns {number} Min value for metric
          */
         min() {
-          let max = 0;
           var results = []; 
           this.ds.forEach(e => {
             results = results.concat([...e.metric]);
           });
           return Math.min(...results.map(o => o));
+        },
+        /**
+         * Get the minimum value for triplet
+         * @memberOf Chart
+         * @returns {Array} Min values for triplet
+         */
+        minTriplet() {
+          var results = {
+            v1: [],
+            v2: [],
+            v3: []
+          };
+          this.ds.forEach(e => {
+            results.v1.push(e.metric[0][this.triplet[0]])
+            results.v2.push(e.metric[0][this.triplet[1]])
+            results.v3.push(e.metric[0][this.triplet[2]])
+          })
+          return {
+            v1: (Math.min(...results.v1.map(o => o))),
+            v2: (Math.min(...results.v2.map(o => o))),
+            v3: (Math.min(...results.v3.map(o => o)))
+          };
         },
         /**
          * Gets the height of the dispaly area

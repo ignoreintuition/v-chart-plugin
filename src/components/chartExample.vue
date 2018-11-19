@@ -17,13 +17,13 @@
       <div class="col-6 col-md-8">
         <div class="row">
           <div class="col-12">
-            <v-chart v-bind:chartData="lineGraphData"></v-chart>
+            <v-chart v-bind:chartData="bubbleChartData"></v-chart>
           </div>
           <div class="col-12 col-lg-6">
             <v-chart v-bind:chartData="areaChartData"></v-chart>
           </div>
           <div class="col-12 col-lg-6">
-            <v-chart v-bind:chartData="barChartData"></v-chart>
+            <v-chart v-bind:chartData="lineGraphData"></v-chart>
           </div>
           <div class="col-12 col-lg-6">
             <v-chart v-bind:chartData="vBarChartData"></v-chart>
@@ -75,15 +75,16 @@ export default {
           width: 50
         },                      
       },
-      barChartData: {
-        chartType: "barChart",
+      bubbleChartData: {
+        chartType: "bubbleChart",
         selector: "chart",
         title: "Bar Chart",
         subtitle: "Sales by month",
-        height: 200,
-        metric: ["total"],
-        dim: "month",
+        width: 600,
+        height: 500,
+        triplet: ["total", "forecast", "yoy"],
         data: sales,
+        goal: 500,
         legends: {
           enabled: true,
           height: 25,
@@ -94,9 +95,10 @@ export default {
         chartType: "lineGraph",
         selector: "lineGraph",
         title: "Line Graph",
-        width: 600,
+        width: 200,
         subtitle: "Sales by month",        
         height: 200,
+        goal: 500,
         metric: ["total", "forecast"],
         dim: "month",
         data: sales,
@@ -112,8 +114,8 @@ export default {
         title: "Verticle Bar Chart",
         subtitle: "Sales by month",
         width: 300,
-        height: 200,
-        metric: "total",
+        height: 300,
+        metric: ["total", "forecast"],
         dim: "month",
         data: sales,
         legends: {

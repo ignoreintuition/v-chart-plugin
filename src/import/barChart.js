@@ -1,3 +1,5 @@
+import { globalAgent } from 'http';
+
 /** 
  *  @fileOverview Bar chart component definition
  *
@@ -30,7 +32,7 @@ const barChart = function chart() {
    */
   let cs = {
     palette: {
-      fill: '#005792',
+      fill: ['#005792', '#ffcdcd'],
       stroke: '#d1f4fa',
     },
     bar: {
@@ -62,7 +64,7 @@ const barChart = function chart() {
    * @function
    */
   const getHeight = () => (
-    this.displayHeight - cs.x.axisHeight - this.header - cs.bar.vPadding) / this.ds.length - 1;
+    (this.displayHeight - cs.x.axisHeight - this.header - cs.bar.vPadding) / this.ds.length - 1) / this.metric.length ;
 
   /**
    * Returns y axis co-ordinate of the bar
@@ -72,7 +74,7 @@ const barChart = function chart() {
    * @param {Object} i (svg element)
    */
   const getYCoord = (d, i) => i * (
-    this.displayHeight - cs.x.axisHeight - this.header) / this.ds.length + 1 + this.header;
+    this.displayHeight - cs.x.axisHeight - this.header) / this.ds.length + 1 + this.header + cs.bar.offset * getHeight();
 
   /**
    * Adds a tooltip on mouse over
@@ -100,17 +102,22 @@ const barChart = function chart() {
    * @param {Object} rects (svg element)
    */
   const enter = (rects) => {
-    rects.enter()
-      .append('rect')
-      .attr('fill', cs.palette.fill)
-      .attr('stroke', cs.palette.stroke)
-      .attr('class', this.selector)
-      .attr('width', getWidth)
-      .attr('height', getHeight)
-      .attr('y', getYCoord)
-      .attr('x', cs.y.axisWidth + cs.bar.hPadding)
-      .on('mouseover', mouseOver)
-      .on('mouseout', mouseOut);
+    this.metric.forEach( (e, i) => {
+      cs.bar.offset = i;
+      rects[i].enter()
+        .append('rect')
+        .attr('fill', cs.palette.fill[i])
+        .attr('stroke', cs.palette.stroke)
+        .attr('class', this.selector)
+        .attr('class', 'r' + i)
+        .attr('width', getWidth)
+        .attr('height', getHeight)
+        .attr('y', getYCoord)
+        .attr('x', cs.y.axisWidth + cs.bar.hPadding)
+        .on('mouseover', mouseOver)
+        .on('mouseout', mouseOut);
+    });
+    if (this.goal) this.generateGoal(cs, svgContainer, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
   /**
@@ -120,11 +127,15 @@ const barChart = function chart() {
    * @param {Object} rects (svg element)
    */
   const transition = (rects) => {
-    rects.transition()
-      .attr('width', getWidth)
-      .attr('height', getHeight)
-      .attr('y', getYCoord)
-      .attr('x', cs.y.axisWidth + cs.bar.hPadding);
+    this.metric.forEach( (e, i) => {
+      cs.bar.offset = i;
+      rects[i].transition()
+        .attr('width', getWidth)
+        .attr('height', getHeight)
+        .attr('y', getYCoord)
+        .attr('x', cs.y.axisWidth + cs.bar.hPadding);
+    });
+    if (this.goal) this.generateGoal(cs, svgContainer, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
   /**
@@ -134,7 +145,9 @@ const barChart = function chart() {
    * @param {Object} rect (svg element)
    */
   const exit = (rects) => {
-    rects.exit().remove();
+    this.metric.forEach( (e, i) => {
+      rects[i].exit().remove();
+    });
     return rects;
   };
   /**
@@ -175,13 +188,22 @@ const barChart = function chart() {
    * @param {number} currentValue
    */
   const getMaxDimLength = (accumulator, currentValue) => {
+    if(!currentValue.dim) return accumulator;
     return (currentValue.dim.length > accumulator) ? currentValue.dim.length : accumulator;
   }
 
-  const rects = svgContainer.selectAll('rect').data(this.ds);
+  const rects = []
+  this.metric.forEach( (e, i) => {
+    rects.push(svgContainer.selectAll('rect.r' + i).data(this.ds.map(d => {
+      return  {
+        metric: d.metric[i],
+        dim: d.dim
+      }      
+    })))
+  })
 
   cs = this.setOverrides(cs, this.chartData.overrides);
-  if (this.ds[0].dim)
+  if (this.ds[0] && this.ds[0].dim)
     cs.y.axisWidth = cs.y.axisWidth || (this.ds.reduce(getMaxDimLength, 0)) * 10;
 
   buildScales(cs);

@@ -92,6 +92,31 @@ export default {
   }
 }
 ```
+Bubble Charts require three metrics (v1, v2, and v3).  These should be passed as triplets
+
+```JavaScript
+export default {
+  name: 'example',
+  data () {
+    return {
+      chartData: {
+        chartType: "bubbleChart",
+        selector: "chart",
+        title: "Important Data",
+        width: 400,
+        height: 200,
+        triplet: ['count', 'pyCount', 'revenue']
+        data: [
+          {'count': 120,
+           'fruit': 'apples'}, 
+          {'count': 250,
+           'fruit': 'oranges'}
+        ]
+      }
+    }
+  }
+}
+```
 ### Overrides
 If you need to override any of the default values of the charts (pallette colors, ticks, margins, etc) you can pass an overrides object to you chartData.
 
@@ -131,9 +156,11 @@ chartData: {
 * scatterPlot: a graph in which the values of two variables are plotted along two axes, the pattern of the resulting points revealing any correlation present.
 * pieChart: a chart in which a circle is divided into slices to illustrate proportion
 * areaChart: a chart which displays graphically quantitative data
+* bubleChart: a bubble chart is a variation of a scatter chart in which the data points are replaced with bubbles, and an additional dimension of the data is represented in the size of the bubbles.
 
 ### Charts that support two or more metrics
 * barChart
+* vBarChart
 * lineGraph
 
 Lastly you will need to add the component and bind your data

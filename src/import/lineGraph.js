@@ -58,20 +58,24 @@ const lineGraph = function chart(mode) {
         .attr('stroke', cs.palette.lineFill[i])
         .attr('stroke-width', 3)
     })    
-        
-    // points.enter()
-    //   .append('circle')
-    //   .attr('class', this.selector)
-    //   .attr('r', 2)
-    //   .on('mouseover', (d) => {
-    //     this.addTooltip(d, window.event);
-    //   })
-    //   .on('mouseout', (d) => {
-    //     this.removeTooltip(d);
-    //   })
-    //   .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-    //   .attr('cy', d => cs.y.scale(d.metric[0]));
-    // return points;
+    this.metric.forEach( (e, i) => {
+      cs.offset = i;      
+      points[i].enter()
+        .append('circle')
+        .attr('class', this.selector)
+        .attr('class', "r" + i)
+        .attr('r', 2)
+        .on('mouseover', (d) => {
+          this.addTooltip(d, window.event);
+        })
+        .on('mouseout', (d) => {
+          this.removeTooltip(d);
+        })
+        .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
+        .attr('cy', d => cs.y.scale(d.metric));
+    });
+    if (this.goal) this.generateGoal(cs, svgContainer, true, 0);
+    return points;
   };
   /**
    * Runs when a value of an element in dataset is changed
@@ -85,12 +89,16 @@ const lineGraph = function chart(mode) {
       .attr('d', cs.lineFunction[i](this.ds));
     })
   
-    // points.transition()
-    //   .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-    //   .attr('cy', d => cs.y.scale(d.metric[0]))
-    //   .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-    //   .attr('cy', d => cs.y.scale(d.metric[0]));
-    // return points;
+    this.metric.forEach( (e, i) => {
+      cs.offset = i;      
+      points[i].transition()
+        .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
+        .attr('cy', d => cs.y.scale(d.metric))
+        .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
+        .attr('cy', d => cs.y.scale(d.metric));
+    });
+    if (this.goal) this.generateGoal(cs, svgContainer, true, 0);
+    return points;
   };
 
   /**
@@ -100,10 +108,12 @@ const lineGraph = function chart(mode) {
    * @param {Object} points (svg element)
    */
   const exit = (points, path) => {
-    points.exit().remove();
+    this.metric.forEach( (e, i) => {
+      points[i].exit().remove();
+    });
     this.metric.forEach( (e, i) => {
       path[i].exit().remove();
-    })
+    });
     return points;
   };
 
@@ -147,7 +157,16 @@ const lineGraph = function chart(mode) {
       )  
   });
   
-  const points = svgContainer.selectAll('circle').data(this.ds);
+  const points = [];
+  this.metric.forEach( (e, i) => {
+    points.push(svgContainer.selectAll('circle.r' + i).data(this.ds.map(d => {
+      return  {
+        metric: d.metric[i],
+        dim: d.dim
+      }      
+    })))
+  })
+
   const path = []
   this.metric.forEach( (e, i) => {
     path.push(svgContainer.selectAll('path#p' + i).data(this.ds))
