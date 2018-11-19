@@ -55,15 +55,9 @@ const lineGraph = function chart(mode) {
     points.enter()
       .append('circle')
       .attr('class', this.selector)
-      .attr('r', d => cs.r.scale(d.metric[2]))
-      .on('mouseover', (d) => {
-        this.addTooltip(d, window.event);
-      })
-      .on('mouseout', (d) => {
-        this.removeTooltip(d);
-      })
-      .attr('cx', d => cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5)
-      .attr('cy', d => cs.y.scale(d.metric[1]));
+      .attr('r', d =>  cs.r.scale(d.metric[0][this.triplet[2]]))
+      .attr('cx', d => cs.x.scale(d.metric[0][this.triplet[0]]) + cs.y.axisWidth + 5)
+      .attr('cy', d => cs.y.scale(d.metric[0][this.triplet[1]]));
     return points;
   };
   /**
@@ -74,11 +68,9 @@ const lineGraph = function chart(mode) {
    */
   const transition = (points) => {
     points.transition()
-      .attr('r', d => cs.r.scale(d.metric[2]))
-      .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-      .attr('cy', d => cs.y.scale(d.metric[0]))
-      .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-      .attr('cy', d => cs.y.scale(d.metric[1]));
+      .attr('r', d => cs.r.scale(d.metric[0][this.triplet[2]]))
+      .attr('cx', d => cs.x.scale(d.metric[0][this.triplet[0]]) + cs.y.axisWidth + 5)
+      .attr('cy', d => cs.y.scale(d.metric[0][this.triplet[1]]));
     return points;
   };
 
@@ -100,13 +92,13 @@ const lineGraph = function chart(mode) {
    */
   const buildScales = cs => {
     cs.y.scale = d3.scaleLinear()
-      .domain([this.min, this.max])
+      .domain([this.minTriplet.v1, this.maxTriplet.v1])
       .range([this.displayHeight - cs.x.axisHeight, this.header]);
     cs.x.scale = d3.scaleLinear()
-      .domain([this.min, this.max])
+      .domain([this.minTriplet.v2, this.maxTriplet.v2])
       .range([0, this.width]);
     cs.r.scale = d3.scaleLinear()
-      .domain([0, 2])
+      .domain([this.minTriplet.v3, this.maxTriplet.v3])
       .range([0, 20]);
   };
   /**

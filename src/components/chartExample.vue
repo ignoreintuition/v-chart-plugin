@@ -82,7 +82,7 @@ export default {
         subtitle: "Sales by month",
         width: 600,
         height: 500,
-        metric: ["total", "forecast", "yoy"],
+        triplet: ["total", "forecast", "yoy"],
         data: sales,
         goal: 500,
         legends: {
