@@ -1,4 +1,6 @@
 import _Object$assign from 'babel-runtime/core-js/object/assign';
+import { globalAgent } from 'http';
+
 /** 
  *  @fileOverview Bar chart component definition
  *
@@ -29,7 +31,7 @@ var barChart = function chart() {
    */
   var cs = {
     palette: {
-      fill: '#005792',
+      fill: ['#005792', '#ffcdcd'],
       stroke: '#d1f4fa'
     },
     bar: {
@@ -63,7 +65,7 @@ var barChart = function chart() {
    * @function
    */
   var getHeight = function getHeight() {
-    return (_this.displayHeight - cs.x.axisHeight - _this.header - cs.bar.vPadding) / _this.ds.length - 1;
+    return ((_this.displayHeight - cs.x.axisHeight - _this.header - cs.bar.vPadding) / _this.ds.length - 1) / _this.metric.length;
   };
 
   /**
@@ -74,7 +76,7 @@ var barChart = function chart() {
    * @param {Object} i (svg element)
    */
   var getYCoord = function getYCoord(d, i) {
-    return i * (_this.displayHeight - cs.x.axisHeight - _this.header) / _this.ds.length + 1 + _this.header;
+    return i * (_this.displayHeight - cs.x.axisHeight - _this.header) / _this.ds.length + 1 + _this.header + cs.bar.offset * getHeight();
   };
 
   /**
@@ -103,7 +105,11 @@ var barChart = function chart() {
    * @param {Object} rects (svg element)
    */
   var enter = function enter(rects) {
-    rects.enter().append('rect').attr('fill', cs.palette.fill).attr('stroke', cs.palette.stroke).attr('class', _this.selector).attr('width', getWidth).attr('height', getHeight).attr('y', getYCoord).attr('x', cs.y.axisWidth + cs.bar.hPadding).on('mouseover', mouseOver).on('mouseout', mouseOut);
+    _this.metric.forEach(function (e, i) {
+      cs.bar.offset = i;
+      rects[i].enter().append('rect').attr('fill', cs.palette.fill[i]).attr('stroke', cs.palette.stroke).attr('class', _this.selector).attr('class', 'r' + i).attr('width', getWidth).attr('height', getHeight).attr('y', getYCoord).attr('x', cs.y.axisWidth + cs.bar.hPadding).on('mouseover', mouseOver).on('mouseout', mouseOut);
+    });
+    if (_this.goal) _this.generateGoal(cs, svgContainer, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
   /**
@@ -113,7 +119,11 @@ var barChart = function chart() {
    * @param {Object} rects (svg element)
    */
   var transition = function transition(rects) {
-    rects.transition().attr('width', getWidth).attr('height', getHeight).attr('y', getYCoord).attr('x', cs.y.axisWidth + cs.bar.hPadding);
+    _this.metric.forEach(function (e, i) {
+      cs.bar.offset = i;
+      rects[i].transition().attr('width', getWidth).attr('height', getHeight).attr('y', getYCoord).attr('x', cs.y.axisWidth + cs.bar.hPadding);
+    });
+    if (_this.goal) _this.generateGoal(cs, svgContainer, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
   /**
@@ -123,7 +133,9 @@ var barChart = function chart() {
    * @param {Object} rect (svg element)
    */
   var exit = function exit(rects) {
-    rects.exit().remove();
+    _this.metric.forEach(function (e, i) {
+      rects[i].exit().remove();
+    });
     return rects;
   };
   /**
@@ -164,13 +176,22 @@ var barChart = function chart() {
    * @param {number} currentValue
    */
   var getMaxDimLength = function getMaxDimLength(accumulator, currentValue) {
+    if (!currentValue.dim) return accumulator;
     return currentValue.dim.length > accumulator ? currentValue.dim.length : accumulator;
   };
 
-  var rects = svgContainer.selectAll('rect').data(this.ds);
+  var rects = [];
+  this.metric.forEach(function (e, i) {
+    rects.push(svgContainer.selectAll('rect.r' + i).data(_this.ds.map(function (d) {
+      return {
+        metric: d.metric[i],
+        dim: d.dim
+      };
+    })));
+  });
 
   cs = this.setOverrides(cs, this.chartData.overrides);
-  if (this.ds[0].dim) cs.y.axisWidth = cs.y.axisWidth || this.ds.reduce(getMaxDimLength, 0) * 10;
+  if (this.ds[0] && this.ds[0].dim) cs.y.axisWidth = cs.y.axisWidth || this.ds.reduce(getMaxDimLength, 0) * 10;
 
   buildScales(cs);
   drawAxis(cs);

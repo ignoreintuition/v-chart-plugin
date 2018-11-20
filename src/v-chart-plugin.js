@@ -234,14 +234,6 @@ const Chart = {
           return metric;
         },
         /**
-         * triplet getter function
-         * @memberOf Chart
-         * @returns {array} Metrics 
-         */
-        triplet() {
-          return this.chartData.triplet;
-        },
-        /**
          * Height getter function
          * @memberOf Chart
          * @returns {number} Chart Height
@@ -285,9 +277,9 @@ const Chart = {
             v3: 0
           };
           this.ds.forEach(e => {
-            max.v1 = max.v1 > e.metric[0][this.triplet[0]] ? max.v1 : e.metric[0][this.triplet[0]];
-            max.v2 = max.v2 > e.metric[0][this.triplet[1]] ? max.v2 : e.metric[0][this.triplet[1]];
-            max.v3 = max.v3 > e.metric[0][this.triplet[2]] ? max.v3 : e.metric[0][this.triplet[2]];
+            max.v1 = max.v1 > e.metric[0] ? max.v1 : e.metric[0];
+            max.v2 = max.v2 > e.metric[1] ? max.v2 : e.metric[1];
+            max.v3 = max.v3 > e.metric[2] ? max.v3 : e.metric[2];
           });
           return max;
         },
@@ -315,9 +307,9 @@ const Chart = {
             v3: []
           };
           this.ds.forEach(e => {
-            results.v1.push(e.metric[0][this.triplet[0]])
-            results.v2.push(e.metric[0][this.triplet[1]])
-            results.v3.push(e.metric[0][this.triplet[2]])
+            results.v1.push(e.metric[0])
+            results.v2.push(e.metric[1])
+            results.v3.push(e.metric[2])
           })
           return {
             v1: (Math.min(...results.v1.map(o => o))),
