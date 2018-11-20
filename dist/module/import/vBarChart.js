@@ -28,7 +28,7 @@ var vBarChart = function chart() {
    */
   var cs = {
     palette: {
-      fill: '#005792',
+      fill: ['#005792', '#ffcdcd'],
       stroke: '#d1f4fa'
     },
     bar: {
@@ -52,7 +52,7 @@ var vBarChart = function chart() {
    */
 
   var getWidth = function getWidth() {
-    return (_this.width - cs.y.axisWidth) / _this.chartData.data.length - 1;
+    return ((_this.width - cs.y.axisWidth) / _this.chartData.data.length - 1) / _this.metric.length;
   };
 
   /**
@@ -73,7 +73,7 @@ var vBarChart = function chart() {
    * @param {Object} i (svg element)
    */
   var getXCoord = function getXCoord(d, i) {
-    return i * (_this.width - cs.y.axisWidth) / _this.chartData.data.length + cs.y.axisWidth;
+    return i * (_this.width - cs.y.axisWidth) / _this.chartData.data.length + cs.y.axisWidth + cs.bar.offset * getWidth();
   };
   /**
    * Returns y axis co-ordinate of the bar
@@ -112,7 +112,10 @@ var vBarChart = function chart() {
    * @param {Object} rects (svg element)
    */
   var enter = function enter(rects) {
-    rects.enter().append('rect').attr('fill', cs.palette.fill).attr('stroke', cs.palette.stroke).attr('class', _this.selector).attr('width', getWidth).attr('height', getHeight).attr('x', getXCoord).attr('y', getYCoord).on('mouseover', mouseOver).on('mouseout', mouseOut);
+    _this.metric.forEach(function (e, i) {
+      cs.bar.offset = i;
+      rects[i].enter().append('rect').attr('fill', cs.palette.fill[i]).attr('stroke', cs.palette.stroke).attr('class', _this.selector).attr('class', 'r' + i).attr('width', getWidth).attr('height', getHeight).attr('x', getXCoord).attr('y', getYCoord).on('mouseover', mouseOver).on('mouseout', mouseOut);
+    });
   };
   /**
    * Runs when a value of an element in dataset is changed
@@ -121,7 +124,10 @@ var vBarChart = function chart() {
    * @param {Object} rects (svg element)
    */
   var transition = function transition(rects) {
-    rects.transition().attr('width', getWidth).attr('height', getHeight).attr('x', getXCoord).attr('y', getYCoord);
+    _this.metric.forEach(function (e, i) {
+      cs.bar.offset = i;
+      rects[i].transition().attr('width', getWidth).attr('height', getHeight).attr('x', getXCoord).attr('y', getYCoord);
+    });
   };
   /**
    * Runs when an element is removed from the dataset
@@ -130,7 +136,9 @@ var vBarChart = function chart() {
    * @param {Object} rects (svg element)
    */
   var exit = function exit(rects) {
-    rects.exit().remove();
+    _this.metric.forEach(function (e, i) {
+      rects[i].exit().remove();
+    });
   };
   /**
    * Builds the scales for the x and y axes
@@ -163,7 +171,15 @@ var vBarChart = function chart() {
     if (_this.ds[0].dim) svgContainer.append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.x.xOffset + ', ' + cs.x.yOffset + ')').call(cs.x.axis);
   };
 
-  var rects = svgContainer.selectAll('rect').data(this.ds);
+  var rects = [];
+  this.metric.forEach(function (e, i) {
+    rects.push(svgContainer.selectAll('rect.r' + i).data(_this.ds.map(function (d) {
+      return {
+        metric: d.metric[i],
+        dim: d.dim
+      };
+    })));
+  });
 
   cs = this.setOverrides(cs, this.chartData.overrides);
   buildScales(cs);

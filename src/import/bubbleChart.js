@@ -55,9 +55,9 @@ const lineGraph = function chart(mode) {
     points.enter()
       .append('circle')
       .attr('class', this.selector)
-      .attr('r', d =>  cs.r.scale(d.metric[0][this.triplet[2]]))
-      .attr('cx', d => cs.x.scale(d.metric[0][this.triplet[0]]) + cs.y.axisWidth + 5)
-      .attr('cy', d => cs.y.scale(d.metric[0][this.triplet[1]]));
+      .attr('r', d =>  cs.r.scale(d.metric[2]))
+      .attr('cx', d => cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5) 
+      .attr('cy', d => cs.y.scale(d.metric[1]));
     return points;
   };
   /**
@@ -68,9 +68,9 @@ const lineGraph = function chart(mode) {
    */
   const transition = (points) => {
     points.transition()
-      .attr('r', d => cs.r.scale(d.metric[0][this.triplet[2]]))
-      .attr('cx', d => cs.x.scale(d.metric[0][this.triplet[0]]) + cs.y.axisWidth + 5)
-      .attr('cy', d => cs.y.scale(d.metric[0][this.triplet[1]]));
+      .attr('r', d => cs.r.scale(d.metric[2]))
+      .attr('cx', d => cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5)
+      .attr('cy', d => cs.y.scale(d.metric[1]));
     return points;
   };
 

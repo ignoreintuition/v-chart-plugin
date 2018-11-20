@@ -18,6 +18,7 @@ import lineGraph from './import/lineGraph';
 import scatterPlot from './import/scatterPlot';
 import pieChart from './import/pieChart';
 import areaChart from './import/areaChart';
+import bubbleChart from './import/bubbleChart';
 
 var d3 = _Object$assign({}, require('d3-selection'));
 
@@ -146,16 +147,38 @@ var Chart = {
          * @param {Object} cs configuration of the coordinate system
          */
         generateLegend: function generateLegend(cs) {
-          if (this.chartData.legends && this.chartData.legends.enabled === true) {
-            d3.select('#' + this.chartData.selector).append('text').attr('x', this.width - 60).attr('y', this.height * 0.95).style('text-anchor', 'middle').text(this.chartData.metric[0]);
+          var _this = this;
 
-            d3.select('#' + this.chartData.selector).append("g").attr("class", "legends").append("rect").attr('x', this.width - 30).attr('y', this.height * 0.95 - 10).attr("width", 30).attr("height", 10).style("fill", function () {
-              var fill = cs.palette.lineFill || cs.palette.fill;
-              return fill;
+          if (this.chartData.legends && this.chartData.legends.enabled === true) {
+            cs.palette.lineFill = Array.isArray(cs.palette.lineFill) ? cs.palette.lineFill : new Array(cs.palette.lineFill);
+            cs.palette.fill = Array.isArray(cs.palette.fill) ? cs.palette.fill : new Array(cs.palette.fill);
+            this.metric.forEach(function (e, i) {
+              d3.select('#' + _this.chartData.selector).append('text').attr('x', _this.width - 60).attr('y', _this.height * 0.95 - i * 15).style('text-anchor', 'middle').text(_this.metric[i]);
+
+              d3.select('#' + _this.chartData.selector).append("g").attr("class", "legends").append("rect").attr('x', _this.width - 30).attr('y', _this.height * 0.95 - i * 15 - 10).attr("width", 30).attr("height", 10).style("fill", function () {
+                var fill = cs.palette.lineFill[i] || cs.palette.fill[i];
+                return fill;
+              });
             });
           }
+        },
+
+        /**
+         * Generate Goal 
+         * @memberOf Chart
+         * @param {Object} cs configuration of the coordinate system
+         */
+
+        generateGoal: function generateGoal(cs, svgContainer, shiftAxis, padding) {
+          svgContainer.selectAll('line#goal').remove();
+          var x1 = shiftAxis ? cs.y.axisWidth : cs.x.scale(this.goal) + padding;
+          var x2 = shiftAxis ? 500 : cs.x.scale(this.goal) + padding;
+          var y1 = shiftAxis ? cs.y.scale(this.goal) + padding : this.header;
+          var y2 = shiftAxis ? cs.y.scale(this.goal) + padding : this.displayHeight - cs.x.axisHeight;
+
+          svgContainer.append("line").attr('x1', x1).attr('x2', x2).attr('y1', y1).attr('y2', y2).attr('id', 'goal').style('stroke', '#708090').style('stroke-width', 1);
         }
-      }, typeof barChart !== 'undefined' && { barChart: barChart }, typeof vBarChart !== 'undefined' && { vBarChart: vBarChart }, typeof scatterPlot !== 'undefined' && { scatterPlot: scatterPlot }, typeof pieChart !== 'undefined' && { pieChart: pieChart }, typeof areaChart !== 'undefined' && { areaChart: areaChart }, typeof lineGraph !== 'undefined' && { lineGraph: lineGraph }),
+      }, typeof barChart !== 'undefined' && { barChart: barChart }, typeof vBarChart !== 'undefined' && { vBarChart: vBarChart }, typeof scatterPlot !== 'undefined' && { scatterPlot: scatterPlot }, typeof pieChart !== 'undefined' && { pieChart: pieChart }, typeof areaChart !== 'undefined' && { areaChart: areaChart }, typeof lineGraph !== 'undefined' && { lineGraph: lineGraph }, typeof bubbleChart !== 'undefined' && { bubbleChart: bubbleChart }),
       computed: {
         /**
          * Dataset getter function
@@ -163,28 +186,31 @@ var Chart = {
          * @returns {Object} normalized dataset
          */
         ds: function ds() {
-          var _this = this;
+          var _this2 = this;
 
-          //TODO add in support for arrays with undefined metric
           var ds = { metric: [] };
-          if (!Array.isArray(this.chartData.metric)) {
-            ds.metric.push(this.chartData.metric);
-          } else {
-            ds.metric = this.chartData.metric;
-          }
+          ds.metric = Array.isArray(this.chartData.metric) ? ds.metric = this.chartData.metric : new Array(this.chartData.metric);
           ds.dim = this.chartData.dim;
           ds.data = this.chartData.data;
-
           return ds.data.map(function (d) {
-            var td = {
-              metric: []
-            };
-            ds.metric.forEach(function (e, i) {
-              td.metric[i] = d[e] || 0;
-            });
-            td.dim = _this.chartData.dim ? d[_this.chartData.dim] : null;
+            var td = { metric: [] };
+            if (!ds.metric[0]) td.metric[0] = d || 0;else {
+              ds.metric.forEach(function (e, i) {
+                td.metric[i] = d[e] || 0;
+              });
+            }
+            td.dim = _this2.chartData.dim ? d[_this2.chartData.dim] : null;
             return td;
           });
+        },
+
+        /**
+         * Goal getter function
+         * @memberOf Chart
+         * @returns {number} Goal 
+         */
+        goal: function goal() {
+          return this.chartData.goal;
         },
 
         /**
@@ -193,7 +219,8 @@ var Chart = {
          * @returns {array} Metrics 
          */
         metric: function metric() {
-          return this.chartData.metric;
+          var metric = Array.isArray(this.chartData.metric) ? this.chartData.metric : new Array(this.chartData.metric);
+          return metric;
         },
 
         /**
@@ -232,12 +259,30 @@ var Chart = {
         },
 
         /**
+         * Get the maxium value for triplet
+         * @memberOf Chart
+         * @returns {Array} Max values for triplet
+         */
+        maxTriplet: function maxTriplet() {
+          var max = {
+            v1: 0,
+            v2: 0,
+            v3: 0
+          };
+          this.ds.forEach(function (e) {
+            max.v1 = max.v1 > e.metric[0] ? max.v1 : e.metric[0];
+            max.v2 = max.v2 > e.metric[1] ? max.v2 : e.metric[1];
+            max.v3 = max.v3 > e.metric[2] ? max.v3 : e.metric[2];
+          });
+          return max;
+        },
+
+        /**
          * Get the minimum value for dataset
          * @memberOf Chart
          * @returns {number} Min value for metric
          */
         min: function min() {
-          var max = 0;
           var results = [];
           this.ds.forEach(function (e) {
             results = results.concat([].concat(_toConsumableArray(e.metric)));
@@ -245,6 +290,35 @@ var Chart = {
           return Math.min.apply(Math, _toConsumableArray(results.map(function (o) {
             return o;
           })));
+        },
+
+        /**
+         * Get the minimum value for triplet
+         * @memberOf Chart
+         * @returns {Array} Min values for triplet
+         */
+        minTriplet: function minTriplet() {
+          var results = {
+            v1: [],
+            v2: [],
+            v3: []
+          };
+          this.ds.forEach(function (e) {
+            results.v1.push(e.metric[0]);
+            results.v2.push(e.metric[1]);
+            results.v3.push(e.metric[2]);
+          });
+          return {
+            v1: Math.min.apply(Math, _toConsumableArray(results.v1.map(function (o) {
+              return o;
+            }))),
+            v2: Math.min.apply(Math, _toConsumableArray(results.v2.map(function (o) {
+              return o;
+            }))),
+            v3: Math.min.apply(Math, _toConsumableArray(results.v3.map(function (o) {
+              return o;
+            })))
+          };
         },
 
         /**
