@@ -106,12 +106,19 @@ export default {
           enabled: true,
           height: 25,
           width: 50
-        },              
+        },
+                overrides: {
+          palette: {
+            fill: ['#34495E', '#4fc08d'],
+            stroke: '#41B883'
+          },
+                },
+              
       },
       vBarChartData: {
-        chartType: "vBarChart",
+        chartType: "barChart",
         selector: "vChart",
-        title: "Verticle Bar Chart",
+        title: "Bar Chart",
         subtitle: "Sales by month",
         width: 300,
         height: 300,
@@ -122,7 +129,13 @@ export default {
           enabled: true,
           height: 25,
           width: 50
-        },              
+        },      
+        overrides: {
+          palette: {
+            fill: ['#34495E', '#4fc08d'],
+            stroke: '#41B883'
+          },
+        },
       },
       pieChartData: {
         chartType: "pieChart",
