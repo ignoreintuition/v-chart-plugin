@@ -44,17 +44,17 @@ import sales from "../assets/data/sales";
 export default {
   name: "barChartExample",
   methods: {
-    newItem: function(){
+    newItem: function() {
       this.sales.push({
-        "month": null,
-        "year": null,
-        "total": null,
-        "actual": false
-      })
+        month: null,
+        year: null,
+        total: null,
+        actual: false
+      });
     },
-    removeItem: function(d, e){
+    removeItem: function(d, e) {
       e.preventDefault();
-      this.sales.splice(d, 1)
+      this.sales.splice(d, 1);
     }
   },
   data() {
@@ -73,12 +73,12 @@ export default {
           enabled: true,
           height: 25,
           width: 50
-        },                      
+        }
       },
       bubbleChartData: {
         chartType: "bubbleChart",
         selector: "chart",
-        title: "Bar Chart",
+        title: "Bubble Plot",
         subtitle: "Sales by month",
         width: 600,
         height: 500,
@@ -89,14 +89,14 @@ export default {
           enabled: true,
           height: 25,
           width: 50
-        },                      
+        }
       },
       lineGraphData: {
         chartType: "lineGraph",
         selector: "lineGraph",
         title: "Line Graph",
         width: 200,
-        subtitle: "Sales by month",        
+        subtitle: "Sales by month",
         height: 200,
         goal: 500,
         metric: ["total", "forecast"],
@@ -106,12 +106,18 @@ export default {
           enabled: true,
           height: 25,
           width: 50
-        },              
+        },
+        overrides: {
+          palette: {
+            fill: ["#34495E", "#4fc08d"],
+            stroke: "#41B883"
+          }
+        }
       },
       vBarChartData: {
-        chartType: "vBarChart",
+        chartType: "barChart",
         selector: "vChart",
-        title: "Verticle Bar Chart",
+        title: "Bar Chart",
         subtitle: "Sales by month",
         width: 300,
         height: 300,
@@ -122,7 +128,9 @@ export default {
           enabled: true,
           height: 25,
           width: 50
-        },              
+        },
+        overrides: {
+        }
       },
       pieChartData: {
         chartType: "pieChart",
@@ -133,33 +141,16 @@ export default {
         height: 200,
         metric: "total",
         dim: "month",
-        data: sales,
+        data: sales
       },
-      scatterPlotData: {
-        chartType: "scatterPlot",
-        selector: "scatterPlot",
-        title: "Scatter Plot",
-        subtitle: "Sales by month",
-        width: 300,
-        height: 200,
-        metric: "total",
-        dim: "month",
-        data: sales,
-        legends: {
-          enabled: true,
-          height: 25,
-          width: 50
-        },              
-      }
-      
     };
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style> 
-  .logo {
-    width: 200px
-  }
+<style>
+.logo {
+  width: 200px;
+}
 </style>

@@ -1,5 +1,5 @@
 /** 
- *  @fileOverview Line Graph component definition
+ *  @fileOverview Bubble Chart component definition
  *
  *  @author       Brian Greig
  *
@@ -12,11 +12,11 @@ const d3 = Object.assign({},
   require('d3-axis'),
   require('d3-shape'));
 /**
- * Builds a Line Graph.
- * @module lineGraph
+ * Builds a Bubble Chart.
+ * @module bubbleChart
  */
 
-const lineGraph = function chart(mode) {
+const bubbleChart = function chart(mode) {
   /**
    * The SVG that stores the chart
    * @member svgContainer
@@ -92,10 +92,10 @@ const lineGraph = function chart(mode) {
    */
   const buildScales = cs => {
     cs.y.scale = d3.scaleLinear()
-      .domain([this.minTriplet.v1, this.maxTriplet.v1])
+      .domain([this.minTriplet.v2, this.maxTriplet.v2])
       .range([this.displayHeight - cs.x.axisHeight, this.header]);
     cs.x.scale = d3.scaleLinear()
-      .domain([this.minTriplet.v2, this.maxTriplet.v2])
+      .domain([this.minTriplet.v1, this.maxTriplet.v1])
       .range([0, this.width]);
     cs.r.scale = d3.scaleLinear()
       .domain([this.minTriplet.v3, this.maxTriplet.v3])
@@ -132,4 +132,4 @@ const lineGraph = function chart(mode) {
   return cs;
 };
 
-export default lineGraph;
+export default bubbleChart;
