@@ -28,6 +28,10 @@ var scatterPlot = function chart() {
    * @member cs
    */
   var cs = {
+    palette: {
+      pointFill: '#005792',
+      pointStroke: '#d1f4fa'
+    },
     x: {
       domain: [],
       range: [],
@@ -36,24 +40,23 @@ var scatterPlot = function chart() {
     y: {
       axisWidth: 30,
       ticks: 5
+    },
+    r: {
+      width: 5
     }
   };
-  var points = svgContainer.selectAll('circle').data(this.ds);
+
   /**
    * Runs when a new element is added to the dataset
    * @member enter
    * @function
-   * @param {Object} p (svg element)
+   * @param {Object} points (svg element) 
    */
-  var enter = function enter(p) {
-    p.enter().append('circle').attr('class', _this.selector).attr('r', 2).on('mouseover', function (d) {
-      _this.addTooltip(d, window.event);
-    }).on('mouseout', function (d) {
-      _this.removeTooltip(d);
-    }).attr('cx', function (d) {
-      return cs.x.scale(d.dim) + cs.y.axisWidth + 5;
+  var enter = function enter(points) {
+    points.enter().append('circle').attr('class', _this.selector).attr('r', cs.r.width).attr('cx', function (d) {
+      return cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5;
     }).attr('cy', function (d) {
-      return cs.y.scale(d.metric);
+      return cs.y.scale(d.metric[1]);
     });
     return points;
   };
@@ -61,62 +64,57 @@ var scatterPlot = function chart() {
    * Runs when a value of an element in dataset is changed
    * @member transition
    * @function
-   * @param {Object} p (svg element)
+   * @param {Object} points (svg element) 
    */
-  var transition = function transition(p) {
-    p.transition().attr('cx', function (d) {
-      return cs.x.scale(d.dim) + cs.y.axisWidth + 5;
+  var transition = function transition(points) {
+    points.transition().attr('r', cs.r.width).attr('cx', function (d) {
+      return cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5;
     }).attr('cy', function (d) {
-      return cs.y.scale(d.metric);
-    }).attr('cx', function (d) {
-      return cs.x.scale(d.dim) + cs.y.axisWidth + 5;
-    }).attr('cy', function (d) {
-      return cs.y.scale(d.metric);
+      return cs.y.scale(d.metric[1]);
     });
     return points;
   };
+
   /**
    * Runs when an element is removed from the dataset
    * @member exit
    * @function
-   * @param {Object} rect (svg element)
+   * @param {Object} points (svg element)
    */
-  var exit = function exit() {
+  var exit = function exit(points) {
     points.exit().remove();
     return points;
   };
+
   /**
    * Builds the scales for the x and y axes
    * @member buildScales
    * @function
    */
-  var buildScales = function buildScales() {
-    cs.y.scale = d3.scaleLinear().domain([_this.min, _this.max]).range([_this.displayHeight - cs.x.axisHeight, _this.header]);
-    cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
-    _this.ds.forEach(function (t) {
-      return cs.x.domain.push(t.dim);
-    });
-    _this.ds.forEach(function (t, i) {
-      return cs.x.range.push((_this.width * i - _this.header) / _this.ds.length);
-    });
-    cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
+  var buildScales = function buildScales(cs) {
+    cs.y.scale = d3.scaleLinear().domain([_this.minTriplet.v2, _this.maxTriplet.v2]).range([_this.displayHeight - cs.x.axisHeight, _this.header]);
+    cs.x.scale = d3.scaleLinear().domain([_this.minTriplet.v1, _this.maxTriplet.v1]).range([0, _this.width]);
   };
   /**
    * Draws the x and y axes on the svg
    * @member drawAxis
    * @function
    */
-  var drawAxis = function drawAxis() {
+  var drawAxis = function drawAxis(cs) {
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     cs.x.xOffset = cs.y.axisWidth + 5;
-    cs.x.yOffset = _this.height - cs.x.axisHeight;
+    cs.x.yOffset = _this.displayHeight - cs.x.axisHeight;
+    cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
     svgContainer.append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.x.xOffset + ', ' + cs.x.yOffset + ')').call(cs.x.axis);
     svgContainer.append('g').attr('class', 'axis').attr('transform', 'translate(' + cs.y.xOffset + ',' + cs.y.yOffset + ')').call(cs.y.axis);
   };
 
+  var points = svgContainer.selectAll('circle').data(this.ds);
+
   cs = this.setOverrides(cs, this.chartData.overrides);
+
   buildScales(cs);
   drawAxis(cs);
   enter(points);

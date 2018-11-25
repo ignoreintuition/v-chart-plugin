@@ -120,13 +120,13 @@ const scatterPlot = function chart() {
   const points = svgContainer.selectAll('circle').data(this.ds);
 
   cs = this.setOverrides(cs, this.chartData.overrides);
-
   buildScales(cs);
   drawAxis(cs);
   enter(points);
   transition(points);
   exit(points);
 
+  this.drawGrid(cs);
   return cs;
 };
 
