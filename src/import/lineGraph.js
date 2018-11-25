@@ -180,6 +180,7 @@ const lineGraph = function chart(mode) {
   transition(points, path);
   exit(points, path);
 
+  this.drawGrid(cs);
   return cs;
 };
 
