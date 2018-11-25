@@ -55,11 +55,12 @@ const Chart = {
          * @memberOf Chart
          */
         drawGrid(cs) {
+          if (this.chartData.grid && this.chartData.grid.enabled === true) {
             const grid = {
               x: [],
               y: []
             }
-            for (let i = this.header; i < (this.height - this.header) * .80; i += 100) {
+            for (let i = this.header; i < (this.height - this.header) * .80; i += this.gridTicks) {
               grid.y.push(i);
             }
             d3.select(`#${this.chartData.selector}`)
@@ -73,6 +74,7 @@ const Chart = {
             .attr('y2', d => d)
             .style('stroke', '#D3D3D3')
             .style('stroke-width', 1)
+          }
         },
         /**
          * Remove x and y axes
@@ -272,6 +274,17 @@ const Chart = {
          */
         width() {
           return this.chartData.width || 200;
+        },
+        /**
+         * Grid Tick getter function
+         * @memberOf Chart
+         * @returns {number} gridTicks 
+         */
+        gridTicks() {
+          if (this.chartData.grid && this.chartData.grid.gridTicks != null) {
+            return this.chartData.grid.gridTicks;
+          }
+          return 100;
         },
         /**
          * Get the maxium value for metric

@@ -89,6 +89,10 @@ export default {
           enabled: true,
           height: 25,
           width: 50
+        },
+        grid: {
+          enabled: true,
+          gridTicks: 25
         }
       },
       lineGraphData: {
