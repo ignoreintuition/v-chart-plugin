@@ -128,7 +128,8 @@ const bubbleChart = function chart(mode) {
   enter(points);
   transition(points);
   exit(points);
-
+  
+  this.drawGrid(cs);
   return cs;
 };
 

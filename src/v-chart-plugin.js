@@ -51,6 +51,30 @@ const Chart = {
           this[this.chartData.chartType]('refresh');
         },
         /**
+         * Redraw the Chart when the data is recycled
+         * @memberOf Chart
+         */
+        drawGrid(cs) {
+            const grid = {
+              x: [],
+              y: []
+            }
+            for (let i = this.header; i < (this.height - this.header) * .80; i += 100) {
+              grid.y.push(i);
+            }
+            d3.select(`#${this.chartData.selector}`)
+            .selectAll('line.gridLine')
+            .data(grid.y).enter()
+            .append('line')
+            .attr('class', 'gridLine')
+            .attr('x1', cs.y.axisWidth)
+            .attr('x2', this.width)
+            .attr('y1', d => d)
+            .attr('y2', d => d)
+            .style('stroke', '#D3D3D3')
+            .style('stroke-width', 1)
+        },
+        /**
          * Remove x and y axes
          * @memberOf Chart
          */

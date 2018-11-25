@@ -1,6 +1,6 @@
 import _Object$assign from 'babel-runtime/core-js/object/assign';
 /** 
- *  @fileOverview Line Graph component definition
+ *  @fileOverview Bubble Chart component definition
  *
  *  @author       Brian Greig
  *
@@ -9,11 +9,11 @@ import _Object$assign from 'babel-runtime/core-js/object/assign';
  */
 var d3 = _Object$assign({}, require('d3-selection'), require('d3-scale'), require('d3-axis'), require('d3-shape'));
 /**
- * Builds a Line Graph.
- * @module lineGraph
+ * Builds a Bubble Chart.
+ * @module bubbleChart
  */
 
-var lineGraph = function chart(mode) {
+var bubbleChart = function chart(mode) {
   var _this = this;
 
   /**
@@ -92,8 +92,8 @@ var lineGraph = function chart(mode) {
    * @function
    */
   var buildScales = function buildScales(cs) {
-    cs.y.scale = d3.scaleLinear().domain([_this.minTriplet.v1, _this.maxTriplet.v1]).range([_this.displayHeight - cs.x.axisHeight, _this.header]);
-    cs.x.scale = d3.scaleLinear().domain([_this.minTriplet.v2, _this.maxTriplet.v2]).range([0, _this.width]);
+    cs.y.scale = d3.scaleLinear().domain([_this.minTriplet.v2, _this.maxTriplet.v2]).range([_this.displayHeight - cs.x.axisHeight, _this.header]);
+    cs.x.scale = d3.scaleLinear().domain([_this.minTriplet.v1, _this.maxTriplet.v1]).range([0, _this.width]);
     cs.r.scale = d3.scaleLinear().domain([_this.minTriplet.v3, _this.maxTriplet.v3]).range([0, 20]);
   };
   /**
@@ -125,4 +125,4 @@ var lineGraph = function chart(mode) {
   return cs;
 };
 
-export default lineGraph;
+export default bubbleChart;

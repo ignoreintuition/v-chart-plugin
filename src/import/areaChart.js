@@ -135,6 +135,7 @@ const areaChart = function chart() {
   transition(poly);
   exit(poly);
 
+  this.drawGrid(cs);
   return cs;
 };
 
