@@ -161,6 +161,7 @@ var vBarChart = function chart() {
    * @function
    */
   var drawAxis = function drawAxis() {
+    _this.drawGrid(cs);
     cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     cs.x.yOffset = _this.displayHeight;

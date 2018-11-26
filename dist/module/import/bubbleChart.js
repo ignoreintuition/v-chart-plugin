@@ -39,7 +39,9 @@ var bubbleChart = function chart(mode) {
       axisWidth: 30,
       ticks: 5
     },
-    r: {}
+    r: {
+      max: 20
+    }
   };
 
   /**
@@ -92,9 +94,9 @@ var bubbleChart = function chart(mode) {
    * @function
    */
   var buildScales = function buildScales(cs) {
-    cs.y.scale = d3.scaleLinear().domain([_this.minTriplet.v2, _this.maxTriplet.v2]).range([_this.displayHeight - cs.x.axisHeight, _this.header]);
-    cs.x.scale = d3.scaleLinear().domain([_this.minTriplet.v1, _this.maxTriplet.v1]).range([0, _this.width]);
-    cs.r.scale = d3.scaleLinear().domain([_this.minTriplet.v3, _this.maxTriplet.v3]).range([0, 20]);
+    cs.y.scale = d3.scaleLinear().domain([_this.minTriplet.v2 - cs.r.max, _this.maxTriplet.v2 + cs.r.max]).range([_this.displayHeight - cs.x.axisHeight, _this.header]);
+    cs.x.scale = d3.scaleLinear().domain([_this.minTriplet.v1 - cs.r.max, _this.maxTriplet.v1 + cs.r.max]).range([0, _this.width]);
+    cs.r.scale = d3.scaleLinear().domain([_this.minTriplet.v3, _this.maxTriplet.v3]).range([0, cs.r.max]);
   };
   /**
    * Draws the x and y axes on the svg
@@ -102,6 +104,7 @@ var bubbleChart = function chart(mode) {
    * @function
    */
   var drawAxis = function drawAxis(cs) {
+    _this.drawGrid(cs);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     cs.x.xOffset = cs.y.axisWidth + 5;
     cs.x.yOffset = _this.displayHeight - cs.x.axisHeight;

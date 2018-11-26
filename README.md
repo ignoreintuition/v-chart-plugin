@@ -92,7 +92,7 @@ export default {
   }
 }
 ```
-Bubble Charts require three metrics (v1, v2, and v3).  These should be passed as triplets
+Bubble Charts require three metrics (v1, v2, and v3).  These should be passed as metrics
 
 ```JavaScript
 export default {
@@ -105,7 +105,7 @@ export default {
         title: "Important Data",
         width: 400,
         height: 200,
-        triplet: ['count', 'pyCount', 'revenue']
+        metric: ['count', 'pyCount', 'revenue']
         data: [
           {'count': 120,
            'fruit': 'apples'}, 
@@ -145,6 +145,20 @@ chartData: {
     enabled: true,
     height: 25,
     width: 50,
+  }
+}
+```
+
+### Gridlines
+Gridlines are turned off by default.  You can include and configure your gridlines via the configuration object:
+
+```JavaScript
+chartData: {
+  chartType: "barChart",
+  ...
+  grid: {
+    enabled: true,
+    gridTicks: 25,
   }
 }
 ```

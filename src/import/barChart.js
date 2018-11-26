@@ -170,6 +170,7 @@ const barChart = function chart() {
    * @function
    */
   const drawAxis = () => {
+    this.drawGrid(cs);
     cs.x.axis = d3.axisBottom().ticks(cs.x.ticks, 's').scale(cs.x.scale);
     cs.y.axis = d3.axisLeft().scale(cs.y.scale);
     cs.x.yOffset = this.displayHeight - cs.x.axisHeight;
