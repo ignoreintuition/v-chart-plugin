@@ -112,6 +112,7 @@ const areaChart = function chart() {
    * @function
    */
   const drawAxis = () => {
+    this.drawGrid(cs);
     cs.polyFunction = d3.line()
       .x(d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
       .y(d => cs.y.scale(d.metric));
@@ -135,7 +136,6 @@ const areaChart = function chart() {
   transition(poly);
   exit(poly);
 
-  this.drawGrid(cs);
   return cs;
 };
 

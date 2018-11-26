@@ -136,6 +136,7 @@ const lineGraph = function chart(mode) {
    * @function
    */
   const drawAxis = cs => {
+    this.drawGrid(cs);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     cs.x.xOffset = cs.y.axisWidth + 5;
     cs.x.yOffset = this.displayHeight - cs.x.axisHeight;
@@ -180,7 +181,6 @@ const lineGraph = function chart(mode) {
   transition(points, path);
   exit(points, path);
 
-  this.drawGrid(cs);
   return cs;
 };
 

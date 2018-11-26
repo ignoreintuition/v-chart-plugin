@@ -101,6 +101,7 @@ var scatterPlot = function chart() {
    * @function
    */
   var drawAxis = function drawAxis(cs) {
+    _this.drawGrid(cs);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     cs.x.xOffset = cs.y.axisWidth + 5;
     cs.x.yOffset = _this.displayHeight - cs.x.axisHeight;
@@ -114,7 +115,6 @@ var scatterPlot = function chart() {
   var points = svgContainer.selectAll('circle').data(this.ds);
 
   cs = this.setOverrides(cs, this.chartData.overrides);
-
   buildScales(cs);
   drawAxis(cs);
   enter(points);

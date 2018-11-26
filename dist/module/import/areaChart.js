@@ -109,6 +109,7 @@ var areaChart = function chart() {
    * @function
    */
   var drawAxis = function drawAxis() {
+    _this.drawGrid(cs);
     cs.polyFunction = d3.line().x(function (d) {
       return cs.x.scale(d.dim) + cs.y.axisWidth + 5;
     }).y(function (d) {

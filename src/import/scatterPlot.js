@@ -105,6 +105,7 @@ const scatterPlot = function chart() {
    * @function
    */
   const drawAxis = cs => {
+    this.drawGrid(cs);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     cs.x.xOffset = cs.y.axisWidth + 5;
     cs.x.yOffset = this.displayHeight - cs.x.axisHeight;
@@ -126,7 +127,6 @@ const scatterPlot = function chart() {
   transition(points);
   exit(points);
 
-  this.drawGrid(cs);
   return cs;
 };
 

@@ -131,6 +131,7 @@ var lineGraph = function chart(mode) {
    * @function
    */
   var drawAxis = function drawAxis(cs) {
+    _this.drawGrid(cs);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     cs.x.xOffset = cs.y.axisWidth + 5;
     cs.x.yOffset = _this.displayHeight - cs.x.axisHeight;

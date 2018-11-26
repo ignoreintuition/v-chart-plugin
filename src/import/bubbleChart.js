@@ -41,7 +41,7 @@ const bubbleChart = function chart(mode) {
       ticks: 5,
     },
     r: {
-
+      max: 20,
     }
   };
 
@@ -92,14 +92,14 @@ const bubbleChart = function chart(mode) {
    */
   const buildScales = cs => {
     cs.y.scale = d3.scaleLinear()
-      .domain([this.minTriplet.v2, this.maxTriplet.v2])
+      .domain([this.minTriplet.v2 - cs.r.max, this.maxTriplet.v2 + cs.r.max])
       .range([this.displayHeight - cs.x.axisHeight, this.header]);
     cs.x.scale = d3.scaleLinear()
-      .domain([this.minTriplet.v1, this.maxTriplet.v1])
+      .domain([this.minTriplet.v1 - cs.r.max, this.maxTriplet.v1 + cs.r.max])
       .range([0, this.width]);
     cs.r.scale = d3.scaleLinear()
       .domain([this.minTriplet.v3, this.maxTriplet.v3])
-      .range([0, 20]);
+      .range([0, cs.r.max]);
   };
   /**
    * Draws the x and y axes on the svg
@@ -107,6 +107,7 @@ const bubbleChart = function chart(mode) {
    * @function
    */
   const drawAxis = cs => {
+    this.drawGrid(cs);
     cs.x.axis = d3.axisBottom().scale(cs.x.scale);
     cs.x.xOffset = cs.y.axisWidth + 5;
     cs.x.yOffset = this.displayHeight - cs.x.axisHeight;
@@ -129,7 +130,6 @@ const bubbleChart = function chart(mode) {
   transition(points);
   exit(points);
   
-  this.drawGrid(cs);
   return cs;
 };
 
