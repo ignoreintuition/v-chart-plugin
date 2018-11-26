@@ -149,6 +149,20 @@ chartData: {
 }
 ```
 
+### Gridlines
+Gridlines are turned off by default.  You can include and configure your gridlines via the configuration object:
+
+```JavaScript
+chartData: {
+  chartType: "barChart",
+  ...
+  grid: {
+    enabled: true,
+    gridTicks: 25,
+  }
+}
+```
+
 ### Chart types currently supported:
 * barChart: a chart in which the numerical values of variables are represented by the width of rectangles of equal height.
 * vBarChart: a chart in which the numerical values of variables are represented by the height of rectangles of equal width.
