@@ -14,6 +14,7 @@ import scatterPlot from './import/scatterPlot';
 import pieChart from './import/pieChart';
 import areaChart from './import/areaChart';
 import bubbleChart from './import/bubbleChart';
+import boxPlot from './import/boxPlot';
 
 const d3 = Object.assign({},
   require('d3-selection'));
@@ -209,6 +210,15 @@ const Chart = {
             .style('stroke', '#708090')
             .style('stroke-width', 1)
         },
+                /**
+         * get the values of a metric as an array
+         * @memberOf Chart
+         * @returns {Array} metric values
+         */
+        metricAsArray(metric) {
+          metric = this.chartData.data.map(d => d[metric]);
+          return metric; 
+        },
 
         ...((typeof barChart !== 'undefined') && { barChart }),
         ...((typeof vBarChart !== 'undefined') && { vBarChart }),
@@ -217,6 +227,7 @@ const Chart = {
         ...((typeof areaChart !== 'undefined') && { areaChart }),
         ...((typeof lineGraph !== 'undefined') && { lineGraph }),
         ...((typeof bubbleChart !== 'undefined') && { bubbleChart }),
+        ...((typeof boxPlot !== 'undefined') && { boxPlot }),
       },
       computed: {
         /**
