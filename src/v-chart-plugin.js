@@ -197,7 +197,7 @@ const Chart = {
         generateGoal(cs, svgContainer, shiftAxis, padding) {
           svgContainer.selectAll('line#goal').remove();
           const x1 = shiftAxis ? cs.y.axisWidth: cs.x.scale(this.goal) + padding;
-          const x2 = shiftAxis ? 500 : cs.x.scale(this.goal) + padding;
+          const x2 = shiftAxis ? this.width : cs.x.scale(this.goal) + padding;
           const y1 = shiftAxis ? cs.y.scale(this.goal) + padding : this.header;
           const y2 = shiftAxis ? cs.y.scale(this.goal) + padding : this.displayHeight - cs.x.axisHeight;
           

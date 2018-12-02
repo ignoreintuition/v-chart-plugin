@@ -55,6 +55,8 @@ const bubbleChart = function chart(mode) {
     points.enter()
       .append('circle')
       .attr('class', this.selector)
+      .attr('fill', cs.palette.fill)
+      .attr('stroke', cs.palette.stroke)
       .attr('r', d =>  cs.r.scale(d.metric[2]))
       .attr('cx', d => cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5) 
       .attr('cy', d => cs.y.scale(d.metric[1]));
