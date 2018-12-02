@@ -194,14 +194,14 @@ const Chart = {
          * @param {Object} cs configuration of the coordinate system
          */
 
-        generateGoal(cs, svgContainer, shiftAxis, padding) {
-          svgContainer.selectAll('line#goal').remove();
+        generateGoal(cs, shiftAxis, padding) {
+          d3.select(`#${this.chartData.selector}`).selectAll('line#goal').remove();
           const x1 = shiftAxis ? cs.y.axisWidth: cs.x.scale(this.goal) + padding;
           const x2 = shiftAxis ? this.width : cs.x.scale(this.goal) + padding;
           const y1 = shiftAxis ? cs.y.scale(this.goal) + padding : this.header;
           const y2 = shiftAxis ? cs.y.scale(this.goal) + padding : this.displayHeight - cs.x.axisHeight;
           
-          svgContainer.append("line")
+          d3.select(`#${this.chartData.selector}`).append('line')
             .attr('x1', x1)
             .attr('x2', x2)
             .attr('y1', y1)
@@ -210,7 +210,31 @@ const Chart = {
             .style('stroke', '#708090')
             .style('stroke-width', 1)
         },
-                /**
+        /**
+         * Generate Axis Lables
+         * @memberOf Chart
+         * @param {Obeject} cs configuration of the coordinate system 
+         */
+        generateAxisLabels(cs) {
+          d3.select(`#${this.chartData.selector}`).selectAll('text.axisLabel').remove();
+          d3.select(`#${this.chartData.selector}`).append('text')
+            .attr('x', this.width / 2)
+            .attr('y', this.height * .85)
+            .attr('id', 'xAxisLabel')
+            .attr('class', 'axisLabel')
+            .style('text-anchor', 'middle')
+            .text(cs.x.label)
+          
+          d3.select(`#${this.chartData.selector}`).append('text')
+            .attr('x', 10)
+            .attr('y', this.height / 2)
+            .attr('id', 'xAxisLabel')
+            .attr('class', 'axisLabel')
+            .style('text-anchor', 'middle')
+            .text(cs.y.label)
+            .attr('transform', `rotate(-90,10, ${this.height / 2})`)
+        },
+        /**
          * get the values of a metric as an array
          * @memberOf Chart
          * @returns {Array} metric values
@@ -252,6 +276,14 @@ const Chart = {
             td.dim = this.chartData.dim ? d[this.chartData.dim] : null;
             return td;
           });
+        },
+        /**
+         * Dimension getter function
+         * @memberOf Chart
+         * @returns {string} dim 
+         */
+        dim() {
+          return this.chartData.dim || "undefined";
         },
         /**
          * Goal getter function
