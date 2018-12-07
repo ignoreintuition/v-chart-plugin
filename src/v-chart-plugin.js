@@ -216,12 +216,13 @@ const Chart = {
          * @param {Obeject} cs configuration of the coordinate system 
          */
         generateAxisLabels(cs) {
+          let footer = (this.label) ? .85 : .95;
           if (!this.chartData.label) return 0;
           d3.select(`#${this.chartData.selector}`).selectAll('text.axisLabel').remove();
           if (cs.x && cs.x.label)
           d3.select(`#${this.chartData.selector}`).append('text')
             .attr('x', this.width / 2)
-            .attr('y', this.height * .85)
+            .attr('y', this.height * footer)
             .attr('id', 'xAxisLabel')
             .attr('class', 'axisLabel')
             .style('text-anchor', 'middle')
@@ -408,7 +409,7 @@ const Chart = {
           if (this.chartData.legends && this.chartData.legends.enabled === true) {
             return this.height * .80;
           } else {
-            return this.height;
+            return this.height * .90;
           }
         },
         /**

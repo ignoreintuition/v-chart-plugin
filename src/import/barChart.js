@@ -48,7 +48,7 @@ const barChart = function chart() {
       label: this.metric,
       domain: [],
       range: [],
-      axisWidth: 20,
+      axisWidth: 50,
     },
   };
 

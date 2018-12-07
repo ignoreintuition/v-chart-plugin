@@ -89,6 +89,9 @@ export default {
         width: 600,
         height: 500,
         dim: "month",
+        grid: {
+          enabled: true, 
+        },
         metric: ['total', 'forecast', 'yoy'],
         data: sales,
         goal: 500,
