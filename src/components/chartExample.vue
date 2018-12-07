@@ -167,6 +167,9 @@ export default {
         width: 600,
         height: 500,
         dim: "month",
+        label: {
+          enabled: true,
+        },
         metric: ['total', 'forecast'],
         data: sales,
       },

@@ -98,6 +98,7 @@ const Chart = {
         drawTitle() {
           d3.select(`#${this.chartData.selector}`)
             .append('text')
+            .attr('font-size', '20')
             .attr('x', this.width / 2)
             .attr('y', this.titleHeight - this.titleHeight * 0.1)
             .style('text-anchor', 'middle')
@@ -105,6 +106,7 @@ const Chart = {
 
           d3.select(`#${this.chartData.selector}`)
             .append('text')
+            .attr('font-size', '12')
             .attr('x', this.width / 2)
             .attr('y', this.titleHeight - this.titleHeight * 0.1 + this.subtitleHeight)
             .style('text-anchor', 'middle')
@@ -168,6 +170,7 @@ const Chart = {
             this.metric.forEach( (e, i) => {
               d3.select(`#${this.chartData.selector}`)
               .append('text')
+              .attr('font-size', '10')
               .attr('x', this.width - 60)
               .attr('y', this.height * 0.95 - (i * 15))
               .style('text-anchor', 'middle')
@@ -213,30 +216,33 @@ const Chart = {
         /**
          * Generate Axis Lables
          * @memberOf Chart
-         * @param {Obeject} cs configuration of the coordinate system 
+         * @param {Object} cs configuration of the coordinate system 
          */
         generateAxisLabels(cs) {
-          let footer = (this.label) ? .85 : .95;
-          if (!this.chartData.label) return 0;
+          let footer = (this.chartData.legends) ? .85 : .95;
+          if (!this.chartData.label) return;
           d3.select(`#${this.chartData.selector}`).selectAll('text.axisLabel').remove();
-          if (cs.x && cs.x.label)
-          d3.select(`#${this.chartData.selector}`).append('text')
-            .attr('x', this.width / 2)
-            .attr('y', this.height * footer)
-            .attr('id', 'xAxisLabel')
-            .attr('class', 'axisLabel')
-            .style('text-anchor', 'middle')
-            .text(cs.x.label)
           
+          if (cs.x && cs.x.label)
+            d3.select(`#${this.chartData.selector}`).append('text')
+              .attr('font-size', '10')
+              .attr('x', this.width / 2)
+              .attr('y', this.height * footer)
+              .attr('id', 'xAxisLabel')
+              .attr('class', 'axisLabel')
+              .style('text-anchor', 'middle')
+              .text(cs.x.label)
+
           if (cs.y && cs.y.label)
-          d3.select(`#${this.chartData.selector}`).append('text')
-            .attr('x', 10)
-            .attr('y', this.height / 2)
-            .attr('id', 'xAxisLabel')
-            .attr('class', 'axisLabel')
-            .style('text-anchor', 'middle')
-            .text(cs.y.label)
-            .attr('transform', `rotate(-90,10, ${this.height / 2})`)
+            d3.select(`#${this.chartData.selector}`).append('text')
+              .attr('font-size', '10')
+              .attr('x', 10)
+              .attr('y', this.height / 2)
+              .attr('id', 'xAxisLabel')
+              .attr('class', 'axisLabel')
+              .style('text-anchor', 'middle')
+              .text(cs.y.label)
+              .attr('transform', `rotate(-90,10, ${this.height / 2})`)
         },
         /**
          * get the values of a metric as an array
@@ -311,7 +317,7 @@ const Chart = {
          * @returns {number} Chart Height
          */
         height() {
-          return this.chartData.height || 200;
+          return this.chartData.height - 10 || 190;
         },
         /**
          * Width getter function
@@ -319,7 +325,7 @@ const Chart = {
          * @returns {number} Chart width
          */
         width() {
-          return this.chartData.width || 200;
+          return this.chartData.width - 10 || 190;
         },
         /**
          * Grid Tick getter function
