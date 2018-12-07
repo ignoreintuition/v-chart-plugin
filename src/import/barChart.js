@@ -40,13 +40,15 @@ const barChart = function chart() {
       vPadding: 5,
     },
     x: {
+      label: this.dim,
       axisHeight: 10,
       ticks: 5,
     },
     y: {
+      label: this.metric,
       domain: [],
       range: [],
-      axisWidth: null,
+      axisWidth: 20,
     },
   };
 

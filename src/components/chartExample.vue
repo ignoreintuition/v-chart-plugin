@@ -19,17 +19,23 @@
           <div class="col-12">
             <v-chart v-bind:chartData="lineGraphData"></v-chart>
           </div>
-          <div class="col-12 col-lg-6">
+          <div class="col-12">
             <v-chart v-bind:chartData="areaChartData"></v-chart>
           </div>
-          <div class="col-12 col-lg-6">
+          <div class="col-12">
             <v-chart v-bind:chartData="bubbleChartData"></v-chart>
           </div>
-          <div class="col-12 col-lg-6">
+          <div class="col-12">
             <v-chart v-bind:chartData="vBarChartData"></v-chart>
           </div>
-          <div class="col-12 col-lg-6">
+          <div class="col-12">
+            <v-chart v-bind:chartData="barChartData"></v-chart>
+          </div>
+          <div class="col-12">
             <v-chart v-bind:chartData="pieChartData"></v-chart>
+          </div>
+          <div class="col-12">
+            <v-chart v-bind:chartData="scatterPlotData"></v-chart>
           </div>
         </div>  
       </div>
@@ -64,8 +70,8 @@ export default {
         chartType: "areaChart",
         selector: "areaChart",
         title: "Area Chart",
-        width: 300,
-        height: 200,
+        width: 600,
+        height: 500,
         metric: ["total"],
         dim: "month",
         data: sales,
@@ -80,8 +86,8 @@ export default {
         selector: "bubbleChart",
         title: "Bubble Chart",
         subtitle: "Sales by month",
-        width: 300,
-        height: 200,
+        width: 600,
+        height: 500,
         dim: "month",
         metric: ['total', 'forecast', 'yoy'],
         data: sales,
@@ -98,6 +104,7 @@ export default {
         metric: ["total", "forecast"],
         dim: "month",
         data: sales,
+        label: true,
         legends: {
           enabled: true,
           height: 25,
@@ -111,12 +118,12 @@ export default {
         }
       },
       vBarChartData: {
-        chartType: "barChart",
+        chartType: "vBarChart",
         selector: "vChart",
         title: "Bar Chart",
         subtitle: "Sales by month",
-        width: 300,
-        height: 300,
+        width: 600,
+        height: 500,
         metric: ["total", "forecast"],
         dim: "month",
         data: sales,
@@ -125,19 +132,40 @@ export default {
           height: 25,
           width: 50
         },
-        overrides: {
-        }
+      },
+      barChartData: {
+        chartType: "barChart",
+        selector: "barChart",
+        title: "Bar Chart",
+        subtitle: "Sales by month",
+        width: 600,
+        height: 500,
+        metric: ["total", "forecast"],
+        dim: "month",
+        data: sales,
+        label: true
       },
       pieChartData: {
         chartType: "pieChart",
         selector: "pieChart",
         title: "Pie Chart",
         subtitle: "Sales by month",
-        width: 300,
-        height: 200,
+        width: 600,
+        height: 500,
         metric: "total",
         dim: "month",
         data: sales
+      },
+      scatterPlotData: {
+        chartType: "scatterPlot",
+        selector: "scatterPlot",
+        title: "Scatter Plot",
+        subtitle: "Sales by month",
+        width: 600,
+        height: 500,
+        dim: "month",
+        metric: ['total', 'forecast'],
+        data: sales,
       },
     };
   }

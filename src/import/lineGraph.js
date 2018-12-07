@@ -77,7 +77,6 @@ const lineGraph = function chart(mode) {
         .attr('cy', d => cs.y.scale(d.metric));
     });
     if (this.goal) this.generateGoal(cs, true, 0);
-    this.generateAxisLabels(cs);
     return points;
   };
   /**
