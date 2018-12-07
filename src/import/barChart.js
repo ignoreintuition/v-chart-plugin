@@ -117,7 +117,7 @@ const barChart = function chart() {
         .on('mouseover', mouseOver)
         .on('mouseout', mouseOut);
     });
-    if (this.goal) this.generateGoal(cs, svgContainer, false, cs.y.axisWidth + cs.bar.hPadding);
+    if (this.goal) this.generateGoal(cs, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
   /**
@@ -135,7 +135,7 @@ const barChart = function chart() {
         .attr('y', getYCoord)
         .attr('x', cs.y.axisWidth + cs.bar.hPadding);
     });
-    if (this.goal) this.generateGoal(cs, svgContainer, false, cs.y.axisWidth + cs.bar.hPadding);
+    if (this.goal) this.generateGoal(cs, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
   /**

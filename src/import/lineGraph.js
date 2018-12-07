@@ -33,12 +33,14 @@ const lineGraph = function chart(mode) {
       pointStroke: '#d1f4fa',
     },
     x: {
+      label: this.dim,
       domain: [],
       range: [],
       axisHeight: 20,
     },
     y: {
-      axisWidth: 30,
+      label: this.metric,
+      axisWidth: 40,
       ticks: 5,
     },
   };
@@ -74,7 +76,8 @@ const lineGraph = function chart(mode) {
         .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
         .attr('cy', d => cs.y.scale(d.metric));
     });
-    if (this.goal) this.generateGoal(cs, svgContainer, true, 0);
+    if (this.goal) this.generateGoal(cs, true, 0);
+    this.generateAxisLabels(cs);
     return points;
   };
   /**
@@ -97,7 +100,7 @@ const lineGraph = function chart(mode) {
         .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
         .attr('cy', d => cs.y.scale(d.metric));
     });
-    if (this.goal) this.generateGoal(cs, svgContainer, true, 0);
+    if (this.goal) this.generateGoal(cs, true, 0);
     return points;
   };
 

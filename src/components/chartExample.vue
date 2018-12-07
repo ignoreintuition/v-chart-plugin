@@ -17,13 +17,13 @@
       <div class="col-6 col-md-8">
         <div class="row">
           <div class="col-12">
-            <v-chart v-bind:chartData="boxPlotData"></v-chart>
+            <v-chart v-bind:chartData="lineGraphData"></v-chart>
           </div>
           <div class="col-12 col-lg-6">
             <v-chart v-bind:chartData="areaChartData"></v-chart>
           </div>
           <div class="col-12 col-lg-6">
-            <v-chart v-bind:chartData="lineGraphData"></v-chart>
+            <v-chart v-bind:chartData="bubbleChartData"></v-chart>
           </div>
           <div class="col-12 col-lg-6">
             <v-chart v-bind:chartData="vBarChartData"></v-chart>
@@ -75,14 +75,15 @@ export default {
           width: 50
         }
       },
-      boxPlotData: {
-        chartType: "boxPlot",
-        selector: "chart",
-        title: "Box Plot",
+      bubbleChartData: {
+        chartType: "bubbleChart",
+        selector: "bubbleChart",
+        title: "Bubble Chart",
         subtitle: "Sales by month",
-        width: 600,
-        height: 500,
-        metric: ['total'],
+        width: 300,
+        height: 200,
+        dim: "month",
+        metric: ['total', 'forecast', 'yoy'],
         data: sales,
         goal: 500,
       },
@@ -90,10 +91,10 @@ export default {
         chartType: "lineGraph",
         selector: "lineGraph",
         title: "Line Graph",
-        width: 200,
         subtitle: "Sales by month",
-        height: 200,
-        goal: 500,
+        width: 600,
+        height: 500,
+        goal: 600,
         metric: ["total", "forecast"],
         dim: "month",
         data: sales,

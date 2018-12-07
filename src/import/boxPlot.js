@@ -165,7 +165,6 @@ const boxPlot = function chart() {
   const lines = svgContainer.selectAll('line').data(a);
 
   cs = this.setOverrides(cs, this.chartData.overrides);
-  console.log(a)
   buildScales(cs);
   drawAxis(cs);
   enter(boxes, lines);
