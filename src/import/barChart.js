@@ -40,13 +40,15 @@ const barChart = function chart() {
       vPadding: 5,
     },
     x: {
+      label: this.dim,
       axisHeight: 10,
       ticks: 5,
     },
     y: {
+      label: this.metric,
       domain: [],
       range: [],
-      axisWidth: null,
+      axisWidth: 50,
     },
   };
 
@@ -117,7 +119,7 @@ const barChart = function chart() {
         .on('mouseover', mouseOver)
         .on('mouseout', mouseOut);
     });
-    if (this.goal) this.generateGoal(cs, svgContainer, false, cs.y.axisWidth + cs.bar.hPadding);
+    if (this.goal) this.generateGoal(cs, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
   /**
@@ -135,7 +137,7 @@ const barChart = function chart() {
         .attr('y', getYCoord)
         .attr('x', cs.y.axisWidth + cs.bar.hPadding);
     });
-    if (this.goal) this.generateGoal(cs, svgContainer, false, cs.y.axisWidth + cs.bar.hPadding);
+    if (this.goal) this.generateGoal(cs, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
   /**

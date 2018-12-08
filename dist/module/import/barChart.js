@@ -39,13 +39,15 @@ var barChart = function chart() {
       vPadding: 5
     },
     x: {
+      label: this.dim,
       axisHeight: 10,
       ticks: 5
     },
     y: {
+      label: this.metric,
       domain: [],
       range: [],
-      axisWidth: null
+      axisWidth: 50
     }
   };
 
@@ -109,7 +111,7 @@ var barChart = function chart() {
       cs.bar.offset = i;
       rects[i].enter().append('rect').attr('fill', cs.palette.fill[i]).attr('stroke', cs.palette.stroke).attr('class', _this.selector).attr('class', 'r' + i).attr('width', getWidth).attr('height', getHeight).attr('y', getYCoord).attr('x', cs.y.axisWidth + cs.bar.hPadding).on('mouseover', mouseOver).on('mouseout', mouseOut);
     });
-    if (_this.goal) _this.generateGoal(cs, svgContainer, false, cs.y.axisWidth + cs.bar.hPadding);
+    if (_this.goal) _this.generateGoal(cs, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
   /**
@@ -123,7 +125,7 @@ var barChart = function chart() {
       cs.bar.offset = i;
       rects[i].transition().attr('width', getWidth).attr('height', getHeight).attr('y', getYCoord).attr('x', cs.y.axisWidth + cs.bar.hPadding);
     });
-    if (_this.goal) _this.generateGoal(cs, svgContainer, false, cs.y.axisWidth + cs.bar.hPadding);
+    if (_this.goal) _this.generateGoal(cs, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
   };
   /**

@@ -36,10 +36,12 @@ const scatterPlot = function chart() {
       domain: [],
       range: [],
       axisHeight: 20,
+      label: this.metric[0],
     },
     y: {
       axisWidth: 30,
       ticks: 5,
+      label: this.metric[1],
     },
     r: {
       width: 5
@@ -56,7 +58,15 @@ const scatterPlot = function chart() {
     points.enter()
       .append('circle')
       .attr('class', this.selector)
+      .attr('fill', cs.palette.fill)
+      .attr('stroke', cs.palette.stroke)
       .attr('r', cs.r.width)
+      .on('mouseover', (d) => {
+        this.addTooltip(d, window.event);
+      })
+      .on('mouseout', (d) => {
+        this.removeTooltip(d);
+      })
       .attr('cx', d => cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5) 
       .attr('cy', d => cs.y.scale(d.metric[1]));
     return points;
@@ -93,10 +103,10 @@ const scatterPlot = function chart() {
    */
   const buildScales = cs => {
     cs.y.scale = d3.scaleLinear()
-      .domain([this.minTriplet.v2, this.maxTriplet.v2])
+      .domain([this.minTriplet.v2 - this.maxTriplet.v2 * .05, this.maxTriplet.v2 + this.maxTriplet.v2 * .05])
       .range([this.displayHeight - cs.x.axisHeight, this.header]);
     cs.x.scale = d3.scaleLinear()
-      .domain([this.minTriplet.v1, this.maxTriplet.v1])
+      .domain([this.minTriplet.v1 - this.maxTriplet.v2 * .05, this.maxTriplet.v1 + this.maxTriplet.v1 * .05])
       .range([0, this.width]);
   };
   /**
