@@ -14,7 +14,6 @@ import scatterPlot from './import/scatterPlot';
 import pieChart from './import/pieChart';
 import areaChart from './import/areaChart';
 import bubbleChart from './import/bubbleChart';
-import boxPlot from './import/boxPlot';
 
 const d3 = Object.assign({},
   require('d3-selection'));
@@ -41,6 +40,7 @@ const Chart = {
         initalizeChart() {
           const cs = this[this.chartData.chartType]('init');
           this.drawTitle();
+          this.generateAxisLabels(cs);
           this.generateLegend(cs);
         },
         /**
@@ -98,6 +98,7 @@ const Chart = {
         drawTitle() {
           d3.select(`#${this.chartData.selector}`)
             .append('text')
+            .attr('font-size', '20')
             .attr('x', this.width / 2)
             .attr('y', this.titleHeight - this.titleHeight * 0.1)
             .style('text-anchor', 'middle')
@@ -105,6 +106,7 @@ const Chart = {
 
           d3.select(`#${this.chartData.selector}`)
             .append('text')
+            .attr('font-size', '12')
             .attr('x', this.width / 2)
             .attr('y', this.titleHeight - this.titleHeight * 0.1 + this.subtitleHeight)
             .style('text-anchor', 'middle')
@@ -168,6 +170,7 @@ const Chart = {
             this.metric.forEach( (e, i) => {
               d3.select(`#${this.chartData.selector}`)
               .append('text')
+              .attr('font-size', '10')
               .attr('x', this.width - 60)
               .attr('y', this.height * 0.95 - (i * 15))
               .style('text-anchor', 'middle')
@@ -194,14 +197,14 @@ const Chart = {
          * @param {Object} cs configuration of the coordinate system
          */
 
-        generateGoal(cs, svgContainer, shiftAxis, padding) {
-          svgContainer.selectAll('line#goal').remove();
+        generateGoal(cs, shiftAxis, padding) {
+          d3.select(`#${this.chartData.selector}`).selectAll('line#goal').remove();
           const x1 = shiftAxis ? cs.y.axisWidth: cs.x.scale(this.goal) + padding;
-          const x2 = shiftAxis ? 500 : cs.x.scale(this.goal) + padding;
+          const x2 = shiftAxis ? this.width : cs.x.scale(this.goal) + padding;
           const y1 = shiftAxis ? cs.y.scale(this.goal) + padding : this.header;
           const y2 = shiftAxis ? cs.y.scale(this.goal) + padding : this.displayHeight - cs.x.axisHeight;
           
-          svgContainer.append("line")
+          d3.select(`#${this.chartData.selector}`).append('line')
             .attr('x1', x1)
             .attr('x2', x2)
             .attr('y1', y1)
@@ -210,7 +213,38 @@ const Chart = {
             .style('stroke', '#708090')
             .style('stroke-width', 1)
         },
-                /**
+        /**
+         * Generate Axis Lables
+         * @memberOf Chart
+         * @param {Object} cs configuration of the coordinate system 
+         */
+        generateAxisLabels(cs) {
+          let footer = (this.chartData.legends) ? .85 : .95;
+          if (!this.chartData.label) return;
+          d3.select(`#${this.chartData.selector}`).selectAll('text.axisLabel').remove();
+          
+          if (cs.x && cs.x.label)
+            d3.select(`#${this.chartData.selector}`).append('text')
+              .attr('font-size', '10')
+              .attr('x', this.width / 2)
+              .attr('y', this.height * footer)
+              .attr('id', 'xAxisLabel')
+              .attr('class', 'axisLabel')
+              .style('text-anchor', 'middle')
+              .text(cs.x.label)
+
+          if (cs.y && cs.y.label)
+            d3.select(`#${this.chartData.selector}`).append('text')
+              .attr('font-size', '10')
+              .attr('x', 10)
+              .attr('y', this.height / 2)
+              .attr('id', 'xAxisLabel')
+              .attr('class', 'axisLabel')
+              .style('text-anchor', 'middle')
+              .text(cs.y.label)
+              .attr('transform', `rotate(-90,10, ${this.height / 2})`)
+        },
+        /**
          * get the values of a metric as an array
          * @memberOf Chart
          * @returns {Array} metric values
@@ -227,7 +261,6 @@ const Chart = {
         ...((typeof areaChart !== 'undefined') && { areaChart }),
         ...((typeof lineGraph !== 'undefined') && { lineGraph }),
         ...((typeof bubbleChart !== 'undefined') && { bubbleChart }),
-        ...((typeof boxPlot !== 'undefined') && { boxPlot }),
       },
       computed: {
         /**
@@ -254,6 +287,14 @@ const Chart = {
           });
         },
         /**
+         * Dimension getter function
+         * @memberOf Chart
+         * @returns {string} dim 
+         */
+        dim() {
+          return this.chartData.dim || "undefined";
+        },
+        /**
          * Goal getter function
          * @memberOf Chart
          * @returns {number} Goal 
@@ -276,7 +317,7 @@ const Chart = {
          * @returns {number} Chart Height
          */
         height() {
-          return this.chartData.height || 200;
+          return this.chartData.height - 10 || 190;
         },
         /**
          * Width getter function
@@ -284,7 +325,7 @@ const Chart = {
          * @returns {number} Chart width
          */
         width() {
-          return this.chartData.width || 200;
+          return this.chartData.width - 10 || 190;
         },
         /**
          * Grid Tick getter function
@@ -374,7 +415,7 @@ const Chart = {
           if (this.chartData.legends && this.chartData.legends.enabled === true) {
             return this.height * .80;
           } else {
-            return this.height;
+            return this.height * .90;
           }
         },
         /**

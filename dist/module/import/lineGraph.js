@@ -32,12 +32,14 @@ var lineGraph = function chart(mode) {
       pointStroke: '#d1f4fa'
     },
     x: {
+      label: this.dim,
       domain: [],
       range: [],
       axisHeight: 20
     },
     y: {
-      axisWidth: 30,
+      label: this.metric,
+      axisWidth: 40,
       ticks: 5
     }
   };
@@ -64,7 +66,7 @@ var lineGraph = function chart(mode) {
         return cs.y.scale(d.metric);
       });
     });
-    if (_this.goal) _this.generateGoal(cs, svgContainer, true, 0);
+    if (_this.goal) _this.generateGoal(cs, true, 0);
     return points;
   };
   /**
@@ -90,7 +92,7 @@ var lineGraph = function chart(mode) {
         return cs.y.scale(d.metric);
       });
     });
-    if (_this.goal) _this.generateGoal(cs, svgContainer, true, 0);
+    if (_this.goal) _this.generateGoal(cs, true, 0);
     return points;
   };
 

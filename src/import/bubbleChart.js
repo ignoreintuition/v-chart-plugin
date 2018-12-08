@@ -28,8 +28,8 @@ const bubbleChart = function chart(mode) {
    */
   let cs = {
     palette: {
-      pointFill: '#005792',
-      pointStroke: '#d1f4fa',
+      fill: '#005792',
+      stroke: '#d1f4fa',
     },
     x: {
       domain: [],
@@ -55,6 +55,14 @@ const bubbleChart = function chart(mode) {
     points.enter()
       .append('circle')
       .attr('class', this.selector)
+      .attr('fill', cs.palette.fill)
+      .attr('stroke', cs.palette.stroke)
+      .on('mouseover', (d) => {
+        this.addTooltip(d, window.event);
+      })
+      .on('mouseout', (d) => {
+        this.removeTooltip(d);
+      })
       .attr('r', d =>  cs.r.scale(d.metric[2]))
       .attr('cx', d => cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5) 
       .attr('cy', d => cs.y.scale(d.metric[1]));

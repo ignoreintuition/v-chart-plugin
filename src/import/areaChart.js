@@ -40,6 +40,7 @@ const areaChart = function chart() {
     },
     y: {
       axisWidth: 45,
+      ticks: 10,
     },
   };
   /**
@@ -99,7 +100,7 @@ const areaChart = function chart() {
     cs.y.scale = d3.scaleLinear()
       .domain([0, this.max])
       .range([this.displayHeight - cs.x.axisHeight, this.titleHeight]);
-    cs.y.axis = d3.axisLeft().ticks(10, 's').scale(cs.y.scale);
+    cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     this.ds.forEach(t => cs.x.domain.push(t.dim));
     this.ds.forEach((t, i) => cs.x.range.push((((
       this.width - cs.x.axisWidth) * i)) / this.ds.length));

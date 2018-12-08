@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="#">
-    <img src="https://img.shields.io/github/release-pre/ignoreintuition/v-chart-plugin.svg"
+    <img src="https://img.shields.io/github/release/ignoreintuition/v-chart-plugin.svg"
          alt="version">
   </a>
   <a href="#">
@@ -108,8 +108,12 @@ export default {
         metric: ['count', 'pyCount', 'revenue']
         data: [
           {'count': 120,
+           'pyCount': 115,
+           'revenue': 170,
            'fruit': 'apples'}, 
           {'count': 250,
+           'pyCount': 255,
+           'revenue': 325,
            'fruit': 'oranges'}
         ]
       }
@@ -117,6 +121,7 @@ export default {
   }
 }
 ```
+
 ### Overrides
 If you need to override any of the default values of the charts (pallette colors, ticks, margins, etc) you can pass an overrides object to you chartData.
 
@@ -134,6 +139,7 @@ If you need to override any of the default values of the charts (pallette colors
         }
       },
 ```
+
 ### Legends
 Legends are turned off by default.  You can add a legend to a chart by including a legends objects in your chartData as such:
 
@@ -160,6 +166,28 @@ chartData: {
     enabled: true,
     gridTicks: 25,
   }
+}
+```
+
+### Goals
+Goals are used to place a line on your graph showing where your target is for the period:
+
+```JavaScript
+chartData: {
+  chartType: "lineGraph",
+  ...
+  goal: 500,
+}
+```
+
+### Labels
+Labels are assigned to the x and y axis:
+
+```JavaScript
+chartData: {
+  chartType: "lineGraph",
+  ...
+  label: true,
 }
 ```
 

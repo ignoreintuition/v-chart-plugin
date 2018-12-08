@@ -38,7 +38,8 @@ var areaChart = function chart() {
       axisWidth: 45
     },
     y: {
-      axisWidth: 45
+      axisWidth: 45,
+      ticks: 10
     }
   };
   /**
@@ -93,7 +94,7 @@ var areaChart = function chart() {
    */
   var buildScales = function buildScales() {
     cs.y.scale = d3.scaleLinear().domain([0, _this.max]).range([_this.displayHeight - cs.x.axisHeight, _this.titleHeight]);
-    cs.y.axis = d3.axisLeft().ticks(10, 's').scale(cs.y.scale);
+    cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     _this.ds.forEach(function (t) {
       return cs.x.domain.push(t.dim);
     });
