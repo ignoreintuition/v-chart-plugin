@@ -35,11 +35,13 @@ var scatterPlot = function chart() {
     x: {
       domain: [],
       range: [],
-      axisHeight: 20
+      axisHeight: 20,
+      label: this.metric[0]
     },
     y: {
       axisWidth: 30,
-      ticks: 5
+      ticks: 5,
+      label: this.metric[1]
     },
     r: {
       width: 5
@@ -53,7 +55,11 @@ var scatterPlot = function chart() {
    * @param {Object} points (svg element) 
    */
   var enter = function enter(points) {
-    points.enter().append('circle').attr('class', _this.selector).attr('r', cs.r.width).attr('cx', function (d) {
+    points.enter().append('circle').attr('class', _this.selector).attr('fill', cs.palette.fill).attr('stroke', cs.palette.stroke).attr('r', cs.r.width).on('mouseover', function (d) {
+      _this.addTooltip(d, window.event);
+    }).on('mouseout', function (d) {
+      _this.removeTooltip(d);
+    }).attr('cx', function (d) {
       return cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5;
     }).attr('cy', function (d) {
       return cs.y.scale(d.metric[1]);
@@ -92,8 +98,8 @@ var scatterPlot = function chart() {
    * @function
    */
   var buildScales = function buildScales(cs) {
-    cs.y.scale = d3.scaleLinear().domain([_this.minTriplet.v2, _this.maxTriplet.v2]).range([_this.displayHeight - cs.x.axisHeight, _this.header]);
-    cs.x.scale = d3.scaleLinear().domain([_this.minTriplet.v1, _this.maxTriplet.v1]).range([0, _this.width]);
+    cs.y.scale = d3.scaleLinear().domain([_this.minTriplet.v2 - _this.maxTriplet.v2 * .05, _this.maxTriplet.v2 + _this.maxTriplet.v2 * .05]).range([_this.displayHeight - cs.x.axisHeight, _this.header]);
+    cs.x.scale = d3.scaleLinear().domain([_this.minTriplet.v1 - _this.maxTriplet.v2 * .05, _this.maxTriplet.v1 + _this.maxTriplet.v1 * .05]).range([0, _this.width]);
   };
   /**
    * Draws the x and y axes on the svg

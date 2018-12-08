@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: import/lineGraph.js</title>
+    <title>JSDoc: Source: import/bubbleChart.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: import/lineGraph.js</h1>
+    <h1 class="page-title">Source: import/bubbleChart.js</h1>
 
     
 
@@ -27,7 +27,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/** 
- *  @fileOverview Line Graph component definition
+ *  @fileOverview Bubble Chart component definition
  *
  *  @author       Brian Greig
  *
@@ -40,11 +40,11 @@ const d3 = Object.assign({},
   require('d3-axis'),
   require('d3-shape'));
 /**
- * Builds a Line Graph.
- * @module lineGraph
+ * Builds a Bubble Chart.
+ * @module bubbleChart
  */
 
-const lineGraph = function chart(mode) {
+const bubbleChart = function chart(mode) {
   /**
    * The SVG that stores the chart
    * @member svgContainer
@@ -56,21 +56,21 @@ const lineGraph = function chart(mode) {
    */
   let cs = {
     palette: {
-      lineFill: ['#ffcdcd', '#005792'],
-      pointFill: '#005792',
-      pointStroke: '#d1f4fa',
+      fill: '#005792',
+      stroke: '#d1f4fa',
     },
     x: {
-      label: this.dim,
       domain: [],
       range: [],
       axisHeight: 20,
     },
     y: {
-      label: this.metric,
-      axisWidth: 40,
+      axisWidth: 30,
       ticks: 5,
     },
+    r: {
+      max: 20,
+    }
   };
 
   /**
@@ -79,32 +79,21 @@ const lineGraph = function chart(mode) {
    * @function
    * @param {Object} points (svg element) 
    */
-  const enter = (points, path) => {
-    this.metric.forEach( (e, i) => {
-      path[i].enter().append('path')
-        .attr('d', cs.lineFunction[i](this.ds))
-        .attr('fill', 'none')
-        .attr('id', 'p' + i)
-        .attr('stroke', cs.palette.lineFill[i])
-        .attr('stroke-width', 3)
-    })    
-    this.metric.forEach( (e, i) => {
-      cs.offset = i;      
-      points[i].enter()
-        .append('circle')
-        .attr('class', this.selector)
-        .attr('class', "r" + i)
-        .attr('r', 2)
-        .on('mouseover', (d) => {
-          this.addTooltip(d, window.event);
-        })
-        .on('mouseout', (d) => {
-          this.removeTooltip(d);
-        })
-        .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-        .attr('cy', d => cs.y.scale(d.metric));
-    });
-    if (this.goal) this.generateGoal(cs, true, 0);
+  const enter = (points) => {
+    points.enter()
+      .append('circle')
+      .attr('class', this.selector)
+      .attr('fill', cs.palette.fill)
+      .attr('stroke', cs.palette.stroke)
+      .on('mouseover', (d) => {
+        this.addTooltip(d, window.event);
+      })
+      .on('mouseout', (d) => {
+        this.removeTooltip(d);
+      })
+      .attr('r', d =>  cs.r.scale(d.metric[2]))
+      .attr('cx', d => cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5) 
+      .attr('cy', d => cs.y.scale(d.metric[1]));
     return points;
   };
   /**
@@ -113,21 +102,11 @@ const lineGraph = function chart(mode) {
    * @function
    * @param {Object} points (svg element) 
    */
-  const transition = (points, path) => {
-    this.metric.forEach( (e, i) => {
-      path[i].transition()
-      .attr('d', cs.lineFunction[i](this.ds));
-    })
-  
-    this.metric.forEach( (e, i) => {
-      cs.offset = i;      
-      points[i].transition()
-        .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-        .attr('cy', d => cs.y.scale(d.metric))
-        .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-        .attr('cy', d => cs.y.scale(d.metric));
-    });
-    if (this.goal) this.generateGoal(cs, true, 0);
+  const transition = (points) => {
+    points.transition()
+      .attr('r', d => cs.r.scale(d.metric[2]))
+      .attr('cx', d => cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5)
+      .attr('cy', d => cs.y.scale(d.metric[1]));
     return points;
   };
 
@@ -137,13 +116,8 @@ const lineGraph = function chart(mode) {
    * @function
    * @param {Object} points (svg element)
    */
-  const exit = (points, path) => {
-    this.metric.forEach( (e, i) => {
-      points[i].exit().remove();
-    });
-    this.metric.forEach( (e, i) => {
-      path[i].exit().remove();
-    });
+  const exit = (points) => {
+    points.exit().remove();
     return points;
   };
 
@@ -154,11 +128,14 @@ const lineGraph = function chart(mode) {
    */
   const buildScales = cs => {
     cs.y.scale = d3.scaleLinear()
-      .domain([this.min, this.max])
+      .domain([this.minTriplet.v2 - cs.r.max, this.maxTriplet.v2 + cs.r.max])
       .range([this.displayHeight - cs.x.axisHeight, this.header]);
-    this.ds.forEach(t => cs.x.domain.push(t.dim));
-    this.ds.forEach((t, i) => cs.x.range.push(((this.width * i) - this.header) / this.ds.length));
-    cs.x.scale = d3.scaleOrdinal().domain(cs.x.domain).range(cs.x.range);
+    cs.x.scale = d3.scaleLinear()
+      .domain([this.minTriplet.v1 - cs.r.max, this.maxTriplet.v1 + cs.r.max])
+      .range([0, this.width]);
+    cs.r.scale = d3.scaleLinear()
+      .domain([this.minTriplet.v3, this.maxTriplet.v3])
+      .range([0, cs.r.max]);
   };
   /**
    * Draws the x and y axes on the svg
@@ -178,43 +155,21 @@ const lineGraph = function chart(mode) {
     svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.y.xOffset},${cs.y.yOffset})`)
       .call(cs.y.axis);
   };
-
-  cs.lineFunction = [];
-  this.metric.forEach( (e, i) => {
-    cs.lineFunction.push( 
-      d3.line()
-        .x(d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-        .y(d => cs.y.scale(d.metric[i]))
-      )  
-  });
   
-  const points = [];
-  this.metric.forEach( (e, i) => {
-    points.push(svgContainer.selectAll('circle.r' + i).data(this.ds.map(d => {
-      return  {
-        metric: d.metric[i],
-        dim: d.dim
-      }      
-    })))
-  })
-
-  const path = []
-  this.metric.forEach( (e, i) => {
-    path.push(svgContainer.selectAll('path#p' + i).data(this.ds))
-  })
+  const points = svgContainer.selectAll('circle').data(this.ds);
 
   cs = this.setOverrides(cs, this.chartData.overrides);
 
   buildScales(cs);
   drawAxis(cs);
-  enter(points, path);
-  transition(points, path);
-  exit(points, path);
-
+  enter(points);
+  transition(points);
+  exit(points);
+  
   return cs;
 };
 
-export default lineGraph;
+export default bubbleChart;
 </code></pre>
         </article>
     </section>

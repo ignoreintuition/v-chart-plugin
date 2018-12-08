@@ -27,8 +27,8 @@ var bubbleChart = function chart(mode) {
    */
   var cs = {
     palette: {
-      pointFill: '#005792',
-      pointStroke: '#d1f4fa'
+      fill: '#005792',
+      stroke: '#d1f4fa'
     },
     x: {
       domain: [],
@@ -51,7 +51,11 @@ var bubbleChart = function chart(mode) {
    * @param {Object} points (svg element) 
    */
   var enter = function enter(points) {
-    points.enter().append('circle').attr('class', _this.selector).attr('r', function (d) {
+    points.enter().append('circle').attr('class', _this.selector).attr('fill', cs.palette.fill).attr('stroke', cs.palette.stroke).on('mouseover', function (d) {
+      _this.addTooltip(d, window.event);
+    }).on('mouseout', function (d) {
+      _this.removeTooltip(d);
+    }).attr('r', function (d) {
       return cs.r.scale(d.metric[2]);
     }).attr('cx', function (d) {
       return cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5;

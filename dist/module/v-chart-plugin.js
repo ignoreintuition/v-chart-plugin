@@ -45,6 +45,7 @@ var Chart = {
         initalizeChart: function initalizeChart() {
           var cs = this[this.chartData.chartType]('init');
           this.drawTitle();
+          this.generateAxisLabels(cs);
           this.generateLegend(cs);
         },
 
@@ -99,9 +100,9 @@ var Chart = {
          * @memberOf Chart
          */
         drawTitle: function drawTitle() {
-          d3.select('#' + this.chartData.selector).append('text').attr('x', this.width / 2).attr('y', this.titleHeight - this.titleHeight * 0.1).style('text-anchor', 'middle').text(this.chartData.title);
+          d3.select('#' + this.chartData.selector).append('text').attr('font-size', '20').attr('x', this.width / 2).attr('y', this.titleHeight - this.titleHeight * 0.1).style('text-anchor', 'middle').text(this.chartData.title);
 
-          d3.select('#' + this.chartData.selector).append('text').attr('x', this.width / 2).attr('y', this.titleHeight - this.titleHeight * 0.1 + this.subtitleHeight).style('text-anchor', 'middle').text(this.chartData.subtitle);
+          d3.select('#' + this.chartData.selector).append('text').attr('font-size', '12').attr('x', this.width / 2).attr('y', this.titleHeight - this.titleHeight * 0.1 + this.subtitleHeight).style('text-anchor', 'middle').text(this.chartData.subtitle);
         },
 
         /**
@@ -174,7 +175,7 @@ var Chart = {
             cs.palette.lineFill = Array.isArray(cs.palette.lineFill) ? cs.palette.lineFill : new Array(cs.palette.lineFill);
             cs.palette.fill = Array.isArray(cs.palette.fill) ? cs.palette.fill : new Array(cs.palette.fill);
             this.metric.forEach(function (e, i) {
-              d3.select('#' + _this.chartData.selector).append('text').attr('x', _this.width - 60).attr('y', _this.height * 0.95 - i * 15).style('text-anchor', 'middle').text(_this.metric[i]);
+              d3.select('#' + _this.chartData.selector).append('text').attr('font-size', '10').attr('x', _this.width - 60).attr('y', _this.height * 0.95 - i * 15).style('text-anchor', 'middle').text(_this.metric[i]);
 
               d3.select('#' + _this.chartData.selector).append("g").attr("class", "legends").append("rect").attr('x', _this.width - 30).attr('y', _this.height * 0.95 - i * 15 - 10).attr("width", 30).attr("height", 10).style("fill", function () {
                 var fill = cs.palette.lineFill[i] || cs.palette.fill[i];
@@ -190,14 +191,41 @@ var Chart = {
          * @param {Object} cs configuration of the coordinate system
          */
 
-        generateGoal: function generateGoal(cs, svgContainer, shiftAxis, padding) {
-          svgContainer.selectAll('line#goal').remove();
+        generateGoal: function generateGoal(cs, shiftAxis, padding) {
+          d3.select('#' + this.chartData.selector).selectAll('line#goal').remove();
           var x1 = shiftAxis ? cs.y.axisWidth : cs.x.scale(this.goal) + padding;
-          var x2 = shiftAxis ? 500 : cs.x.scale(this.goal) + padding;
+          var x2 = shiftAxis ? this.width : cs.x.scale(this.goal) + padding;
           var y1 = shiftAxis ? cs.y.scale(this.goal) + padding : this.header;
           var y2 = shiftAxis ? cs.y.scale(this.goal) + padding : this.displayHeight - cs.x.axisHeight;
 
-          svgContainer.append("line").attr('x1', x1).attr('x2', x2).attr('y1', y1).attr('y2', y2).attr('id', 'goal').style('stroke', '#708090').style('stroke-width', 1);
+          d3.select('#' + this.chartData.selector).append('line').attr('x1', x1).attr('x2', x2).attr('y1', y1).attr('y2', y2).attr('id', 'goal').style('stroke', '#708090').style('stroke-width', 1);
+        },
+
+        /**
+         * Generate Axis Lables
+         * @memberOf Chart
+         * @param {Object} cs configuration of the coordinate system 
+         */
+        generateAxisLabels: function generateAxisLabels(cs) {
+          var footer = this.chartData.legends ? .85 : .95;
+          if (!this.chartData.label) return;
+          d3.select('#' + this.chartData.selector).selectAll('text.axisLabel').remove();
+
+          if (cs.x && cs.x.label) d3.select('#' + this.chartData.selector).append('text').attr('font-size', '10').attr('x', this.width / 2).attr('y', this.height * footer).attr('id', 'xAxisLabel').attr('class', 'axisLabel').style('text-anchor', 'middle').text(cs.x.label);
+
+          if (cs.y && cs.y.label) d3.select('#' + this.chartData.selector).append('text').attr('font-size', '10').attr('x', 10).attr('y', this.height / 2).attr('id', 'xAxisLabel').attr('class', 'axisLabel').style('text-anchor', 'middle').text(cs.y.label).attr('transform', 'rotate(-90,10, ' + this.height / 2 + ')');
+        },
+
+        /**
+         * get the values of a metric as an array
+         * @memberOf Chart
+         * @returns {Array} metric values
+         */
+        metricAsArray: function metricAsArray(metric) {
+          metric = this.chartData.data.map(function (d) {
+            return d[metric];
+          });
+          return metric;
         }
       }, typeof barChart !== 'undefined' && { barChart: barChart }, typeof vBarChart !== 'undefined' && { vBarChart: vBarChart }, typeof scatterPlot !== 'undefined' && { scatterPlot: scatterPlot }, typeof pieChart !== 'undefined' && { pieChart: pieChart }, typeof areaChart !== 'undefined' && { areaChart: areaChart }, typeof lineGraph !== 'undefined' && { lineGraph: lineGraph }, typeof bubbleChart !== 'undefined' && { bubbleChart: bubbleChart }),
       computed: {
@@ -226,6 +254,15 @@ var Chart = {
         },
 
         /**
+         * Dimension getter function
+         * @memberOf Chart
+         * @returns {string} dim 
+         */
+        dim: function dim() {
+          return this.chartData.dim || "undefined";
+        },
+
+        /**
          * Goal getter function
          * @memberOf Chart
          * @returns {number} Goal 
@@ -250,7 +287,7 @@ var Chart = {
          * @returns {number} Chart Height
          */
         height: function height() {
-          return this.chartData.height || 200;
+          return this.chartData.height - 10 || 190;
         },
 
         /**
@@ -259,7 +296,7 @@ var Chart = {
          * @returns {number} Chart width
          */
         width: function width() {
-          return this.chartData.width || 200;
+          return this.chartData.width - 10 || 190;
         },
 
         /**
@@ -363,7 +400,7 @@ var Chart = {
           if (this.chartData.legends && this.chartData.legends.enabled === true) {
             return this.height * .80;
           } else {
-            return this.height;
+            return this.height * .90;
           }
         },
 

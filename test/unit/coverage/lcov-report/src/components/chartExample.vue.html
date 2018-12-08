@@ -203,7 +203,39 @@
 158
 159
 160
-161</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -264,6 +296,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -382,19 +434,25 @@
       &lt;div class="col-6 col-md-8"&gt;
         &lt;div class="row"&gt;
           &lt;div class="col-12"&gt;
-            &lt;v-chart v-bind:chartData="bubbleChartData"&gt;&lt;/v-chart&gt;
-          &lt;/div&gt;
-          &lt;div class="col-12 col-lg-6"&gt;
-            &lt;v-chart v-bind:chartData="areaChartData"&gt;&lt;/v-chart&gt;
-          &lt;/div&gt;
-          &lt;div class="col-12 col-lg-6"&gt;
             &lt;v-chart v-bind:chartData="lineGraphData"&gt;&lt;/v-chart&gt;
           &lt;/div&gt;
-          &lt;div class="col-12 col-lg-6"&gt;
+          &lt;div class="col-12"&gt;
+            &lt;v-chart v-bind:chartData="areaChartData"&gt;&lt;/v-chart&gt;
+          &lt;/div&gt;
+          &lt;div class="col-12"&gt;
+            &lt;v-chart v-bind:chartData="bubbleChartData"&gt;&lt;/v-chart&gt;
+          &lt;/div&gt;
+          &lt;div class="col-12"&gt;
             &lt;v-chart v-bind:chartData="vBarChartData"&gt;&lt;/v-chart&gt;
           &lt;/div&gt;
-          &lt;div class="col-12 col-lg-6"&gt;
+          &lt;div class="col-12"&gt;
+            &lt;v-chart v-bind:chartData="barChartData"&gt;&lt;/v-chart&gt;
+          &lt;/div&gt;
+          &lt;div class="col-12"&gt;
             &lt;v-chart v-bind:chartData="pieChartData"&gt;&lt;/v-chart&gt;
+          &lt;/div&gt;
+          &lt;div class="col-12"&gt;
+            &lt;v-chart v-bind:chartData="scatterPlotData"&gt;&lt;/v-chart&gt;
           &lt;/div&gt;
         &lt;/div&gt;  
       &lt;/div&gt;
@@ -429,8 +487,8 @@ export default {
         chartType: "areaChart",
         selector: "areaChart",
         title: "Area Chart",
-        width: 300,
-        height: 200,
+        width: 600,
+        height: 500,
         metric: ["total"],
         dim: "month",
         data: sales,
@@ -442,35 +500,31 @@ export default {
       },
       bubbleChartData: {
         chartType: "bubbleChart",
-        selector: "chart",
-        title: "Bubble Plot",
+        selector: "bubbleChart",
+        title: "Bubble Chart",
         subtitle: "Sales by month",
         width: 600,
         height: 500,
-        metric: ["total", "forecast", "yoy"],
+        dim: "month",
+        grid: {
+          enabled: true, 
+        },
+        metric: ['total', 'forecast', 'yoy'],
         data: sales,
         goal: 500,
-        legends: {
-          enabled: true,
-          height: 25,
-          width: 50
-        },
-        grid: {
-          enabled: true,
-          gridTicks: 25
-        }
       },
       lineGraphData: {
         chartType: "lineGraph",
         selector: "lineGraph",
         title: "Line Graph",
-        width: 200,
         subtitle: "Sales by month",
-        height: 200,
-        goal: 500,
+        width: 600,
+        height: 500,
+        goal: 600,
         metric: ["total", "forecast"],
         dim: "month",
         data: sales,
+        label: true,
         legends: {
           enabled: true,
           height: 25,
@@ -484,12 +538,12 @@ export default {
         }
       },
       vBarChartData: {
-        chartType: "barChart",
+        chartType: "vBarChart",
         selector: "vChart",
         title: "Bar Chart",
         subtitle: "Sales by month",
-        width: 300,
-        height: 300,
+        width: 600,
+        height: 500,
         metric: ["total", "forecast"],
         dim: "month",
         data: sales,
@@ -498,19 +552,43 @@ export default {
           height: 25,
           width: 50
         },
-        overrides: {
-        }
+      },
+      barChartData: {
+        chartType: "barChart",
+        selector: "barChart",
+        title: "Bar Chart",
+        subtitle: "Sales by month",
+        width: 600,
+        height: 500,
+        metric: ["total", "forecast"],
+        dim: "month",
+        data: sales,
+        label: true
       },
       pieChartData: {
         chartType: "pieChart",
         selector: "pieChart",
         title: "Pie Chart",
         subtitle: "Sales by month",
-        width: 300,
-        height: 200,
+        width: 600,
+        height: 500,
         metric: "total",
         dim: "month",
         data: sales
+      },
+      scatterPlotData: {
+        chartType: "scatterPlot",
+        selector: "scatterPlot",
+        title: "Scatter Plot",
+        subtitle: "Sales by month",
+        width: 600,
+        height: 500,
+        dim: "month",
+        label: {
+          enabled: true,
+        },
+        metric: ['total', 'forecast'],
+        data: sales,
       },
     };
   }
@@ -529,7 +607,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Nov 25 2018 21:16:03 GMT-0500 (EST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 07 2018 21:31:31 GMT-0500 (EST)
 </div>
 </div>
 <script src="../../prettify.js"></script>
