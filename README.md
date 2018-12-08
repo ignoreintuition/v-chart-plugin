@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="#">
-    <img src="https://img.shields.io/github/release-pre/ignoreintuition/v-chart-plugin.svg"
+    <img src="https://img.shields.io/github/release/ignoreintuition/v-chart-plugin.svg"
          alt="version">
   </a>
   <a href="#">
