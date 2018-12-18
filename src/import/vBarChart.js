@@ -84,9 +84,10 @@ const vBarChart = function chart() {
    * @member mouseOver
    * @function
    * @param {Object} d (svg element)
+   * @param {Object} i (index of svg element)
    */
-  const mouseOver = (d) => {
-    this.addTooltip(d, window.event);
+  const mouseOver = (d,i) => {
+    this.addTooltip(d, window.event || {offsetX: getXCoord(d,i), offsetY: getYCoord(d,i)});
   };
 
   /**
