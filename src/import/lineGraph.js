@@ -73,6 +73,9 @@ const lineGraph = function chart(mode) {
         .on('mouseout', (d) => {
           this.removeTooltip(d);
         })
+        .on('click', (d) => {
+          this.$emit('chart-click', d);
+        })
         .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
         .attr('cy', d => cs.y.scale(d.metric));
     });

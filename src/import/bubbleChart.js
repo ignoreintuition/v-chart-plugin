@@ -63,6 +63,9 @@ const bubbleChart = function chart(mode) {
       .on('mouseout', (d) => {
         this.removeTooltip(d);
       })
+      .on('click', (d) => {
+        this.$emit('chart-click', d);
+      })
       .attr('r', d =>  cs.r.scale(d.metric[2]))
       .attr('cx', d => cs.x.scale(d.metric[0]) + cs.y.axisWidth + 5) 
       .attr('cy', d => cs.y.scale(d.metric[1]));

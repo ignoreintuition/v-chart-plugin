@@ -99,6 +99,16 @@ const vBarChart = function chart() {
   const mouseOut = (d) => {
     this.removeTooltip(d);
   };
+  
+  /**
+   * emits "chart-click" vue event
+   * @member mouseClick
+   * @function
+   * @param {Object} d (svg element)
+   */
+  const mouseClick = (d) => {
+    this.$emit('chart-click', d);
+  };
 
   /**
    * Runs when a new element is added to the dataset
@@ -120,7 +130,8 @@ const vBarChart = function chart() {
         .attr('x', getXCoord)
         .attr('y', getYCoord)
         .on('mouseover', mouseOver)
-        .on('mouseout', mouseOut);
+        .on('mouseout', mouseOut)
+        .on('click', mouseClick);
     });
   };
   /**
