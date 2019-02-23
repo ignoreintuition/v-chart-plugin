@@ -84,9 +84,10 @@ const vBarChart = function chart() {
    * @member mouseOver
    * @function
    * @param {Object} d (svg element)
+   * @param {Object} i (index of svg element)
    */
-  const mouseOver = (d) => {
-    this.addTooltip(d, window.event);
+  const mouseOver = (d,i) => {
+    this.addTooltip(d, window.event || {offsetX: getXCoord(d,i), offsetY: getYCoord(d,i)});
   };
 
   /**
@@ -97,6 +98,16 @@ const vBarChart = function chart() {
    */
   const mouseOut = (d) => {
     this.removeTooltip(d);
+  };
+  
+  /**
+   * emits "chart-click" vue event
+   * @member mouseClick
+   * @function
+   * @param {Object} d (svg element)
+   */
+  const mouseClick = (d) => {
+    this.$emit('chart-click', d);
   };
 
   /**
@@ -119,7 +130,8 @@ const vBarChart = function chart() {
         .attr('x', getXCoord)
         .attr('y', getYCoord)
         .on('mouseover', mouseOver)
-        .on('mouseout', mouseOut);
+        .on('mouseout', mouseOut)
+        .on('click', mouseClick);
     });
   };
   /**

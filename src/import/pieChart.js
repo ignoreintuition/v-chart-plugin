@@ -64,6 +64,16 @@ const pieChart = function chart() {
   const mouseOut = (d) => {
     this.removeTooltip(d);
   };
+  
+  /**
+   * emits "chart-click" vue event
+   * @member mouseClick
+   * @function
+   * @param {Object} d (svg element)
+   */
+  const mouseClick = (d) => {
+    this.$emit('chart-click', d);
+  };
 
   const path = d3.arc()
     .outerRadius(cs.radius - 10)
@@ -86,6 +96,7 @@ const pieChart = function chart() {
       .attr('fill', getColor)
       .on('mouseover', mouseOver)
       .on('mouseout', mouseOut)
+      .on('click', mouseClick)
       .attr('transform', `translate(0,${this.header})`);
     return arc;
   };

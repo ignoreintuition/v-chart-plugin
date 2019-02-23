@@ -73,7 +73,7 @@ const barChart = function chart() {
    * @member getYCoord
    * @function
    * @param {Object} d (svg element)
-   * @param {Object} i (svg element)
+   * @param {Object} i (index of svg element)
    */
   const getYCoord = (d, i) => i * (
     this.displayHeight - cs.x.axisHeight - this.header) / this.ds.length + 1 + this.header + cs.bar.offset * getHeight();
@@ -83,9 +83,10 @@ const barChart = function chart() {
    * @member mouseOver
    * @function
    * @param {Object} d (svg element)
+   * @param {Object} i (index of svg element)
    */
-  const mouseOver = (d) => {
-    this.addTooltip(d, window.event);
+  const mouseOver = (d,i) => {
+    this.addTooltip(d, window.event || {offsetX: getXCoord(d,i), offsetY: getYCoord(d,i)});
   };
 
   /**
@@ -97,6 +98,17 @@ const barChart = function chart() {
   const mouseOut = (d) => {
     this.removeTooltip(d);
   };
+  
+  /**
+   * emits "chart-click" vue event
+   * @member mouseClick
+   * @function
+   * @param {Object} d (svg element)
+   */
+  const mouseClick = (d) => {
+    this.$emit('chart-click', d);
+  };
+  
   /**
    * Runs when a new element is added to the dataset
    * @member enter
@@ -117,7 +129,8 @@ const barChart = function chart() {
         .attr('y', getYCoord)
         .attr('x', cs.y.axisWidth + cs.bar.hPadding)
         .on('mouseover', mouseOver)
-        .on('mouseout', mouseOut);
+        .on('mouseout', mouseOut)
+        .on('click', mouseClick);
     });
     if (this.goal) this.generateGoal(cs, false, cs.y.axisWidth + cs.bar.hPadding);
     return rects;
