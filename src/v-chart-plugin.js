@@ -1,4 +1,4 @@
-/** 
+/**
  *  @fileOverview Chart component containing all of the generic components required for charts
  *
  *  @author       Brian Greig
@@ -22,7 +22,7 @@ const d3 = Object.assign({},
  *  Chart is the generic component used for any chart type
  *  @namespace
  */
-  
+
 const Chart = {
   install(Vue) {
     Vue.component('v-chart', {
@@ -146,10 +146,10 @@ const Chart = {
             .selectAll('.tt').remove();
         },
         /**
-         * Override default values 
+         * Override default values
          * @param {Object} cs configuration of the coordinate systems
          * @param {Object} overrides the additional values that can be used for an object
-         * @returns {Object} updated configuration of coordinate system 
+         * @returns {Object} updated configuration of coordinate system
          */
         setOverrides(cs, overrides) {
           overrides = overrides || {};
@@ -165,8 +165,8 @@ const Chart = {
          */
         generateLegend(cs) {
           if (this.chartData.legends && this.chartData.legends.enabled === true) {
-            cs.palette.lineFill = (Array.isArray(cs.palette.lineFill)) ? cs.palette.lineFill : new Array(cs.palette.lineFill); 
-            cs.palette.fill = (Array.isArray(cs.palette.fill)) ? cs.palette.fill : new Array(cs.palette.fill); 
+            cs.palette.lineFill = (Array.isArray(cs.palette.lineFill)) ? cs.palette.lineFill : new Array(cs.palette.lineFill);
+            cs.palette.fill = (Array.isArray(cs.palette.fill)) ? cs.palette.fill : new Array(cs.palette.fill);
             this.metric.forEach( (e, i) => {
               d3.select(`#${this.chartData.selector}`)
               .append('text')
@@ -192,7 +192,7 @@ const Chart = {
           }
         },
         /**
-         * Generate Goal 
+         * Generate Goal
          * @memberOf Chart
          * @param {Object} cs configuration of the coordinate system
          */
@@ -203,26 +203,27 @@ const Chart = {
           const x2 = shiftAxis ? this.width : cs.x.scale(this.goal) + padding;
           const y1 = shiftAxis ? cs.y.scale(this.goal) + padding : this.header;
           const y2 = shiftAxis ? cs.y.scale(this.goal) + padding : this.displayHeight - cs.x.axisHeight;
-          
+
           d3.select(`#${this.chartData.selector}`).append('line')
             .attr('x1', x1)
             .attr('x2', x2)
             .attr('y1', y1)
             .attr('y2', y2)
             .attr('id', 'goal')
+            .attr('id', 'minX')
             .style('stroke', '#708090')
             .style('stroke-width', 1)
         },
         /**
          * Generate Axis Lables
          * @memberOf Chart
-         * @param {Object} cs configuration of the coordinate system 
+         * @param {Object} cs configuration of the coordinate system
          */
         generateAxisLabels(cs) {
           let footer = (this.chartData.legends) ? .85 : .95;
           if (!this.chartData.label) return;
           d3.select(`#${this.chartData.selector}`).selectAll('text.axisLabel').remove();
-          
+
           if (cs.x && cs.x.label)
             d3.select(`#${this.chartData.selector}`).append('text')
               .attr('font-size', '10')
@@ -251,7 +252,7 @@ const Chart = {
          */
         metricAsArray(metric) {
           metric = this.chartData.data.map(d => d[metric]);
-          return metric; 
+          return metric;
         },
 
         ...((typeof barChart !== 'undefined') && { barChart }),
@@ -289,7 +290,7 @@ const Chart = {
         /**
          * Dimension getter function
          * @memberOf Chart
-         * @returns {string} dim 
+         * @returns {string} dim
          */
         dim() {
           return this.chartData.dim || "undefined";
@@ -297,7 +298,7 @@ const Chart = {
         /**
          * Goal getter function
          * @memberOf Chart
-         * @returns {number} Goal 
+         * @returns {number} Goal
          */
         goal() {
           return this.chartData.goal;
@@ -305,7 +306,7 @@ const Chart = {
         /**
          * Metric getter function
          * @memberOf Chart
-         * @returns {array} Metrics 
+         * @returns {array} Metrics
          */
         metric() {
           const metric = (Array.isArray(this.chartData.metric)) ? this.chartData.metric : new Array(this.chartData.metric);
@@ -330,7 +331,7 @@ const Chart = {
         /**
          * Grid Tick getter function
          * @memberOf Chart
-         * @returns {number} gridTicks 
+         * @returns {number} gridTicks
          */
         gridTicks() {
           if (this.chartData.grid && this.chartData.grid.gridTicks != null) {
@@ -345,13 +346,14 @@ const Chart = {
          */
         max() {
           let max = 0;
-          var results = []; 
+          var results = [];
           this.ds.forEach(e => {
             results = results.concat([...e.metric]);
           });
           results.forEach((e) => {
             max = max > e ? max : e;
           });
+          if (this.chartData.minX > max ) return this.chartData.minX;
           return max;
         },
         /**
@@ -378,7 +380,7 @@ const Chart = {
          * @returns {number} Min value for metric
          */
         min() {
-          var results = []; 
+          var results = [];
           this.ds.forEach(e => {
             results = results.concat([...e.metric]);
           });
@@ -419,7 +421,7 @@ const Chart = {
           }
         },
         /**
-         * Gets the height of the title 
+         * Gets the height of the title
          * @memberOf Chart
          * @returns {number} Height of the chart title
          */
