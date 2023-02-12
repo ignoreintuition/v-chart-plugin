@@ -73,7 +73,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^5.0.1",
     "cross-spawn": "^5.0.1",
-    "css-loader": "^0.28.0",
+    "css-loader": "^6.7.3",
     "eslint": "^4.15.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-airbnb-standard": "^2.1.6",
