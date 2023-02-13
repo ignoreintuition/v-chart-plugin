@@ -14,7 +14,6 @@ import scatterPlot from './import/scatterPlot';
 import pieChart from './import/pieChart';
 import areaChart from './import/areaChart';
 import bubbleChart from './import/bubbleChart';
-
 const d3 = Object.assign({},
   require('d3-selection'));
 

@@ -4,8 +4,6 @@ import Vue from 'vue';
 import Chart from './v-chart-plugin';
 import App from './App.vue';
 
-Vue.config.productionTip = false;
-
 Vue.use(Chart);
 
 /* eslint-disable no-new */

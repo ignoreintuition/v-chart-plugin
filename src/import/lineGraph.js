@@ -16,7 +16,7 @@ const d3 = Object.assign({},
  * @module lineGraph
  */
 
-const lineGraph = function chart(mode) {
+const lineGraph = function chart() {
   /**
    * The SVG that stores the chart
    * @member svgContainer

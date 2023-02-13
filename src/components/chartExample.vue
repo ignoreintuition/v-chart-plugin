@@ -1,3 +1,5 @@
+<!-- eslint-disable vue/valid-v-model -->
+<!-- eslint-disable vue/require-v-for-key -->
 <template>
   <div class="container">
     <div class="row">

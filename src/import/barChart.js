@@ -1,5 +1,3 @@
-import { globalAgent } from 'http';
-
 /** 
  *  @fileOverview Bar chart component definition
  *
@@ -78,6 +76,7 @@ const barChart = function chart() {
   const getYCoord = (d, i) => i * (
     this.displayHeight - cs.x.axisHeight - this.header) / this.ds.length + 1 + this.header + cs.bar.offset * getHeight();
 
+  const getXCoord = () => cs.y.axisWidth + cs.bar.hPadding 
   /**
    * Adds a tooltip on mouse over
    * @member mouseOver

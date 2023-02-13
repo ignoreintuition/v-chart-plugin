@@ -16,7 +16,7 @@ const d3 = Object.assign({},
  * @module bubbleChart
  */
 
-const bubbleChart = function chart(mode) {
+const bubbleChart = function chart() {
   /**
    * The SVG that stores the chart
    * @member svgContainer
